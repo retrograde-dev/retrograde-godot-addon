@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1ty44qtnda6v"]
+
+[ext_resource type="Script" uid="uid://chl7fngdfcj31" path="res://addons/retrograde/scenes/ui/controls/ui_animated_texture_rect.gd" id="1_55p50"]
+
+[node name="UIAnimatedTextureRect" type="TextureRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_55p50")

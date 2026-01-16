@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://o5knokur62b1"
+
+[deps]
+
+files=["res://addons/retrograde/_/data/translations/translations.en.translation", "res://addons/retrograde/_/data/translations/translations.jp.translation"]
+
+source_file="res://addons/retrograde/_/data/translations/translations.csv"
+dest_files=["res://addons/retrograde/_/data/translations/translations.en.translation", "res://addons/retrograde/_/data/translations/translations.jp.translation"]
+
+[params]
+
+compress=true
+delimiter=0

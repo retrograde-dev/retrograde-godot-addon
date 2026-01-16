@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dtgcagk40yb07"]
+
+[ext_resource type="Script" uid="uid://cn40w7jle2gfh" path="res://addons/retrograde/scenes/ui/component/ui_check_box.gd" id="1_5vfgk"]
+
+[node name="UICheckBox" type="CheckBox"]
+offset_right = 24.0
+offset_bottom = 24.0
+script = ExtResource("1_5vfgk")

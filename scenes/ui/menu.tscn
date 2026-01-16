@@ -1,0 +1,125 @@
+[gd_scene load_steps=7 format=3 uid="uid://coyy4gorpq7c6"]
+
+[ext_resource type="Script" uid="uid://byq6ci0kx14ks" path="res://addons/retrograde/scenes/ui/menu.gd" id="1_rvltp"]
+[ext_resource type="PackedScene" uid="uid://bbssswrytbmd4" path="res://addons/retrograde/scenes/ui/component/ui_button.tscn" id="2_a0qvn"]
+[ext_resource type="PackedScene" uid="uid://b33ohs7o6hg3l" path="res://addons/retrograde/scenes/ui/component/ui_separator.tscn" id="5_kqp2e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iewiv"]
+region = Rect2(0, 0, 304, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqp2e"]
+region = Rect2(0, 0, 304, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a2pyb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iewiv")
+}],
+"loop": true,
+"name": &"en",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqp2e")
+}],
+"loop": true,
+"name": &"jp",
+"speed": 5.0
+}]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rvltp")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.498039)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AnimatedSprite2DTitle" type="AnimatedSprite2D" parent="MarginContainer"]
+sprite_frames = SubResource("SpriteFrames_a2pyb")
+animation = &"en"
+autoplay = "en"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="UIButtonStart" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_a0qvn")]
+layout_mode = 2
+focus_neighbor_top = NodePath("../UIButtonExit")
+goto_ui_alias = &"difficulty"
+style = &"menu_large"
+text = "BUTTON_START"
+
+[node name="UIButtonSettings" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_a0qvn")]
+unique_name_in_owner = true
+layout_mode = 2
+goto_ui_alias = &"settings"
+style = &"menu_large"
+text = "BUTTON_SETTINGS"
+
+[node name="UIButtonControls" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_a0qvn")]
+unique_name_in_owner = true
+layout_mode = 2
+goto_ui_alias = &"controls"
+style = &"menu_large"
+text = "BUTTON_CONTROLS"
+
+[node name="UISeparatorButton" parent="MarginContainer/VBoxContainer" instance=ExtResource("5_kqp2e")]
+layout_mode = 2
+style = &"button"
+
+[node name="UIButtonExit" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_a0qvn")]
+layout_mode = 2
+focus_neighbor_left = NodePath("../../UIButtonCredits")
+focus_neighbor_right = NodePath("../../UIButtonToggleLocale")
+focus_neighbor_bottom = NodePath("../UIButtonStart")
+goto_ui_alias = &"exit"
+style = &"menu_cancel_large"
+text = "BUTTON_EXIT"
+pressed_sfx = &"exit"
+
+[node name="UIButtonCredits" parent="MarginContainer" instance=ExtResource("2_a0qvn")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+focus_neighbor_left = NodePath("../UIButtonToggleLocale")
+focus_neighbor_bottom = NodePath("../VBoxContainer/UIButtonStart")
+goto_ui_alias = &"credits"
+style = &"menu_small"
+text = "BUTTON_CREDITS"
+
+[node name="UIButtonToggleLocale" parent="MarginContainer" instance=ExtResource("2_a0qvn")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+focus_neighbor_right = NodePath("../UIButtonCredits")
+focus_neighbor_bottom = NodePath("../VBoxContainer/UIButtonStart")
+style = &"menu_small"
+text = "BUTTON_LOCALE:jp"
+
+[connection signal="pressed" from="MarginContainer/UIButtonToggleLocale" to="." method="_on_button_toggle_locale_pressed"]

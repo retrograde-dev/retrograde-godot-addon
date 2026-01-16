@@ -1,0 +1,104 @@
+[gd_scene load_steps=6 format=3 uid="uid://lw2yes78jsio"]
+
+[ext_resource type="Script" uid="uid://bmpuuhf6pv8e1" path="res://addons/retrograde/scenes/ui/difficulty.gd" id="1_blgml"]
+[ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="2_t47ip"]
+[ext_resource type="PackedScene" uid="uid://b7kxbj3ak5kcg" path="res://addons/retrograde/scenes/ui/component/ui_margin_container.tscn" id="2_wnk1g"]
+[ext_resource type="PackedScene" uid="uid://bbssswrytbmd4" path="res://addons/retrograde/scenes/ui/component/ui_button.tscn" id="3_8m16a"]
+[ext_resource type="PackedScene" uid="uid://b33ohs7o6hg3l" path="res://addons/retrograde/scenes/ui/component/ui_separator.tscn" id="3_pjpfv"]
+
+[node name="Difficulty" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_blgml")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(152, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="UIMarginContainerTitle" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_wnk1g")]
+layout_mode = 2
+style = &"title"
+
+[node name="UILabelTitle" parent="MarginContainer/VBoxContainer/UIMarginContainerTitle" instance=ExtResource("2_t47ip")]
+layout_mode = 2
+text = "TITLE_DIFFICULTY"
+horizontal_alignment = 1
+style = &"title"
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="UIButtonEasy" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_8m16a")]
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_top = NodePath("../UIButtonParent")
+focus_neighbor_bottom = NodePath("../UIButtonNormal")
+goto_ui_alias = &"level_select"
+style = &"menu_large"
+text = "DIFFICULTY_EASY"
+
+[node name="UIButtonNormal" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_8m16a")]
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_top = NodePath("../UIButtonEasy")
+focus_neighbor_bottom = NodePath("../UIButtonHard")
+goto_ui_alias = &"level_select"
+style = &"menu_large"
+text = "DIFFICULTY_NORMAL"
+
+[node name="UIButtonHard" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_8m16a")]
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_top = NodePath("../UIButtonNormal")
+focus_neighbor_bottom = NodePath("../UIButtonParent")
+goto_ui_alias = &"level_select"
+style = &"menu_large"
+text = "DIFFICULTY_HARD"
+
+[node name="UISeparatorButton" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_pjpfv")]
+layout_mode = 2
+style = &"button"
+
+[node name="UIButtonParent" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_8m16a")]
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_top = NodePath("../UIButtonHard")
+focus_neighbor_bottom = NodePath("../UIButtonEasy")
+goto_ui_alias = &"parent"
+style = &"menu_cancel_large"
+text = "BUTTON_BACK"
+
+[node name="UIButtonCustom" parent="MarginContainer" instance=ExtResource("3_8m16a")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+style = &"menu_small"
+text = "BUTTON_CUSTOM"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/UIButtonEasy" to="." method="_on_ui_button_easy_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/UIButtonNormal" to="." method="_on_ui_button_normal_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/UIButtonHard" to="." method="_on_ui_button_hard_pressed"]

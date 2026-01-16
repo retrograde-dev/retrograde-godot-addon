@@ -1,0 +1,267 @@
+[gd_scene load_steps=11 format=3 uid="uid://3bia3w2lcryp"]
+
+[ext_resource type="Script" uid="uid://dwu3n20bd8uct" path="res://addons/retrograde/scenes/ui/level_select.gd" id="1_x15a5"]
+[ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="2_7l8mc"]
+[ext_resource type="PackedScene" uid="uid://b7kxbj3ak5kcg" path="res://addons/retrograde/scenes/ui/component/ui_margin_container.tscn" id="2_xo2de"]
+[ext_resource type="PackedScene" uid="uid://b33ohs7o6hg3l" path="res://addons/retrograde/scenes/ui/component/ui_separator.tscn" id="3_bm8jf"]
+[ext_resource type="PackedScene" uid="uid://bbssswrytbmd4" path="res://addons/retrograde/scenes/ui/component/ui_button.tscn" id="3_ccmqc"]
+[ext_resource type="Texture2D" uid="uid://04wu8u2jw67i" path="res://addons/retrograde/_/assets/ui/320/button/menu_level_select/normal.png" id="4_8ehll"]
+[ext_resource type="Texture2D" uid="uid://be355s33x7crg" path="res://addons/retrograde/_/assets/ui/320/button/menu_level_select/pressed.png" id="5_i7y2i"]
+[ext_resource type="Texture2D" uid="uid://bj22tsci7p8af" path="res://addons/retrograde/_/assets/ui/320/button/menu_level_select/hover.png" id="6_t2qwf"]
+[ext_resource type="Texture2D" uid="uid://0xs6vqdbllps" path="res://addons/retrograde/_/assets/ui/320/button/menu_level_select/focused.png" id="7_wh1jf"]
+[ext_resource type="Texture2D" uid="uid://cac6ih4hjotlf" path="res://addons/retrograde/_/assets/ui/320/image/star.png" id="10_wep1i"]
+
+[node name="LevelSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_x15a5")
+metadata/_edit_vertical_guides_ = [-220.0]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="UIMarginContainerTitle" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_xo2de")]
+layout_mode = 2
+style = &"title"
+
+[node name="UILabelTitle" parent="MarginContainer/VBoxContainer/UIMarginContainerTitle" instance=ExtResource("2_7l8mc")]
+layout_mode = 2
+text = "TITLE_LEVEL_SELECT"
+horizontal_alignment = 1
+style = &"title"
+
+[node name="UISeparatorHeader" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_bm8jf")]
+layout_mode = 2
+style = &"header"
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+columns = 3
+
+[node name="UIButton1" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+layout_mode = 2
+texture_normal = ExtResource("4_8ehll")
+texture_pressed = ExtResource("5_i7y2i")
+texture_hover = ExtResource("6_t2qwf")
+texture_focused = ExtResource("7_wh1jf")
+goto_ui_alias = &"start:level_1"
+style = &"menu_level_select"
+text = "1"
+
+[node name="TextureRect1" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton1"]
+visible = false
+layout_mode = 1
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("10_wep1i")
+
+[node name="UIButton2" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+layout_mode = 2
+texture_normal = ExtResource("4_8ehll")
+texture_pressed = ExtResource("5_i7y2i")
+texture_hover = ExtResource("6_t2qwf")
+texture_focused = ExtResource("7_wh1jf")
+goto_ui_alias = &"start:level_2"
+style = &"menu_level_select"
+text = "2"
+
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton2"]
+visible = false
+layout_mode = 1
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("10_wep1i")
+
+[node name="UIButton3" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+layout_mode = 2
+texture_normal = ExtResource("4_8ehll")
+texture_pressed = ExtResource("5_i7y2i")
+texture_hover = ExtResource("6_t2qwf")
+texture_focused = ExtResource("7_wh1jf")
+goto_ui_alias = &"start:level_3"
+style = &"menu_level_select"
+text = "3"
+
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton3"]
+visible = false
+layout_mode = 1
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("10_wep1i")
+
+[node name="UIButton4" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+layout_mode = 2
+texture_normal = ExtResource("4_8ehll")
+texture_pressed = ExtResource("5_i7y2i")
+texture_hover = ExtResource("6_t2qwf")
+texture_focused = ExtResource("7_wh1jf")
+goto_ui_alias = &"start:level_4"
+style = &"menu_level_select"
+text = "4"
+
+[node name="TextureRect4" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton4"]
+visible = false
+layout_mode = 1
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("10_wep1i")
+
+[node name="UIButton5" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+layout_mode = 2
+texture_normal = ExtResource("4_8ehll")
+texture_pressed = ExtResource("5_i7y2i")
+texture_hover = ExtResource("6_t2qwf")
+texture_focused = ExtResource("7_wh1jf")
+goto_ui_alias = &"start:level_5"
+style = &"menu_level_select"
+text = "5"
+
+[node name="TextureRect5" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton5"]
+visible = false
+layout_mode = 1
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("10_wep1i")
+
+[node name="UIButton6" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+layout_mode = 2
+texture_normal = ExtResource("4_8ehll")
+texture_pressed = ExtResource("5_i7y2i")
+texture_hover = ExtResource("6_t2qwf")
+texture_focused = ExtResource("7_wh1jf")
+goto_ui_alias = &"start:level_6"
+style = &"menu_level_select"
+text = "6"
+
+[node name="TextureRect6" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton6"]
+visible = false
+layout_mode = 1
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("10_wep1i")
+
+[node name="UIButton7" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+layout_mode = 2
+texture_normal = ExtResource("4_8ehll")
+texture_pressed = ExtResource("5_i7y2i")
+texture_hover = ExtResource("6_t2qwf")
+texture_focused = ExtResource("7_wh1jf")
+goto_ui_alias = &"start:level_7"
+style = &"menu_level_select"
+text = "7"
+
+[node name="TextureRect7" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton7"]
+visible = false
+layout_mode = 1
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("10_wep1i")
+
+[node name="UIButton8" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+layout_mode = 2
+texture_normal = ExtResource("4_8ehll")
+texture_pressed = ExtResource("5_i7y2i")
+texture_hover = ExtResource("6_t2qwf")
+texture_focused = ExtResource("7_wh1jf")
+goto_ui_alias = &"start:level_8"
+style = &"menu_level_select"
+text = "8"
+
+[node name="TextureRect8" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton8"]
+visible = false
+layout_mode = 1
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("10_wep1i")
+
+[node name="UIButton9" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+layout_mode = 2
+texture_normal = ExtResource("4_8ehll")
+texture_pressed = ExtResource("5_i7y2i")
+texture_hover = ExtResource("6_t2qwf")
+texture_focused = ExtResource("7_wh1jf")
+goto_ui_alias = &"start:level_9"
+style = &"menu_level_select"
+text = "9"
+
+[node name="TextureRect9" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton9"]
+visible = false
+layout_mode = 1
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("10_wep1i")
+
+[node name="UIButton10" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+visible = false
+layout_mode = 2
+texture_normal = ExtResource("4_8ehll")
+texture_pressed = ExtResource("5_i7y2i")
+texture_hover = ExtResource("6_t2qwf")
+texture_focused = ExtResource("7_wh1jf")
+goto_ui_alias = &"start:level_10"
+style = &"menu_level_select"
+text = "10"
+
+[node name="TextureRect10" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton10"]
+visible = false
+layout_mode = 1
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("10_wep1i")
+
+[node name="UISeparatorFooter" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_bm8jf")]
+layout_mode = 2
+style = &"footer"
+
+[node name="UIButtonParent" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_ccmqc")]
+layout_mode = 2
+size_flags_horizontal = 4
+goto_ui_alias = &"parent"
+style = &"menu_cancel_large"
+text = "BUTTON_BACK"

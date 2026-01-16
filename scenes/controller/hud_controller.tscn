@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhmnr36jtyk7s"]
+
+[ext_resource type="Script" uid="uid://dexeqasrrdn56" path="res://addons/retrograde/scenes/controller/hud_controller.gd" id="1_3doh0"]
+
+[node name="HudController" type="CanvasLayer"]
+script = ExtResource("1_3doh0")

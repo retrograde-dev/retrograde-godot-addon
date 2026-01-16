@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxx07r8g5gvut"]
+
+[ext_resource type="Script" uid="uid://bwiry5yxjv0m7" path="res://addons/retrograde/scenes/control/area_2d_attack.gd" id="1_mwq6d"]
+
+[node name="Area2DAttack" type="Area2D"]
+collision_layer = 32
+collision_mask = 32
+script = ExtResource("1_mwq6d")

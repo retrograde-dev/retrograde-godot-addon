@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://hn5071agre2c"]
+
+[ext_resource type="Script" uid="uid://b35p2r6eu0rtg" path="res://addons/retrograde/scenes/ui/controls/ui_h_slider_field.gd" id="1_y7e5g"]
+[ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="2_1tge0"]
+[ext_resource type="PackedScene" uid="uid://b7kxbj3ak5kcg" path="res://addons/retrograde/scenes/ui/component/ui_margin_container.tscn" id="3_ah3ex"]
+[ext_resource type="PackedScene" uid="uid://cni8jmyg0vnr6" path="res://addons/retrograde/scenes/ui/component/ui_h_slider.tscn" id="4_giygg"]
+
+[node name="UIHSliderField" type="HBoxContainer"]
+script = ExtResource("1_y7e5g")
+
+[node name="UIMarginContainerField" parent="." instance=ExtResource("3_ah3ex")]
+layout_mode = 2
+size_flags_horizontal = 3
+style = &"field"
+
+[node name="UILabel" parent="UIMarginContainerField" instance=ExtResource("2_1tge0")]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 2
+style = &"field"
+
+[node name="UIMarginContainerHSlider" parent="." instance=ExtResource("3_ah3ex")]
+layout_mode = 2
+size_flags_horizontal = 3
+style = &"h_slider"
+
+[node name="ColorRect" type="ColorRect" parent="UIMarginContainerHSlider"]
+visible = false
+layout_mode = 2
+
+[node name="UIHSlider" parent="UIMarginContainerHSlider" instance=ExtResource("4_giygg")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 8
+focus_neighbor_top = NodePath("../../../HBoxContainerNormalJoypadSpeed/UIMarginContainerSlider/UIHSliderNormalJoypadSpeed")
+focus_neighbor_bottom = NodePath("../../../HBoxContainerJoypadVibrations/UIMarginContainerCheckbox/UICheckBoxJoypadVibrations")
+
+[connection signal="value_changed" from="UIMarginContainerHSlider/UIHSlider" to="." method="_on_ui_h_slider_value_changed"]

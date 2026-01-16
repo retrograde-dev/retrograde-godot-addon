@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b33ohs7o6hg3l"]
+
+[ext_resource type="Script" uid="uid://cnb0hdqoxe1n0" path="res://addons/retrograde/scenes/ui/component/ui_separator.gd" id="1_3rplq"]
+
+[node name="UISeparator" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_3rplq")

@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://dmp0w5xxgoewv"]
+
+[ext_resource type="Script" uid="uid://bhvs8b3hlo4ef" path="res://addons/retrograde/scenes/ui/controls/ui_check_box_field.gd" id="1_de7vy"]
+[ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="1_hopdp"]
+[ext_resource type="PackedScene" uid="uid://b7kxbj3ak5kcg" path="res://addons/retrograde/scenes/ui/component/ui_margin_container.tscn" id="2_de7vy"]
+[ext_resource type="PackedScene" uid="uid://dtgcagk40yb07" path="res://addons/retrograde/scenes/ui/component/ui_check_box.tscn" id="3_0ucj5"]
+
+[node name="UICheckBoxField" type="HBoxContainer"]
+script = ExtResource("1_de7vy")
+
+[node name="UIMarginContainerField" parent="." instance=ExtResource("2_de7vy")]
+layout_mode = 2
+size_flags_horizontal = 3
+style = &"field"
+
+[node name="UILabel" parent="UIMarginContainerField" instance=ExtResource("1_hopdp")]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 2
+style = &"field"
+
+[node name="UIMarginContainerCheckBox" parent="." instance=ExtResource("2_de7vy")]
+layout_mode = 2
+size_flags_horizontal = 3
+style = &"check_box"
+
+[node name="ColorRect" type="ColorRect" parent="UIMarginContainerCheckBox"]
+visible = false
+layout_mode = 2
+
+[node name="UICheckBox" parent="UIMarginContainerCheckBox" instance=ExtResource("3_0ucj5")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+focus_neighbor_bottom = NodePath("../../../../../../UIButtonParent")
+
+[connection signal="toggled" from="UIMarginContainerCheckBox/UICheckBox" to="." method="_on_ui_check_box_toggled"]

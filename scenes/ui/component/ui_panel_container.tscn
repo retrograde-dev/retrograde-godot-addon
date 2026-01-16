@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3vlb7qfwpv86"]
+
+[ext_resource type="Script" uid="uid://bsjto1hv5gfss" path="res://addons/retrograde/scenes/ui/component/ui_panel_container.gd" id="1_qjbxg"]
+
+[node name="UiPanelContainer" type="PanelContainer"]
+script = ExtResource("1_qjbxg")

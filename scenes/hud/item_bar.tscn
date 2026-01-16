@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=3 uid="uid://celc1gq31jyqs"]
+
+[ext_resource type="Script" uid="uid://cqwgj6led1f3b" path="res://addons/retrograde/scenes/hud/item_bar.gd" id="1_sqoxj"]
+[ext_resource type="PackedScene" uid="uid://wb3chxoe4nqn" path="res://addons/retrograde/scenes/hud/item_bar/item.tscn" id="2_6ysix"]
+[ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="3_jdapt"]
+
+[node name="ItemBar" type="Node2D"]
+script = ExtResource("1_sqoxj")
+
+[node name="Item1" parent="." instance=ExtResource("2_6ysix")]
+unique_name_in_owner = true
+
+[node name="Item2" parent="." instance=ExtResource("2_6ysix")]
+unique_name_in_owner = true
+slot = 2
+
+[node name="Item3" parent="." instance=ExtResource("2_6ysix")]
+unique_name_in_owner = true
+slot = 3
+
+[node name="Item4" parent="." instance=ExtResource("2_6ysix")]
+unique_name_in_owner = true
+slot = 4
+
+[node name="Item5" parent="." instance=ExtResource("2_6ysix")]
+unique_name_in_owner = true
+slot = 5
+
+[node name="Item6" parent="." instance=ExtResource("2_6ysix")]
+unique_name_in_owner = true
+slot = 6
+
+[node name="Item7" parent="." instance=ExtResource("2_6ysix")]
+unique_name_in_owner = true
+slot = 7
+
+[node name="Item8" parent="." instance=ExtResource("2_6ysix")]
+unique_name_in_owner = true
+slot = 8
+
+[node name="Item9" parent="." instance=ExtResource("2_6ysix")]
+unique_name_in_owner = true
+slot = 9
+
+[node name="Item10" parent="." instance=ExtResource("2_6ysix")]
+unique_name_in_owner = true
+slot = 10
+
+[node name="UILabelTitle" parent="." instance=ExtResource("3_jdapt")]
+unique_name_in_owner = true
+
+[node name="UILabelName" parent="." instance=ExtResource("3_jdapt")]
+unique_name_in_owner = true

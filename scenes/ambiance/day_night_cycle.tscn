@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbfew1a1w6f3"]
+
+[ext_resource type="Script" uid="uid://xemajul1lw60" path="res://addons/retrograde/scenes/ambiance/day_night_cycle.gd" id="1_v4te5"]
+[ext_resource type="Texture2D" uid="uid://dmyw75gpvonet" path="res://resources/ambiance/day_night_cycle_gradient_texture.tres" id="2_7ofij"]
+
+[node name="DayNightCycle" type="CanvasModulate"]
+script = ExtResource("1_v4te5")
+gradient_texture = ExtResource("2_7ofij")

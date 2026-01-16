@@ -1,0 +1,47 @@
+Key,en,jp
+BUTTON_START,Start,スタート
+BUTTON_SETTINGS,Settings,ゲーム設定
+BUTTON_CONTROLS,Controls,操作設定
+BUTTON_EXIT,Exit Game,ゲーム終了
+BUTTON_BACK,Go Back,戻る
+BUTTON_CONTINUE,Continue Playing,ゲーム再開
+BUTTON_RESTART,Restart Level,レベルをやり直す
+BUTTON_OK,OK,オーケー
+BUTTON_DONE,Done,
+BUTTON_MENU,Stop Playing,ゲーム終了
+BUTTON_REPLAY,Play Again,もう一度プレイ
+BUTTON_REPLAY_EASY,Play Again on Easy,簡単でもう一度プレイ
+BUTTON_REPLAY_NORMAL,Play Again on Normal,普通でもう一度プレイ
+BUTTON_REPLAY_HARD,Play Again on Hard,難しいでもう一度プレイ
+BUTTON_RETRY,Try Again,もう一度挑戦
+BUTTON_RETRY_EASY,Try Again on Easy,簡単でもう一度挑戦
+BUTTON_RETRY_NORMAL,Try Again on Normal,普通でもう一度挑戦
+BUTTON_RETRY_HARD,Try Again on Hard,難しいでもう一度挑戦
+BUTTON_LOCALE:en,English,English
+BUTTON_LOCALE:jp,日本語,日本語
+BUTTON_CREDITS,Credits,クレジット
+BUTTON_NEXT_LEVEL,Next Level,次のレベル
+BUTTON_SKIP_LEVEL,Skip Level,レベルをスキップ
+BUTTON_LEVEL_SELECT,Select Level,レベル選択
+BUTTON_RESET,Reset,
+BUTTON_IGNORE_CONFLICTS,Ignore Conflicts,
+BUTTON_CUSTOM,Custom,
+TITLE_SETTINGS,Settings,ゲーム設定
+TITLE_AUDIO,Audio,
+TITLE_KEYBOARD,Keyboard,キーボード
+TITLE_MOUSE,Mouse,マウス
+TITLE_JOYPAD,Controller,コントローラー
+TITLE_PAUSED,Paused,一時停止
+TITLE_WIN,You Win!,勝った！
+TITLE_LOSE,You Lose!,負けた！
+TITLE_DIFFICULTY,Select Difficulty,難易度選択
+TITLE_LEVEL_SELECT,Select Level,レベル選択
+TITLE_CREDITS,Credits,
+TITLE_ROLE,Role,担当
+TITLE_NAME,Name,名前
+TITLE_INPUT,Awaiting Input,
+DESCRIPTION_INPUT,"Press a key, button, etc. of the input to assign.",
+DIFFICULTY_EASY,Easy,簡単
+DIFFICULTY_NORMAL,Normal,普通
+DIFFICULTY_HARD,Hard,難しい
+LABEL_TIME,Play Time:,プレイ時間：

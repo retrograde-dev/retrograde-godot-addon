@@ -1,0 +1,1006 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwfhus64e18a"]
+
+[ext_resource type="Script" uid="uid://blk3jv7nkndg3" path="res://addons/retrograde/plugin/tabs/main_tab.gd" id="1_gqhwn"]
+
+[node name="MainTab" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_gqhwn")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="FlowContainer" type="FlowContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+
+[node name="VBoxContainerSetup" type="VBoxContainer" parent="ScrollContainer/FlowContainer"]
+layout_mode = 2
+
+[node name="LabelSetup" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSetup"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Setup:"
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/FlowContainer/VBoxContainerSetup"]
+layout_mode = 2
+columns = 2
+
+[node name="LabelSetupViewportSize" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer"]
+layout_mode = 2
+text = "Viewport Size"
+
+[node name="OptionButtonSetupViewportSize" type="OptionButton" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 4
+popup/item_0/text = "180 x 90"
+popup/item_0/id = 0
+popup/item_1/text = "320 x 180"
+popup/item_1/id = 1
+popup/item_2/text = "640 x 360"
+popup/item_2/id = 2
+popup/item_3/text = "1920 x 1080"
+popup/item_3/id = 3
+
+[node name="LabelSetupLayerNames" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer"]
+layout_mode = 2
+text = "Layer Names"
+
+[node name="CheckBoxSetupLayerNames" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Set"
+
+[node name="LabelSetupTileSize" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Tile Size"
+
+[node name="OptionButtonSetupTileSize" type="OptionButton" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 7
+popup/item_0/text = "8 px"
+popup/item_0/id = 0
+popup/item_1/text = "16 px"
+popup/item_1/id = 1
+popup/item_2/text = "32 px"
+popup/item_2/id = 2
+popup/item_3/text = "64 px"
+popup/item_3/id = 3
+popup/item_4/text = "128 px"
+popup/item_4/id = 4
+popup/item_5/text = "256 px"
+popup/item_5/id = 5
+popup/item_6/text = "512 px"
+popup/item_6/id = 6
+
+[node name="LabelSetupPhysicsSize" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Physics Size"
+
+[node name="OptionButtonSetupPhysicsSize" type="OptionButton" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 7
+popup/item_0/text = "8 px"
+popup/item_0/id = 0
+popup/item_1/text = "16 px"
+popup/item_1/id = 1
+popup/item_2/text = "32 px"
+popup/item_2/id = 2
+popup/item_3/text = "64 px"
+popup/item_3/id = 3
+popup/item_4/text = "128 px"
+popup/item_4/id = 4
+popup/item_5/text = "256 px"
+popup/item_5/id = 5
+popup/item_6/text = "512 px"
+popup/item_6/id = 6
+
+[node name="LabelSetupFieldSize" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Field Size"
+
+[node name="OptionButtonSetupFieldSize" type="OptionButton" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 7
+popup/item_0/text = "8 px"
+popup/item_0/id = 0
+popup/item_1/text = "16 px"
+popup/item_1/id = 1
+popup/item_2/text = "32 px"
+popup/item_2/id = 2
+popup/item_3/text = "64 px"
+popup/item_3/id = 3
+popup/item_4/text = "128 px"
+popup/item_4/id = 4
+popup/item_5/text = "256 px"
+popup/item_5/id = 5
+popup/item_6/text = "512 px"
+popup/item_6/id = 6
+
+[node name="LabelSetupCursorSize" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Cursor Size"
+
+[node name="OptionButtonSetupCursorSize" type="OptionButton" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+selected = 0
+item_count = 7
+popup/item_0/text = "8 px"
+popup/item_0/id = 0
+popup/item_1/text = "16 px"
+popup/item_1/id = 1
+popup/item_2/text = "32 px"
+popup/item_2/id = 2
+popup/item_3/text = "64 px"
+popup/item_3/id = 3
+popup/item_4/text = "128 px"
+popup/item_4/id = 4
+popup/item_5/text = "256 px"
+popup/item_5/id = 5
+popup/item_6/text = "512 px"
+popup/item_6/id = 6
+
+[node name="LabelSetupMouseCapture" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Mouse Capture"
+
+[node name="CheckBoxSetupMouseCapture" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enabled"
+
+[node name="VBoxContainerAudio" type="VBoxContainer" parent="ScrollContainer/FlowContainer"]
+layout_mode = 2
+
+[node name="LabelAudio" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerAudio"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Audio:"
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/FlowContainer/VBoxContainerAudio"]
+layout_mode = 2
+columns = 2
+
+[node name="LabelAudioBusLayout" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerAudio/GridContainer"]
+layout_mode = 2
+text = "Bus Layout"
+
+[node name="CheckBoxAudioBusLayout" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerAudio/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create"
+
+[node name="LabelAudioMusic" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerAudio/GridContainer"]
+layout_mode = 2
+text = "Music"
+
+[node name="CheckBoxAudioMusic" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerAudio/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelAudioAmbiance" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerAudio/GridContainer"]
+layout_mode = 2
+text = "Ambiance"
+
+[node name="CheckBoxAudioAmbiance" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerAudio/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelAudioSFX" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerAudio/GridContainer"]
+layout_mode = 2
+text = "SFX"
+
+[node name="CheckBoxAudioSFX" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerAudio/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="VBoxContainerGame" type="VBoxContainer" parent="ScrollContainer/FlowContainer"]
+layout_mode = 2
+
+[node name="LabelGame" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerGame"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Game:"
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/FlowContainer/VBoxContainerGame"]
+layout_mode = 2
+columns = 2
+
+[node name="LabelGameMainScene" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+layout_mode = 2
+text = "Main Scene"
+
+[node name="CheckBoxGameMainScene" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create"
+
+[node name="LabelGameLevelController" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+layout_mode = 2
+text = "Level Controller"
+
+[node name="CheckBoxGameLevelController" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelGameAmbianceController" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+layout_mode = 2
+text = "Ambiance Controller"
+
+[node name="CheckBoxGameAmbianceController" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelGameUIController" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+layout_mode = 2
+text = "UI Controller"
+
+[node name="CheckBoxGameUIController" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelGameHUDController" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+layout_mode = 2
+text = "HUD Controller"
+
+[node name="CheckBoxGameHUDController" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelGameCutsceneController" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+layout_mode = 2
+text = "Cutscene Controller"
+
+[node name="CheckBoxGameCutsceneController" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelGameCamera" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+layout_mode = 2
+text = "Camera"
+
+[node name="CheckBoxGameCamera" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelGamePlayerGrid" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+layout_mode = 2
+text = "Player Grid"
+
+[node name="CheckBoxGamePlayerGrid" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelGameDayNightCycle" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+layout_mode = 2
+text = "Day Night Cycle"
+
+[node name="CheckBoxGameDayNightCycle" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerGame/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="VBoxContainerLevels" type="VBoxContainer" parent="ScrollContainer/FlowContainer"]
+layout_mode = 2
+
+[node name="LabelLevels" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerLevels"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Levels:"
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/FlowContainer/VBoxContainerLevels"]
+layout_mode = 2
+columns = 2
+
+[node name="LabelLevelsMenuLevel" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerLevels/GridContainer"]
+layout_mode = 2
+text = "Menu"
+
+[node name="CheckBoxLevelsMenuLevel" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerLevels/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create"
+
+[node name="LabelLevelsStartLevel" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerLevels/GridContainer"]
+layout_mode = 2
+text = "Start Level"
+
+[node name="CheckBoxLevelsStartLevel" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerLevels/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create"
+
+[node name="LabelLevelsStartLevelAlias" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerLevels/GridContainer"]
+layout_mode = 2
+text = "Start Level Alias"
+
+[node name="LineEditLevelsStartLevelAlias" type="LineEdit" parent="ScrollContainer/FlowContainer/VBoxContainerLevels/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "start"
+
+[node name="LabelLevelsStartAsMenu" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerLevels/GridContainer"]
+layout_mode = 2
+text = "Start As Menu"
+
+[node name="CheckBoxLevelsStartAsMenu" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerLevels/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Set"
+
+[node name="VBoxContainerTileSets" type="VBoxContainer" parent="ScrollContainer/FlowContainer"]
+layout_mode = 2
+
+[node name="LabelTileSets" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Tile Sets:"
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets"]
+layout_mode = 2
+columns = 2
+
+[node name="LabelTileSetsStructure" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer"]
+layout_mode = 2
+text = "Structure Physics"
+
+[node name="CheckBoxTileSetsStructure" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelTileSetsClimb" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer"]
+layout_mode = 2
+text = "Climb Physics"
+
+[node name="CheckBoxTileSetsClimb" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelTileSetsElevation" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer"]
+layout_mode = 2
+text = "Elevation Physics"
+
+[node name="CheckBoxTileSetsElevation" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelTileSetsModifiers" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer"]
+layout_mode = 2
+text = "Modifiers"
+
+[node name="CheckBoxTileSetsModifiers" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelTileSetsWin" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer"]
+layout_mode = 2
+text = "Win"
+
+[node name="CheckBoxTileSetsWin" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelTileSetsLose" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer"]
+layout_mode = 2
+text = "Lose"
+
+[node name="CheckBoxTileSetsLose" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelTileSetsField" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer"]
+layout_mode = 2
+text = "Field"
+
+[node name="CheckBoxTileSetsField" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="VBoxContainerUI" type="VBoxContainer" parent="ScrollContainer/FlowContainer"]
+layout_mode = 2
+
+[node name="LabelUI" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "UI:"
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/FlowContainer/VBoxContainerUI"]
+layout_mode = 2
+columns = 2
+
+[node name="LabelUIDifficulty" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+layout_mode = 2
+text = "Game Difficulty"
+
+[node name="CheckBoxUIDifficulty" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelUILevelSelect" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+layout_mode = 2
+text = "Level Select"
+
+[node name="CheckBoxUILevelSelect" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelUISkipLevel" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+layout_mode = 2
+text = "Level Skip"
+
+[node name="CheckBoxUISkipLevel" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelUINextLevel" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+layout_mode = 2
+text = "Next Level"
+
+[node name="CheckBoxUINextLevel" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelUIPreviousLevel" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+layout_mode = 2
+text = "Previous Level"
+
+[node name="CheckBoxUIPreviousLevel" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelUIPlayAgain" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+layout_mode = 2
+text = "Play Again"
+
+[node name="CheckBoxUIPlayAgain" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelUIPlayTime" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+layout_mode = 2
+text = "Play Time"
+
+[node name="CheckBoxUIPlayTime" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelUIWin" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+layout_mode = 2
+text = "Win"
+
+[node name="CheckBoxUIWin" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelUILose" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+layout_mode = 2
+text = "Lose"
+
+[node name="CheckBoxUILose" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelUISettings" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="CheckBoxUISettings" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelUIControls" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+layout_mode = 2
+text = "Controls"
+
+[node name="CheckBoxUIControls" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelUICredits" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+layout_mode = 2
+text = "Credits"
+
+[node name="CheckBoxUICredits" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="VBoxContainerHUD" type="VBoxContainer" parent="ScrollContainer/FlowContainer"]
+layout_mode = 2
+
+[node name="LabelHUD" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerHUD"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "HUD:"
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/FlowContainer/VBoxContainerHUD"]
+layout_mode = 2
+columns = 2
+
+[node name="LabelHUDHealth" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerHUD/GridContainer"]
+layout_mode = 2
+text = "Health"
+
+[node name="CheckBoxHUDHealth" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerHUD/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelHUDHunger" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerHUD/GridContainer"]
+layout_mode = 2
+text = "Hunger"
+
+[node name="CheckBoxHUDHunger" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerHUD/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelHUDItems" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerHUD/GridContainer"]
+layout_mode = 2
+text = "Items"
+
+[node name="CheckBoxHUDItems" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerHUD/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="VBoxContainerData" type="VBoxContainer" parent="ScrollContainer/FlowContainer"]
+layout_mode = 2
+
+[node name="LabelData" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Data:"
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/FlowContainer/VBoxContainerData"]
+layout_mode = 2
+columns = 2
+
+[node name="LabelDataSettings" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+layout_mode = 2
+text = "Settings JSON"
+
+[node name="CheckBoxDataSettings" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create"
+
+[node name="LabelDataSFX" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+layout_mode = 2
+text = "SFX JSON"
+
+[node name="CheckBoxDataSFX" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create"
+
+[node name="LabelDataCredits" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+layout_mode = 2
+text = "Credits JSON"
+
+[node name="CheckBoxDataCredits" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create"
+
+[node name="LabelDataLevelSelect" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+layout_mode = 2
+text = "Level Select JSON"
+
+[node name="CheckBoxDataLevelSelect" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create"
+
+[node name="LabelDataInput" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+layout_mode = 2
+text = "Input JSON"
+
+[node name="CheckBoxDataInput" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create"
+
+[node name="LabelDataControls" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+layout_mode = 2
+text = "Controls JSON"
+
+[node name="CheckBoxDataControls" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create"
+
+[node name="LabelDataUI" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+layout_mode = 2
+text = "UI JSON"
+
+[node name="CheckBoxDataUI" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create"
+
+[node name="LabelDataHUD" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+layout_mode = 2
+text = "HUD JSON"
+
+[node name="CheckBoxDataHUD" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create"
+
+[node name="VBoxContainerInput" type="VBoxContainer" parent="ScrollContainer/FlowContainer"]
+layout_mode = 2
+
+[node name="LabelInput" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerInput"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Input:"
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/FlowContainer/VBoxContainerInput"]
+layout_mode = 2
+columns = 2
+
+[node name="LabelInputMove" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+layout_mode = 2
+text = "Movement"
+
+[node name="CheckBoxInputMove" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelInputClimb" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+layout_mode = 2
+text = "Climbing"
+
+[node name="CheckBoxInputClimb" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelInputCrouch" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+layout_mode = 2
+text = "Crouch"
+
+[node name="CheckBoxInputCrouch" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelInputJump" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+layout_mode = 2
+text = "Jump"
+
+[node name="CheckBoxInputJump" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelInputInteract" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+layout_mode = 2
+text = "Interact"
+
+[node name="CheckBoxInputInteract" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelInputItemUse" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+layout_mode = 2
+text = "Use Item"
+
+[node name="CheckBoxInputItemUse" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelInputItemPickUp" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+layout_mode = 2
+text = "Pick Up Item"
+
+[node name="CheckBoxInputItemPickUp" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelInputItemDrop" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+layout_mode = 2
+text = "Drop Item"
+
+[node name="CheckBoxInputItemDrop" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelInputItemSelect" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+layout_mode = 2
+text = "Select Item"
+
+[node name="SpinBoxInputItemSelect" type="SpinBox" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 10.0
+rounded = true
+
+[node name="VBoxContainerSettings" type="VBoxContainer" parent="ScrollContainer/FlowContainer"]
+layout_mode = 2
+
+[node name="LabelSettings" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSettings"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Settings:"
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/FlowContainer/VBoxContainerSettings"]
+layout_mode = 2
+columns = 2
+
+[node name="LabelSettingsAudio" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+layout_mode = 2
+text = "Audio"
+
+[node name="CheckBoxSettingsAudio" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelSettingsMouseSpeed" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+layout_mode = 2
+text = "Mouse Speed:"
+
+[node name="Control" type="Control" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+layout_mode = 2
+
+[node name="LabelSettingsSlowMouseSpeed" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+layout_mode = 2
+text = "Slow"
+horizontal_alignment = 2
+
+[node name="CheckBoxSettingsSlowMouseSpeed" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelSettingsNormalMouseSpeed" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+layout_mode = 2
+text = "Normal"
+horizontal_alignment = 2
+
+[node name="CheckBoxSettingsNormalMouseSpeed" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelSettingsFastMouseSpeed" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+layout_mode = 2
+text = "Fast"
+horizontal_alignment = 2
+
+[node name="CheckBoxSettingsFastMouseSpeed" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelSettingsJoypadSpeed" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+layout_mode = 2
+text = "Joypad Speed:"
+
+[node name="Control2" type="Control" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+layout_mode = 2
+
+[node name="LabelSettingsSlowJoypadSpeed" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+layout_mode = 2
+text = "Slow"
+horizontal_alignment = 2
+
+[node name="CheckBoxSettingsSlowJoypadSpeed" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelSettingsNormalJoypadSpeed" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+layout_mode = 2
+text = "Normal"
+horizontal_alignment = 2
+
+[node name="CheckBoxSettingsNormalJoypadSpeed" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelSettingsFastJoypadSpeed" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+layout_mode = 2
+text = "Fast"
+horizontal_alignment = 2
+
+[node name="CheckBoxSettingsFastJoypadSpeed" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelSettingsJoypadVibrations" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+layout_mode = 2
+text = "Joypad Vibrations"
+
+[node name="CheckBoxSettingsJoypadVibrations" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="VBoxContainerLocalization" type="VBoxContainer" parent="ScrollContainer/FlowContainer"]
+layout_mode = 2
+
+[node name="LabelLocalization" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Localization:"
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization"]
+layout_mode = 2
+columns = 2
+
+[node name="LabelLocalizationTranslations" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization/GridContainer"]
+layout_mode = 2
+text = "Translations"
+
+[node name="CheckBoxLocalizationTranslations" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add"
+
+[node name="LabelLocalizationLocales" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization/GridContainer"]
+layout_mode = 2
+text = "Locales:"
+
+[node name="Control3" type="Control" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization/GridContainer"]
+layout_mode = 2
+
+[node name="LabelLocalizationEnglish" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization/GridContainer"]
+layout_mode = 2
+text = "English"
+horizontal_alignment = 2
+
+[node name="CheckBoxLocalizationEnglish" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="LabelLocalizationJapanese" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization/GridContainer"]
+layout_mode = 2
+text = "Japanese"
+horizontal_alignment = 2
+
+[node name="CheckBoxLocalizationJapanese" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Enable"
+
+[node name="VBoxContainerFileSystem" type="VBoxContainer" parent="ScrollContainer/FlowContainer"]
+layout_mode = 2
+
+[node name="LabelFileSystem" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerFileSystem"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "File System:"
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/FlowContainer/VBoxContainerFileSystem"]
+layout_mode = 2
+columns = 2
+
+[node name="LabelFileSystemCreateFolders" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerFileSystem/GridContainer"]
+layout_mode = 2
+text = "Folders"
+
+[node name="CheckBoxFileSystemCreateFolders" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerFileSystem/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create"
+
+[node name="LabelFileSystemSetFolderColors" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerFileSystem/GridContainer"]
+layout_mode = 2
+text = "Folder Colors"
+
+[node name="CheckBoxFileSystemSetFolderColors" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerFileSystem/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Set"
+
+[node name="VBoxContainerDebug" type="VBoxContainer" parent="ScrollContainer/FlowContainer"]
+layout_mode = 2
+
+[node name="LabelDebug" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerDebug"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Debug:"
+
+[node name="GridContainer" type="GridContainer" parent="ScrollContainer/FlowContainer/VBoxContainerDebug"]
+layout_mode = 2
+columns = 2
+
+[node name="LabelDebugStrictTyping" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerDebug/GridContainer"]
+layout_mode = 2
+text = "Strict Typing"
+
+[node name="CheckBoxDebugStrictTyping" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerDebug/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Set"
+
+[node name="VBoxContainerInitialize" type="VBoxContainer" parent="ScrollContainer/FlowContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="LabelInitialize" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerInitialize"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Initialize:"
+
+[node name="CheckBoxOverride" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerInitialize"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Override Existing Files"
+
+[node name="ButtonCreateCoreGlobal" type="Button" parent="ScrollContainer/FlowContainer/VBoxContainerInitialize"]
+layout_mode = 2
+text = "Create Core Global"
+
+[node name="ButtonInitialize" type="Button" parent="ScrollContainer/FlowContainer/VBoxContainerInitialize"]
+layout_mode = 2
+text = "Initialize"
+
+[connection signal="pressed" from="ScrollContainer/FlowContainer/VBoxContainerInitialize/ButtonCreateCoreGlobal" to="." method="_on_button_create_core_global_pressed"]
+[connection signal="pressed" from="ScrollContainer/FlowContainer/VBoxContainerInitialize/ButtonInitialize" to="." method="_on_button_initialize_pressed"]

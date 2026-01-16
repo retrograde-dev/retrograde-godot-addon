@@ -1,0 +1,115 @@
+[gd_scene load_steps=6 format=3 uid="uid://ctd1pmydxlt1t"]
+
+[ext_resource type="Script" uid="uid://dcmems1tc1nng" path="res://addons/retrograde/scenes/ui/pause.gd" id="1_2gdx1"]
+[ext_resource type="PackedScene" uid="uid://b7kxbj3ak5kcg" path="res://addons/retrograde/scenes/ui/component/ui_margin_container.tscn" id="2_3hggl"]
+[ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="2_qwq3p"]
+[ext_resource type="PackedScene" uid="uid://bbssswrytbmd4" path="res://addons/retrograde/scenes/ui/component/ui_button.tscn" id="2_r0tlc"]
+[ext_resource type="PackedScene" uid="uid://b33ohs7o6hg3l" path="res://addons/retrograde/scenes/ui/component/ui_separator.tscn" id="3_jupkv"]
+
+[node name="Pause" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2gdx1")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UIMarginContainerTitle" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_3hggl")]
+layout_mode = 2
+style = &"title"
+
+[node name="UILabelTitle" parent="MarginContainer/VBoxContainer/UIMarginContainerTitle" instance=ExtResource("2_qwq3p")]
+layout_mode = 2
+text = "TITLE_PAUSED"
+horizontal_alignment = 1
+style = &"title"
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 2
+
+[node name="UILabelTimeField" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("2_qwq3p")]
+layout_mode = 2
+text = "LABEL_TIME"
+horizontal_alignment = 2
+style = &"field"
+
+[node name="UILabelTimeValue" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("2_qwq3p")]
+unique_name_in_owner = true
+layout_mode = 2
+style = &"value"
+
+[node name="UISeparatorHeader" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_jupkv")]
+layout_mode = 2
+style = &"header"
+
+[node name="UIButtonContinue" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_r0tlc")]
+layout_mode = 2
+style = &"menu_large"
+text = "BUTTON_CONTINUE"
+
+[node name="UIButtonRestart" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_r0tlc")]
+layout_mode = 2
+style = &"menu_large"
+text = "BUTTON_RESTART"
+
+[node name="UIButtonSkipLevel" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_r0tlc")]
+unique_name_in_owner = true
+layout_mode = 2
+style = &"menu_large"
+text = "BUTTON_SKIP_LEVEL"
+
+[node name="UIButtonSettings" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_r0tlc")]
+unique_name_in_owner = true
+layout_mode = 2
+goto_ui_alias = &"settings"
+style = &"menu_large"
+text = "BUTTON_SETTINGS"
+
+[node name="UIButtonControls" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_r0tlc")]
+unique_name_in_owner = true
+layout_mode = 2
+goto_ui_alias = &"controls"
+style = &"menu_large"
+text = "BUTTON_CONTROLS"
+
+[node name="UISeparatorButton" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_jupkv")]
+layout_mode = 2
+style = &"button"
+
+[node name="UIButtonMenu" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_r0tlc")]
+layout_mode = 2
+goto_ui_alias = &"menu"
+style = &"menu_cancel_large"
+text = "BUTTON_MENU"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/UIButtonContinue" to="." method="_on_ui_button_continue_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/UIButtonRestart" to="." method="_on_ui_button_restart_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/UIButtonSkipLevel" to="." method="_on_ui_button_skip_level_pressed"]

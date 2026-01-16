@@ -1,0 +1,16 @@
+{
+	"order": [
+		{
+			"alias": "programming",
+			"names": ["Nanoha Takamachi"]
+		},
+		{
+			"alias": "graphics",
+			"names": ["Fate Testarossa"]
+		},
+		{
+			"alias": "music",
+			"names": ["Hayate Yagami"]
+		}
+	]
+}

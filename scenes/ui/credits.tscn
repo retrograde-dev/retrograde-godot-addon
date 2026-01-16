@@ -1,0 +1,95 @@
+[gd_scene load_steps=6 format=3 uid="uid://35sqtt83sll6"]
+
+[ext_resource type="Script" uid="uid://clnqvgyyrh7ie" path="res://addons/retrograde/scenes/ui/credits.gd" id="1_oap8i"]
+[ext_resource type="PackedScene" uid="uid://b7kxbj3ak5kcg" path="res://addons/retrograde/scenes/ui/component/ui_margin_container.tscn" id="2_lv6fa"]
+[ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="2_pqmjv"]
+[ext_resource type="PackedScene" uid="uid://b33ohs7o6hg3l" path="res://addons/retrograde/scenes/ui/component/ui_separator.tscn" id="3_0ixjx"]
+[ext_resource type="PackedScene" uid="uid://bbssswrytbmd4" path="res://addons/retrograde/scenes/ui/component/ui_button.tscn" id="3_e5ls7"]
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_oap8i")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="UIMarginContainerTitle" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_lv6fa")]
+layout_mode = 2
+style = &"title"
+
+[node name="UILabelTitle" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/UIMarginContainerTitle" instance=ExtResource("2_pqmjv")]
+layout_mode = 2
+text = "TITLE_CREDITS"
+horizontal_alignment = 1
+style = &"title"
+
+[node name="UISeparatorHeader" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_0ixjx")]
+layout_mode = 2
+style = &"header"
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+columns = 2
+
+[node name="UIMarginContainerRole" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_lv6fa")]
+layout_mode = 2
+style = &"subtitle"
+
+[node name="UILabelRole" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/GridContainer/UIMarginContainerRole" instance=ExtResource("2_pqmjv")]
+layout_mode = 2
+text = "TITLE_ROLE"
+style = &"subtitle"
+
+[node name="UIMarginContainerName" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_lv6fa")]
+layout_mode = 2
+style = &"subtitle"
+
+[node name="UILabelName" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/GridContainer/UIMarginContainerName" instance=ExtResource("2_pqmjv")]
+layout_mode = 2
+text = "TITLE_NAME"
+style = &"subtitle"
+
+[node name="UISeparatorFooter" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_0ixjx")]
+layout_mode = 2
+style = &"footer"
+
+[node name="UIButtonParent" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_e5ls7")]
+layout_mode = 2
+size_flags_horizontal = 4
+goto_ui_alias = &"parent"
+style = &"menu_large"
+text = "BUTTON_OK"

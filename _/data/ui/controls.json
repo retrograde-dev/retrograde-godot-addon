@@ -1,0 +1,46 @@
+{
+	"layout": [
+		{
+			"alias": "movement",
+			"items": ["move_left", "move_right", "move_up", "move_down", "move_slow", "move_fast", "crouch", "jump"]
+		},
+		{
+			"alias": "interactions",
+			"items": ["interact_start", "interact_stop"]
+		},
+		{
+			"alias": "use",
+			"items": ["item_use", "item_drop", "weapon_use_1"]
+		}
+	],
+	"groups": {
+		"move_up": ["climb_up", "move_up"],
+		"move_down": ["climb_down", "move_down"],
+		"move_left": ["climb_left", "move_left"],
+		"move_right": ["climb_right", "move_right"],
+		"move_slow": ["climb_slow", "move_slow"],
+		"move_fast": ["climb_fast", "move_fast"],
+		"interact_start": ["climb_on", "interact", "item_pick_up"],
+		"interact_stop": ["climb_off"]
+	},
+	"overlaps": {
+		"move_up": ["climb_up"],
+		"move_down": ["climb_down"],
+		"move_left": ["climb_left"],
+		"move_right": ["climb_right"],
+		"move_slow": ["climb_slow"],
+		"move_fast": ["climb_fast"],
+
+		"climb_on": ["interact", "item_pick_up"],
+		"climb_up": ["move_up"],
+		"climb_down": ["move_down"],
+		"climb_left": ["move_left"],
+		"climb_right": ["move_right"],
+		"climb_slow": ["move_slow"],
+		"climb_fast": ["move_fast"],
+
+		"interact": ["climb_on", "item_pick_up"],
+
+		"item_pick_up": ["climb_on", "interact"]
+	}
+}

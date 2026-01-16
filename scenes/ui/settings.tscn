@@ -1,0 +1,77 @@
+[gd_scene load_steps=6 format=3 uid="uid://ctk8l2uxc2tbe"]
+
+[ext_resource type="PackedScene" uid="uid://bbssswrytbmd4" path="res://addons/retrograde/scenes/ui/component/ui_button.tscn" id="1_2i5ca"]
+[ext_resource type="Script" uid="uid://0mcyqaxh2jhv" path="res://addons/retrograde/scenes/ui/settings.gd" id="1_wci7f"]
+[ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="2_k8v3m"]
+[ext_resource type="PackedScene" uid="uid://b7kxbj3ak5kcg" path="res://addons/retrograde/scenes/ui/component/ui_margin_container.tscn" id="2_r43r2"]
+[ext_resource type="PackedScene" uid="uid://b33ohs7o6hg3l" path="res://addons/retrograde/scenes/ui/component/ui_separator.tscn" id="3_kwcj0"]
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wci7f")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+follow_focus = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="UIMarginContainerTitle" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("2_r43r2")]
+layout_mode = 2
+style = &"title"
+
+[node name="UILabelTitle" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/UIMarginContainerTitle" instance=ExtResource("2_k8v3m")]
+layout_mode = 2
+text = "TITLE_SETTINGS"
+horizontal_alignment = 1
+style = &"title"
+
+[node name="UISeparatorHeader" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_kwcj0")]
+layout_mode = 2
+style = &"header"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="UISeparatorFooter" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_kwcj0")]
+layout_mode = 2
+style = &"footer"
+
+[node name="UIButtonParent" parent="MarginContainer/VBoxContainer" instance=ExtResource("1_2i5ca")]
+layout_mode = 2
+size_flags_horizontal = 4
+focus_neighbor_top = NodePath("../ScrollContainer/VBoxContainer/VBoxContainerJoypad/HBoxContainerJoypadVibrations/UIMarginContainerCheckbox/UICheckBoxJoypadVibrations")
+goto_ui_alias = &"parent"
+style = &"menu_large"
+text = "BUTTON_OK"
+
+[node name="UIButtonReset" parent="MarginContainer" instance=ExtResource("1_2i5ca")]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+style = &"menu_small"
+text = "BUTTON_RESET"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/UIButtonParent" to="." method="_on_ui_button_parent_pressed"]
+[connection signal="pressed" from="MarginContainer/UIButtonReset" to="." method="_on_ui_button_reset_pressed"]

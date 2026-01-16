@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cni8jmyg0vnr6"]
+
+[ext_resource type="Script" uid="uid://dk6y3u0cssfhk" path="res://addons/retrograde/scenes/ui/component/ui_h_slider.gd" id="1_i35ur"]
+
+[node name="UIHSlider" type="HSlider"]
+offset_right = 8.0
+offset_bottom = 16.0
+script = ExtResource("1_i35ur")

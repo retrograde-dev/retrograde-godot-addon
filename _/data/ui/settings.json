@@ -1,0 +1,104 @@
+{
+	"enabled": [
+		"audio_master",
+		"audio_music",
+		"audio_sfx",
+		"audio_ambiance",
+		"normal_mouse_speed",
+		"slow_mouse_speed",
+		"fast_mouse_speed",
+		"normal_joypad_speed",
+		"slow_joypad_speed",
+		"fast_joypad_speed",
+		"joypad_vibrations"
+	],
+	"layout": [
+		{
+			"alias": "audio",
+			"items": ["audio_master", "audio_music", "audio_sfx", "audio_ambiance"]
+		},
+		{
+			"alias": "mouse",
+			"items": ["normal_mouse_speed", "slow_mouse_speed", "fast_mouse_speed"]
+		},
+		{
+			"alias": "joypad",
+			"items": ["normal_joypad_speed", "slow_joypad_speed", "fast_joypad_speed", "joypad_vibrations"]
+		}
+	],
+	"settings": {
+		"audio_master": {
+			"type": "h_slider",
+			"min_value": 0.0,
+			"max_value": 1.0,
+			"step": 0.05,
+			"value": 0.5
+		},
+		"audio_music": {
+			"type": "h_slider",
+			"min_value": 0.0,
+			"max_value": 1.0,
+			"step": 0.05,
+			"value": 0.5
+		},
+		"audio_sfx": {
+			"type": "h_slider",
+			"min_value": 0.0,
+			"max_value": 1.0,
+			"step": 0.05,
+			"value": 0.5
+		},
+		"audio_ambiance": {
+			"type": "h_slider",
+			"min_value": 0.0,
+			"max_value": 1.0,
+			"step": 0.05,
+			"value": 0.5
+		},
+		"normal_mouse_speed": {
+			"type": "h_slider",
+			"min_value": 0.5,
+			"max_value": 1.5,
+			"step": 0.05,
+			"value": 1.0
+		},
+		"slow_mouse_speed": {
+			"type": "h_slider",
+			"min_value": 0.0,
+			"max_value": 1.0,
+			"step": 0.05,
+			"value": 0.5
+		},
+		"fast_mouse_speed": {
+			"type": "h_slider",
+			"min_value": 1.0,
+			"max_value": 2.0,
+			"step": 0.05,
+			"value": 1.5
+		},
+		"normal_joypad_speed": {
+			"type": "h_slider",
+			"min_value": 0.5,
+			"max_value": 1.5,
+			"step": 0.05,
+			"value": 1.0
+		},
+		"slow_joypad_speed": {
+			"type": "h_slider",
+			"min_value": 1.0,
+			"max_value": 2.0,
+			"step": 0.05,
+			"value": 1.5
+		},
+		"fast_joypad_speed": {
+			"type": "h_slider",
+			"min_value": 0.0,
+			"max_value": 1.0,
+			"step": 0.05,
+			"value": 0.5
+		},
+		"joypad_vibrations": {
+			"type": "check_box"
+		}
+	}
+}

@@ -1,0 +1,263 @@
+{
+	"enabled": [
+		"controls",
+		"credits",
+		"difficulty",
+		"level_select",
+		"loading",
+		"lose",
+		"menu",
+		"pause",
+		"settings",
+		"win"
+	],
+	"uis": {
+		"controls": "res://addons/retrograde/scenes/ui/controls.tscn",
+		"credits": "res://addons/retrograde/scenes/ui/credits.tscn",
+		"difficulty": "res://addons/retrograde/scenes/ui/difficulty.tscn",
+		"level_select": "res://addons/retrograde/scenes/ui/level_select.tscn",
+		"loading": "res://addons/retrograde/scenes/ui/loading.tscn",
+		"lose": "res://addons/retrograde/scenes/ui/lose.tscn",
+		"menu": "res://addons/retrograde/scenes/ui/menu.tscn",
+		"pause": "res://addons/retrograde/scenes/ui/pause.tscn",
+		"settings": "res://addons/retrograde/scenes/ui/settings.tscn",
+		"win": "res://addons/retrograde/scenes/ui/win.tscn"
+	},
+	"buttons": {
+		"menu_small": {
+			"type": "label",
+			"label": "button",
+			"margin_container": "button_label",
+			"focus_on_hover": true,
+			"texture": {
+				"normal": "res://assets/ui/button/menu_small/normal.png",
+				"pressed": "res://assets/ui/button/menu_small/pressed.png",
+				"hover": "res://assets/ui/button/menu_small/hover.png",
+				"focused": "res://assets/ui/button/menu_small/focused.png"
+			},
+			"sfx": {
+				"entered": "ui/button_entered",
+				"exited": "ui/button_exited",
+				"pressed": "ui/button_pressed"
+			}
+		},
+		"menu_large": {
+			"type": "label",
+			"label": "button",
+			"margin_container": "button_label",
+			"focus_on_hover": true,
+			"texture": {
+				"normal": "res://assets/ui/button/menu_large/normal.png",
+				"pressed": "res://assets/ui/button/menu_large/pressed.png",
+				"hover": "res://assets/ui/button/menu_large/hover.png",
+				"focused": "res://assets/ui/button/menu_large/focused.png"
+			},
+			"sfx": {
+				"entered": "ui/button_entered",
+				"exited": "ui/button_exited",
+				"pressed": "ui/button_pressed"
+			}
+		},
+		"menu_cancel_large": {
+			"type": "label",
+			"label": "button",
+			"margin_container": "button_label",
+			"focus_on_hover": true,
+			"texture": {
+				"normal": "res://assets/ui/button/menu_cancel_large/normal.png",
+				"pressed": "res://assets/ui/button/menu_cancel_large/pressed.png",
+				"hover": "res://assets/ui/button/menu_cancel_large/hover.png",
+				"focused": "res://assets/ui/button/menu_cancel_large/focused.png"
+			},
+			"sfx": {
+				"entered": "ui/button_entered",
+				"exited": "ui/button_exited",
+				"pressed": "ui/button_pressed"
+			}
+		},
+		"menu_level_select": {
+			"type": "label",
+			"label": "button",
+			"margin_container": "button_label",
+			"focus_on_hover": true,
+			"texture": {
+				"normal": "res://assets/ui/button/menu_level_select/normal.png",
+				"pressed": "res://assets/ui/button/menu_level_select/pressed.png",
+				"hover": "res://assets/ui/button/menu_level_select/hover.png",
+				"focused": "res://assets/ui/button/menu_level_select/focused.png"
+			},
+			"sfx": {
+				"entered": "ui/button_entered",
+				"exited": "ui/button_exited",
+				"pressed": "ui/button_pressed"
+			}
+		},
+		"icon_add": {
+			"type": "icon",
+			"icon": "res://assets/ui/icon/add.png",
+			"margin_container": "button_icon",
+			"focus_on_hover": true,
+			"texture": {
+				"normal": "res://assets/ui/button/icon/normal.png",
+				"pressed": "res://assets/ui/button/icon/pressed.png",
+				"hover": "res://assets/ui/button/icon/hover.png",
+				"focused": "res://assets/ui/button/icon/focused.png"
+			},
+			"sfx": {
+				"entered": "ui/button_entered",
+				"exited": "ui/button_exited",
+				"pressed": "ui/button_pressed"
+			}
+		},
+		"icon_remove": {
+			"type": "icon",
+			"icon": "res://assets/ui/icon/remove.png",
+			"margin_container": "button_icon",
+			"focus_on_hover": true,
+			"texture": {
+				"normal": "res://assets/ui/button/icon/normal.png",
+				"pressed": "res://assets/ui/button/icon/pressed.png",
+				"hover": "res://assets/ui/button/icon/hover.png",
+				"focused": "res://assets/ui/button/icon/focused.png"
+			},
+			"sfx": {
+				"entered": "ui/button_entered",
+				"exited": "ui/button_exited",
+				"pressed": "ui/button_pressed"
+			}
+		},
+		"icon_all": {
+			"type": "icon",
+			"icon": "res://assets/ui/icon/all.png",
+			"margin_container": "button_icon",
+			"focus_on_hover": true,
+			"texture": {
+				"normal": "res://assets/ui/button/icon/normal.png",
+				"pressed": "res://assets/ui/button/icon/pressed.png",
+				"hover": "res://assets/ui/button/icon/hover.png",
+				"focused": "res://assets/ui/button/icon/focused.png"
+			},
+			"sfx": {
+				"entered": "ui/button_entered",
+				"exited": "ui/button_exited",
+				"pressed": "ui/button_pressed"
+			}
+		},
+		"icon_conflicts": {
+			"type": "icon",
+			"icon": "res://assets/ui/icon/conflicts.png",
+			"margin_container": "button_icon",
+			"focus_on_hover": true,
+			"texture": {
+				"normal": "res://assets/ui/button/icon/normal.png",
+				"pressed": "res://assets/ui/button/icon/pressed.png",
+				"hover": "res://assets/ui/button/icon/hover.png",
+				"focused": "res://assets/ui/button/icon/focused.png"
+			},
+			"sfx": {
+				"entered": "ui/button_entered",
+				"exited": "ui/button_exited",
+				"pressed": "ui/button_pressed"
+			}
+		},
+		"icon_keyboard": {
+			"type": "icon",
+			"icon": "res://assets/ui/icon/keyboard.png",
+			"margin_container": "button_icon",
+			"focus_on_hover": true,
+			"texture": {
+				"normal": "res://assets/ui/button/icon/normal.png",
+				"pressed": "res://assets/ui/button/icon/pressed.png",
+				"hover": "res://assets/ui/button/icon/hover.png",
+				"focused": "res://assets/ui/button/icon/focused.png"
+			},
+			"sfx": {
+				"entered": "ui/button_entered",
+				"exited": "ui/button_exited",
+				"pressed": "ui/button_pressed"
+			}
+		},
+		"icon_mouse": {
+			"type": "icon",
+			"icon": "res://assets/ui/icon/mouse.png",
+			"margin_container": "button_icon",
+			"focus_on_hover": true,
+			"texture": {
+				"normal": "res://assets/ui/button/icon/normal.png",
+				"pressed": "res://assets/ui/button/icon/pressed.png",
+				"hover": "res://assets/ui/button/icon/hover.png",
+				"focused": "res://assets/ui/button/icon/focused.png"
+			},
+			"sfx": {
+				"entered": "ui/button_entered",
+				"exited": "ui/button_exited",
+				"pressed": "ui/button_pressed"
+			}
+		},
+		"icon_joypad": {
+			"type": "icon",
+			"icon": "res://assets/ui/icon/joypad.png",
+			"margin_container": "button_icon",
+			"focus_on_hover": true,
+			"texture": {
+				"normal": "res://assets/ui/button/icon/normal.png",
+				"pressed": "res://assets/ui/button/icon/pressed.png",
+				"hover": "res://assets/ui/button/icon/hover.png",
+				"focused": "res://assets/ui/button/icon/focused.png"
+			},
+			"sfx": {
+				"entered": "ui/button_entered",
+				"exited": "ui/button_exited",
+				"pressed": "ui/button_pressed"
+			}
+		}
+	},
+	"labels": {
+		"title": {"theme_type_variation": "TitleLabel"},
+		"subtitle": {"theme_type_variation": "SubtitleLabel"},
+		"text": {"theme_type_variation": "TextLabel"},
+		"field": {"theme_type_variation": "FieldLabel"},
+		"value": {"theme_type_variation": "ValueLabel"},
+		"button": {"theme_type_variation": "ButtonLabel"}
+	},
+	"separators": {
+		"header": {
+			"visible": false
+		},
+		"footer": {
+			"visible": false
+		},
+		"title": {
+			"size": [
+				0.0,
+				20.0
+			]
+		},
+		"button": {
+			"size": [
+				0.0,
+				0.0
+			]
+		},
+		"section": {
+			"size": [
+				0.0,
+				4.0
+			]
+		}
+	},
+	"margin_containers": {
+		"actions": {"theme_type_variation": "ActionsMarginContainer"},
+		"button_icon": {"theme_type_variation": "ButtonIconMarginContainer"},
+		"button_label": {"theme_type_variation": "ButtonLabelMarginContainer"},
+		"check_box": {"theme_type_variation": "CheckBoxMarginContainer"},
+		"field": {"theme_type_variation": "FieldMarginContainer"},
+		"h_slider": {"theme_type_variation": "HSliderMarginContainer"},
+		"subtitle": {"theme_type_variation": "SubtitleMarginContainer"},
+		"title": {"theme_type_variation": "TitleMarginContainer"},
+		"value": {"theme_type_variation": "ValueMarginContainer"}
+	},
+	"panel_containers": {
+		"error": {"theme_type_variation": "ErrorPanelContainer"}
+	}
+}

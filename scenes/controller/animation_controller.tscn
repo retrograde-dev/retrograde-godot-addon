@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://etbi7o5p3li7"]
+
+[ext_resource type="Script" uid="uid://dmeoa7a1bqs48" path="res://addons/retrograde/scenes/controller/animation_controller.gd" id="1_t0e40"]
+
+[node name="AnimationController" type="Node2D"]
+script = ExtResource("1_t0e40")

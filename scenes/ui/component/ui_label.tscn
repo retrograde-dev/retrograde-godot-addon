@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ck7erckqy66nt"]
+
+[ext_resource type="Script" uid="uid://bvexadi7j5afp" path="res://addons/retrograde/scenes/ui/component/ui_label.gd" id="2_whimk"]
+
+[node name="UILabel" type="Label"]
+offset_right = 1.0
+offset_bottom = 18.0
+script = ExtResource("2_whimk")

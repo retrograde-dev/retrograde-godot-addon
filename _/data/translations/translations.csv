@@ -1,0 +1,33 @@
+Key,en,jp
+TITLE:controls_movement,Movement Controls,
+TITLE:controls_interactions,Interaction Controls,
+TITLE:controls_use,Use Controls,
+LABEL:action_move_left,Move Left,
+LABEL:action_move_right,Move Right,
+LABEL:action_move_up,Move Up,
+LABEL:action_move_down,Move Down,
+LABEL:action_move_slow,Move Slow,
+LABEL:action_move_fast,Move Fast,
+LABEL:action_crouch,Crouch,
+LABEL:action_jump,Jump,
+LABEL:action_interact_start,Start Interaction,
+LABEL:action_interact_stop,Stop Interaction,
+LABEL:action_item_use,Use Item,
+LABEL:action_item_drop,Drop Item,
+TITLE:credits_programming,Programming,
+TITLE:credits_graphics,Graphics,
+TITLE:credits_music,Music,
+TITLE:settings_audio,Audio,
+TITLE:settings_mouse,Mouse,???
+TITLE:settings_joypad,Controller,???????
+LABEL:settings_audio_master,Master,????
+LABEL:settings_audio_music,Music,??
+LABEL:settings_audio_sfx,SFX,???
+LABEL:settings_audio_ambiance,Ambiance,???
+LABEL:settings_normal_mouse_speed,Normal Cursor Speed,
+LABEL:settings_slow_mouse_speed,Slow Cursor Speed,
+LABEL:settings_fast_mouse_speed,Fast Cursor Speed,
+LABEL:settings_normal_joypad_speed,Normal Cursor Speed,
+LABEL:settings_slow_joypad_speed,Slow Cursor Speed,
+LABEL:settings_fast_joypad_speed,Fast Cursor Speed,
+LABEL:settings_joypad_vibrations,Vibrations,

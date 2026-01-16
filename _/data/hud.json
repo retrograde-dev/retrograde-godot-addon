@@ -1,0 +1,29 @@
+{
+	"enabled": [
+		"health",
+		"hunger",
+		"items"
+	],
+	"huds": {
+		"health": "res://addons/retrograde/scenes/hud/health.tscn",
+		"hunger": "res://addons/retrograde/scenes/hud/hunger.tscn",
+		"items": "res://addons/retrograde/scenes/hud/items.tscn"
+	},
+	"default": {
+		"health": {
+			"offset": [32, 32],
+			"alignment": ["left", "top"],
+			"visible": true
+		},
+		"hunger": {
+			"offset": [-32, 32],
+			"alignment": ["right", "top"],
+			"visible": true
+		},
+		"items": {
+			"offset": [0, -32],
+			"alignment": ["center", "bottom"],
+			"visible": true
+		}
+	}
+}

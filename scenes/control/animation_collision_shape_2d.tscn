@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6wwogiyakyiq"]
+
+[ext_resource type="Script" uid="uid://61iwmyun267l" path="res://addons/retrograde/scenes/control/animation_collision_shape_2d.gd" id="1_yum4m"]
+
+[node name="AnimationCollisionShape2D" type="CollisionShape2D"]
+script = ExtResource("1_yum4m")

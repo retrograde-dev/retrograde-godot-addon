@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7kxbj3ak5kcg"]
+
+[ext_resource type="Script" uid="uid://c3dm5giepaed" path="res://addons/retrograde/scenes/ui/component/ui_margin_container.gd" id="1_ub0hn"]
+
+[node name="UIMarginContainer" type="MarginContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_ub0hn")

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://boga34tcg8dgs"]
+
+[ext_resource type="Script" uid="uid://cfwqn8sei0i7a" path="res://addons/retrograde/scenes/controller/ui_controller.gd" id="1_wygbd"]
+
+[node name="UIController" type="CanvasLayer"]
+script = ExtResource("1_wygbd")

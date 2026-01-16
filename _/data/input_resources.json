@@ -1,0 +1,49 @@
+{
+	"default": {
+		"frame_count": [4, 1],
+		"frame_orientation": "horizontal",
+		"frame_set": [
+			[0, 0.4],
+			[1, 0.1],
+			[2, 0.1],
+			[3, 0.1],
+			[2, 0.1],
+			[1, 0.1],
+			[0, 0.8]
+		]
+	},
+	"animations": [
+		{
+			"inputs": [
+				{
+					"type": "key",
+					"physical_keycode": -1
+				},
+				{
+					"type": "mouse_button",
+					"button_index": -1
+				},
+				{
+					"type": "joypad_button",
+					"button_index": -1
+				},
+				{
+					"type": "joypad_motion",
+					"axis": -1,
+					"axis_value": 0
+				}
+			],
+			"frame_count": [4, 1],
+			"frame_orientation": "horizontal",
+			"frame_set": [
+				[0, 0.4],
+				[1, 0.1],
+				[2, 0.1],
+				[3, 0.1],
+				[2, 0.1],
+				[1, 0.1],
+				[0, 0.8]
+			]
+		}
+	]
+}

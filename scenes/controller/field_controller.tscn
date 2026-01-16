@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0634wtg2tqkx"]
+
+[ext_resource type="Script" uid="uid://l378omns05dn" path="res://addons/retrograde/scenes/controller/field_controller.gd" id="1_11eip"]
+[ext_resource type="PackedScene" uid="uid://c64t7qla3bii3" path="res://addons/retrograde/scenes/control/bounds.tscn" id="2_d112i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4r33g"]
+resource_local_to_scene = true
+size = Vector2(8, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3s8g7"]
+resource_local_to_scene = true
+size = Vector2(8, 8)
+
+[node name="FieldController" type="Node2D"]
+script = ExtResource("1_11eip")
+
+[node name="BoundsField" parent="." instance=ExtResource("2_d112i")]
+unique_name_in_owner = true
+center_offset = 0.5
+layer = 12
+
+[node name="Area2DMove" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DMove"]
+shape = SubResource("RectangleShape2D_4r33g")
+
+[node name="Area2DSpeed" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DSpeed"]
+shape = SubResource("RectangleShape2D_3s8g7")
+
+[connection signal="body_entered" from="Area2DMove" to="." method="_on_area_2d_move_body_entered"]
+[connection signal="body_exited" from="Area2DMove" to="." method="_on_area_2d_move_body_exited"]
+[connection signal="body_entered" from="Area2DSpeed" to="." method="_on_area_2d_speed_body_entered"]
+[connection signal="body_exited" from="Area2DSpeed" to="." method="_on_area_2d_speed_body_exited"]

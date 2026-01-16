@@ -1,0 +1,110 @@
+[gd_scene load_steps=6 format=3 uid="uid://bfvi5kylfkrhr"]
+
+[ext_resource type="Script" uid="uid://d0iefuolgkyx7" path="res://addons/retrograde/scenes/ui/lose.gd" id="1_accp8"]
+[ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="2_hvyql"]
+[ext_resource type="PackedScene" uid="uid://bbssswrytbmd4" path="res://addons/retrograde/scenes/ui/component/ui_button.tscn" id="2_qxb8d"]
+[ext_resource type="PackedScene" uid="uid://b7kxbj3ak5kcg" path="res://addons/retrograde/scenes/ui/component/ui_margin_container.tscn" id="2_r7hee"]
+[ext_resource type="PackedScene" uid="uid://b33ohs7o6hg3l" path="res://addons/retrograde/scenes/ui/component/ui_separator.tscn" id="3_5al6t"]
+
+[node name="Lose" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_accp8")
+ui_type = 0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.75)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="UIMarginContainerTitle" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_r7hee")]
+layout_mode = 2
+style = &"title"
+
+[node name="UILabelTitle" parent="MarginContainer/VBoxContainer/UIMarginContainerTitle" instance=ExtResource("2_hvyql")]
+layout_mode = 2
+text = "TITLE_LOSE"
+horizontal_alignment = 1
+style = &"title"
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+columns = 2
+
+[node name="UILabelTimeField" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("2_hvyql")]
+layout_mode = 2
+text = "LABEL_TIME"
+horizontal_alignment = 2
+style = &"field"
+
+[node name="UILabelTimeValue" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("2_hvyql")]
+unique_name_in_owner = true
+layout_mode = 2
+style = &"value"
+
+[node name="UISeparatorHeader" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_5al6t")]
+layout_mode = 2
+style = &"header"
+
+[node name="UIButtonTryAgain" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_qxb8d")]
+layout_mode = 2
+style = &"menu_large"
+text = "BUTTON_RETRY"
+
+[node name="UIButtonTryAgainEasy" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_qxb8d")]
+unique_name_in_owner = true
+layout_mode = 2
+style = &"menu_large"
+text = "BUTTON_RETRY_EASY"
+
+[node name="UIButtonTryAgainNormal" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_qxb8d")]
+unique_name_in_owner = true
+layout_mode = 2
+style = &"menu_large"
+text = "BUTTON_RETRY_NORMAL"
+
+[node name="UIButtonLevelSelect" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_qxb8d")]
+unique_name_in_owner = true
+layout_mode = 2
+goto_ui_alias = &"level_select"
+style = &"menu_large"
+text = "BUTTON_LEVEL_SELECT"
+
+[node name="UISeparatorButton" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_5al6t")]
+layout_mode = 2
+style = &"button"
+
+[node name="UIButtonMenu" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_qxb8d")]
+layout_mode = 2
+goto_ui_alias = &"menu"
+style = &"menu_cancel_large"
+text = "BUTTON_MENU"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/UIButtonTryAgain" to="." method="_on_ui_button_try_again_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/UIButtonTryAgainEasy" to="." method="_on_ui_button_try_again_easy_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/UIButtonTryAgainNormal" to="." method="_on_ui_button_try_again_normal_pressed"]

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c18xx1wuw4jhb"]
+
+[ext_resource type="Script" uid="uid://dsi2hh5jsrn1e" path="res://addons/retrograde/scenes/control/target_camera_2d.gd" id="1_wnu3t"]
+
+[node name="TargetCamera2D" type="Camera2D"]
+script = ExtResource("1_wnu3t")
