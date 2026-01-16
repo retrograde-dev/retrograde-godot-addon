@@ -601,10 +601,10 @@ func _create_main_scene() -> void:
 		
 	var script_path_: String = "res://scenes/game.gd"
 	var scene_path_: String = "res://scenes/game.tscn"
-	
+
 	if FileAccess.file_exists(scene_path_) and not %CheckBoxOverride.button_pressed:
 		return
-	
+		
 	_copy_resource(
 		"res://addons/retrograde/_/resources/ambiance/day_night_cycle_gradient_texture.tres",
 		"res://resources/ambiance/day_night_cycle_gradient_texture.tres",
@@ -1015,131 +1015,152 @@ func _get_physics_layer_from_type(type_: String) -> int:
 	return -1
 
 func _create_ui() -> void:
+	await _create_ui_assets()
+	_create_ui_resource()
+	_create_ui_data()
+
+func _create_ui_assets() -> void:
 	var size_: String = %OptionButtonSetupViewportSize.get_item_text(%OptionButtonSetupViewportSize.selected).split(" ")[0]
 	
 	var error_: Error = DirAccess.make_dir_recursive_absolute("res://assets/ui")
 	if error_ != OK:
 		return
-
-	if DirAccess.dir_exists_absolute("res://addons/retrograde/_/assets/ui/" + size_):
-		error_ = _copy_directory(
-			"res://addons/retrograde/_/assets/ui/" + size_,
-			"res://assets/ui",
-			%CheckBoxOverride.button_pressed
-		)
-		if error_ != OK:
-			return
-
-	if not FileAccess.file_exists("res://resources/ui.tres") or %CheckBoxOverride.button_pressed:
-		error_ = DirAccess.make_dir_recursive_absolute("res://resources")
-		if error_ != OK:
-			return
 		
-		await get_tree().process_frame
-		EditorInterface.get_resource_filesystem().scan()
-		
-		while EditorInterface.get_resource_filesystem().is_scanning():
-			await get_tree().process_frame
-			
-		while not ResourceLoader.exists("res://assets/ui/vscroll_bar/vscroll_bar_scroll_focus.png"):
-			await get_tree().process_frame
-			
-		var theme_: Theme = load("res://addons/retrograde/_/resources/ui/ui_" + size_ + ".tres").duplicate(true)
-		theme_.resource_path = ""
-		
-		theme_.set_icon(
-			"checked", 
-			"CheckBox", 
-			ResourceLoader.load("res://assets/ui/check_box/checked.png")
-		)
-		theme_.set_icon(
-			"unchecked", 
-			"CheckBox", 
-			ResourceLoader.load("res://assets/ui/check_box/unchecked.png")
-		)
-		theme_.set_icon(
-			"grabber", 
-			"HSlider", 
-			ResourceLoader.load("res://assets/ui/hslider/hslider_grabber.png")
-		)
-		theme_.set_icon(
-			"grabber_highlight", 
-			"HSlider", 
-			ResourceLoader.load("res://assets/ui/hslider/hslider_grabber_highlight.png")
-		)
-		theme_.get_stylebox(
-			"grabber_area", 
-			"HSlider"
-		).texture = ResourceLoader.load("res://assets/ui/hslider/hslider_grabber_area.png")
-		theme_.get_stylebox(
-			"grabber_area_highlight", 
-			"HSlider"
-		).texture = ResourceLoader.load("res://assets/ui/hslider/hslider_grabber_area_highlight.png")
-		theme_.get_stylebox(
-			"slider",
-			"HSlider"
-		).texture = ResourceLoader.load("res://assets/ui/hslider/hslider_slider.png")
-		theme_.get_stylebox(
-			"grabber",
-			"VScrollBar"
-		).texture = ResourceLoader.load("res://assets/ui/vscroll_bar/vscroll_bar_grabber.png")
-		theme_.get_stylebox(
-			"grabber_highlight",
-			"VScrollBar"
-		).texture = ResourceLoader.load("res://assets/ui/vscroll_bar/vscroll_bar_grabber_highlight.png")
-		theme_.get_stylebox(
-			"grabber_pressed",
-			"VScrollBar"
-		).texture = ResourceLoader.load("res://assets/ui/vscroll_bar/vscroll_bar_grabber_pressed.png")
-		theme_.get_stylebox(
-			"scroll",
-			"VScrollBar"
-		).texture = ResourceLoader.load("res://assets/ui/vscroll_bar/vscroll_bar_scroll.png")
-		theme_.get_stylebox(
-			"scroll_focus",
-			"VScrollBar"
-		).texture = ResourceLoader.load("res://assets/ui/vscroll_bar/vscroll_bar_scroll_focus.png")
-			
-		ResourceSaver.save(theme_, "res://resources/ui.tres")
-		
-		ProjectSettings.set_setting("gui/theme/custom", "res://resources/ui.tres")
+	var assets_path_: String = "res://addons/retrograde/_/assets/ui/" + size_
 	
+	if not DirAccess.dir_exists_absolute(assets_path_):
+		return
+		
+	error_ = _copy_directory(
+		assets_path_,
+		"res://assets/ui",
+		%CheckBoxOverride.button_pressed
+	)
+	if error_ != OK:
+		return
+	
+	await get_tree().process_frame
+	EditorInterface.get_resource_filesystem().scan()
+	
+	while EditorInterface.get_resource_filesystem().is_scanning():
+		await get_tree().process_frame
+		
+	while not ResourceLoader.exists("res://assets/ui/vscroll_bar/vscroll_bar_scroll_focus.png"):
+		await get_tree().process_frame
+
+func _create_ui_resource() -> void:
+	if FileAccess.file_exists("res://resources/ui.tres") and not %CheckBoxOverride.button_pressed:
+		return
+		
+	var size_: String = %OptionButtonSetupViewportSize.get_item_text(%OptionButtonSetupViewportSize.selected).split(" ")[0]
+	var resource_path_: String = "res://addons/retrograde/_/resources/ui/ui_" + size_ + ".tres"
+	
+	if not FileAccess.file_exists(resource_path_):
+		return
+	
+	var error_: Error = DirAccess.make_dir_recursive_absolute("res://resources")
+	if error_ != OK:
+		return
+		
+	var theme_: Theme = load(resource_path_).duplicate(true)
+	theme_.resource_path = ""
+	
+	theme_.set_icon(
+		"checked", 
+		"CheckBox", 
+		ResourceLoader.load("res://assets/ui/check_box/checked.png")
+	)
+	theme_.set_icon(
+		"unchecked", 
+		"CheckBox", 
+		ResourceLoader.load("res://assets/ui/check_box/unchecked.png")
+	)
+	theme_.set_icon(
+		"grabber", 
+		"HSlider", 
+		ResourceLoader.load("res://assets/ui/hslider/hslider_grabber.png")
+	)
+	theme_.set_icon(
+		"grabber_highlight", 
+		"HSlider", 
+		ResourceLoader.load("res://assets/ui/hslider/hslider_grabber_highlight.png")
+	)
+	theme_.get_stylebox(
+		"grabber_area", 
+		"HSlider"
+	).texture = ResourceLoader.load("res://assets/ui/hslider/hslider_grabber_area.png")
+	theme_.get_stylebox(
+		"grabber_area_highlight", 
+		"HSlider"
+	).texture = ResourceLoader.load("res://assets/ui/hslider/hslider_grabber_area_highlight.png")
+	theme_.get_stylebox(
+		"slider",
+		"HSlider"
+	).texture = ResourceLoader.load("res://assets/ui/hslider/hslider_slider.png")
+	theme_.get_stylebox(
+		"grabber",
+		"VScrollBar"
+	).texture = ResourceLoader.load("res://assets/ui/vscroll_bar/vscroll_bar_grabber.png")
+	theme_.get_stylebox(
+		"grabber_highlight",
+		"VScrollBar"
+	).texture = ResourceLoader.load("res://assets/ui/vscroll_bar/vscroll_bar_grabber_highlight.png")
+	theme_.get_stylebox(
+		"grabber_pressed",
+		"VScrollBar"
+	).texture = ResourceLoader.load("res://assets/ui/vscroll_bar/vscroll_bar_grabber_pressed.png")
+	theme_.get_stylebox(
+		"scroll",
+		"VScrollBar"
+	).texture = ResourceLoader.load("res://assets/ui/vscroll_bar/vscroll_bar_scroll.png")
+	theme_.get_stylebox(
+		"scroll_focus",
+		"VScrollBar"
+	).texture = ResourceLoader.load("res://assets/ui/vscroll_bar/vscroll_bar_scroll_focus.png")
+		
+	ResourceSaver.save(theme_, "res://resources/ui.tres")
+	
+	ProjectSettings.set_setting("gui/theme/custom", "res://resources/ui.tres")
+
+func _create_ui_data() -> void:
 	if not %CheckBoxDataUI.button_pressed:
 		return
 	
-	if not FileAccess.file_exists("res://data/ui.json") or %CheckBoxOverride.button_pressed:
-		var data_: Dictionary = _load_json("res://addons/retrograde/_/data/ui.json")
+	if FileAccess.file_exists("res://data/ui.json") and not %CheckBoxOverride.button_pressed:
+		return
 		
-		data_.enabled_ = []
+	var data_: Dictionary = _load_json("res://addons/retrograde/_/data/ui.json")
+	
+	data_.enabled_ = []
+	
+	if %CheckBoxUIControls.button_pressed:
+		data_.enabled_.push_back("controls")
 		
-		if %CheckBoxUIControls.button_pressed:
-			data_.enabled_.push_back("controls")
-			
-		if %CheckBoxUICredits.button_pressed:
-			data_.enabled_.push_back("credits")
-			
-		if %CheckBoxUIDifficulty.button_pressed:
-			data_.enabled_.push_back("difficulty")
-			
-		data_.enabled_.push_back("loading")
+	if %CheckBoxUICredits.button_pressed:
+		data_.enabled_.push_back("credits")
 		
-		if %CheckBoxUILose.button_pressed:
-			data_.enabled_.push_back("lose")
+	if %CheckBoxUIDifficulty.button_pressed:
+		data_.enabled_.push_back("difficulty")
 		
-		data_.enabled_.push_back("menu")
-		data_.enabled_.push_back("pause")
-		
-		if %CheckBoxUISettings.button_pressed:
-			data_.enabled_.push_back("settings")
-		
-		if %CheckBoxUIWin.button_pressed:
-			data_.enabled_.push_back("win")
-		
-		var json_: String = JSON.stringify(data_, "\t", false)
-		
-		var file_: FileAccess = FileAccess.open("res://data/ui.json", FileAccess.WRITE)
-		file_.store_string(json_)
-		file_.close()
+	data_.enabled_.push_back("loading")
+	
+	if %CheckBoxUILose.button_pressed:
+		data_.enabled_.push_back("lose")
+	
+	data_.enabled_.push_back("menu")
+	data_.enabled_.push_back("pause")
+	
+	if %CheckBoxUISettings.button_pressed:
+		data_.enabled_.push_back("settings")
+	
+	if %CheckBoxUIWin.button_pressed:
+		data_.enabled_.push_back("win")
+	
+	var json_: String = JSON.stringify(data_, "\t", false)
+	
+	var file_: FileAccess = FileAccess.open("res://data/ui.json", FileAccess.WRITE)
+	file_.store_string(json_)
+	file_.close()
 
 func _create_hud_data() -> void:
 	if not %CheckBoxDataHUD.button_pressed:
@@ -1445,6 +1466,10 @@ func _load_json(path_: String) -> Dictionary:
 func _copy_resource(source_res_: String, dest_res_: String, overwrite_: bool = false) -> Error:
 	if ResourceLoader.exists(dest_res_) and not overwrite_:
 		return OK
+			
+	var error_: Error = DirAccess.make_dir_recursive_absolute(dest_res_.get_base_dir())
+	if error_ != OK:
+		return error_
 	
 	var resource_: Resource = load(source_res_)
 	
