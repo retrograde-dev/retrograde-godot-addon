@@ -1,77 +1,93 @@
 extends BaseNode2D
 class_name BaseLevel
 
-var alias: StringName
-var level_type: Core.LevelType
-var level_mode: Core.LevelMode = Core.LevelMode.GAME
+@export var alias: StringName = &"":
+	get = get_alias,
+	set = set_alias
 
-var _start_time: int = 0
-var _stop_time: int = 0
-var _pause_delta: float = 0.0
-var auto_start_play_time: bool = true
-var auto_stop_play_time: bool = true
-
-var area: BaseArea
-var items: LevelItemSet
-var locks: LevelLockSet
-var doors: LevelDoorSet
-
-var data: LevelData
-
-func _init(alias_: StringName, level_type_: Core.LevelType = Core.LevelType.PLATFORMER) -> void:
-	alias = alias_
-	level_type = level_type_
+var level_type: Core.LevelType = Core.LevelType.PLATFORMER:
+	get = get_level_type,
+	set = set_level_type
 	
-	data = LevelData.new(alias_)
+var level_mode: Core.LevelMode = Core.LevelMode.GAME:
+	get = get_level_mode,
+	set = set_level_mode
+
+@export_group("Setup")
+@export var initial_zone_alias: StringName = &""
+@export var initial_locks: Dictionary[StringName, LockResource] = {}
+
+@export_subgroup("Parties")
+@export var override_parties: bool = false
+@export var initial_party_alias: StringName = &""
+@export var initial_parties: Dictionary[StringName, PartyResource] = {}
+
+@export_subgroup("Inventory")
+@export var override_inventory: bool = false
+@export var initial_inventory: Dictionary[StringName, InventoryResource] = {}
+
+var data: LevelResource = null
+var playtime: PlaytimeTimer = PlaytimeTimer.new()
+var auto_start_playtime: bool = true
+var auto_stop_playtime: bool = true
+
+var current_zone: BaseZone
+var locks: LevelLockSet = LevelLockSet.new()
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 	
 	if (reset_type_ == Core.ResetType.START or
 		reset_type_ == Core.ResetType.RESTART
 	):
-		if auto_start_play_time:
-			_start_time = Time.get_ticks_msec()
+		playtime.reset()
+		
+		if Core.data.has_level(alias):
+			data = Core.data.get_level(alias)
+			
+			if auto_start_playtime:
+				playtime.start(data.playtime)
 		else:
-			_start_time = 0
-		_stop_time = 0
-		_pause_delta = 0.0
-		
-		reset_camera()
-		reset_area()
-		reset_level()
-	
-		items = LevelItemSet.new(self)
-		locks = LevelLockSet.new(self)
-		doors = LevelDoorSet.new(self)
-		
-		if data.level.data.has(&"player"):
-			await Core.game.change_player(data.level.data.player.alias)
+			data = LevelResource.new()
+			data.zone_alias = initial_zone_alias
+			data.locks = initial_locks.duplicate(true)
 			
-			if data.level.data.player.has(&"items"):
-				for item_: Dictionary in data.level.data.player.items:
-					var item_value_: ItemValue = null
-					
-					if Core.items.has_item(item_.alias):
-						item_value_ = Core.items.get_item_value(item_.alias)
-				
-					if item_value_ != null:
-						item_value_ = item_value_.duplicate()
-						item_value_.meta.count = item_.count if item_.has("count") else 1
-						Core.player.items.add_item(item_value_)
+			data.override_parties = override_parties
+			data.party_alias = initial_party_alias
+			data.parties = initial_parties.duplicate(true)
 			
-			await change_player_area(
-				data.level.data.area.alias,
-				data.level.data.player.position,
-				data.level.data.player.mode,
-				data.level.data.player.physics,
-			)
+			data.override_inventory = override_inventory
+			data.inventory = initial_inventory.duplicate(true)
+			
+			Core.data.set_level(alias, data)
+			
+			if auto_start_playtime:
+				playtime.start()
+			
+		if data.override_parties:
+			Core.parties = data.parties
+		else:
+			Core.parties = Core.data.parties
+			
+		if data.override_inventory:
+			Core.inventory = data.inventory
+		else:
+			Core.inventory = Core.data.inventory
 		
+		await reset_camera()
+		await reset_level()
 		
-		reset_huds()
+		await change_zone(data.zone_alias)
+		
+		if data.override_parties:
+			await Core.game.change_party(data.party_alias)
+		else:
+			await Core.game.change_party(Core.data.party_alias)
+		
+		await reset_huds()
 
 func reset_level() -> void:
-	Core.game.reset_cursor()
+	await Core.game.reset_cursor()
 
 func reset_huds() -> void:
 	Core.hud.hide_huds()
@@ -95,14 +111,11 @@ func reset_camera() -> void:
 	Core.camera.enabled = true
 	Core.camera.make_current()
 
-func reset_area() -> void:
-	if area != null:
-		if area is BaseArea:
-			area.door_opened.disconnect(_on_door_opened)
-			
-		items.depopulate_area_items(area.alias)
-		Core.nodes.clear_node(area)
-		area = null
+func reset_zone() -> void:
+	if current_zone != null:
+		Core.nodes.clear_node(current_zone)
+		current_zone = null
+		Core.zone = null
 		
 func _process(delta: float) -> void:
 	super._process(delta)
@@ -110,130 +123,58 @@ func _process(delta: float) -> void:
 	if not is_running():
 		return
 
-	if auto_stop_play_time and _stop_time == 0:
+	if auto_stop_playtime and playtime.is_running():
 		if Core.game.is_lose or Core.game.is_win:
-			_stop_time = Time.get_ticks_msec()
+			playtime.stop()
 
-	if Core.game.is_paused and _start_time != 0 and _stop_time == 0:
-		_pause_delta += delta
+func get_alias() -> StringName:
+	return alias
+func set_alias(value_: StringName) -> void:
+	alias = value_
 
-func set_level_type(level_type_: Core.LevelType) -> void:
-	level_type = level_type_
+func get_level_type() -> Core.LevelType:
+	return level_type
+func set_level_type(value_: Core.LevelType) -> void:
+	level_type = value_
 
-func set_level_mode(level_mode_: Core.LevelMode) -> void:
-	level_mode = level_mode_
+func get_level_mode() -> Core.LevelMode:
+	return level_mode
+func set_level_mode(value_: Core.LevelMode) -> void:
+	level_mode = value_
 
-func get_play_time() -> int:
-	if _start_time == 0:
-		return 0
-
-	if _stop_time == 0:
-		return Time.get_ticks_msec() - _start_time - round(_pause_delta)
-
-	return _stop_time - _start_time - round(_pause_delta)
-	
-func start_play_time() -> void:
-	_start_time = Time.get_ticks_msec()
-
-func stop_play_time() -> void:
-	_stop_time = Time.get_ticks_msec()
-
-func set_play_time(time_miliseconds_: int) -> void:
-	_stop_time = time_miliseconds_ + _start_time + round(_pause_delta)
-
-func change_player_area(
-	area_alias_: String, 
-	unit_position_: Vector2 = Vector2.ZERO,
-	unit_mode_: Core.UnitMode = Core.UnitMode.NONE,
-	unit_physics_: Core.UnitPhysics = Core.UnitPhysics.PLATFORM
-) -> void:
-	assert(Core.player != null, "Player not set.")
-	
-	if Core.player == null:
+func change_zone(zone_alias_: String) -> void:
+	if current_zone != null and current_zone.alias == zone_alias_:
+		Core.game.start_load()
+		await current_zone.restart()
+		Core.game.end_load()
 		return
 		
 	Core.game.start_load()
 	
-	reset_area()
+	await reset_zone()
 	
-	# Disable player
-	Core.player.timeout(Core.MIN_COLLISION_WAIT_DELTA)
-	Core.player.position = unit_position_
+	var zone_path_: String = "res://scenes/level/" + alias + "/zone/" + zone_alias_ + ".tscn"
 	
-	var area_: Dictionary = data.areas.get_area(area_alias_)
-	
-	var scene: String
-	
-	if area_.has("scene"):
-		scene = area_.scene
-	else:
-		scene = "res://scenes/level/" + alias + "/area/" + area_.alias + ".tscn"
-	
-	var node: BaseArea = await Core.nodes.get_node(scene)
-	
-	area = node
-	
-	area.alias = area_.alias
-	area.position = Vector2.ZERO
-	
-	if area is BaseArea:
-		area.door_opened.connect(_on_door_opened)
-	
-	items.populate_area_items(area_.alias)
-	
-	if area_.has("music") and area_.music != null:
-		Core.audio.play_music(area_.music)
-	else: 
-		Core.audio.stop_music()
-		
-	if area_.has("ambiance") and area_.ambiance != null:
-		Core.audio.play_ambiance(area_.ambiance)
-	else: 
-		Core.audio.stop_ambiance()
-	
-	# TODO: These are pretty game specific, either normalize or allow 
-	# override of this type of thing
-	#Core.game.is_outside = area_.has("outside") and area_.outside
-	#Core.game.is_lightning = area_.has("lightning") and area_.lightning
-	
-	Core.player.set_unit_mode(unit_mode_)
-	
-	Core.player.set_unit_physics(unit_physics_)
-	
-	Core.camera.set_target(Core.player)
+	var zone_: BaseZone = await Core.nodes.get_node(
+		zone_path_,
+		func(node_: Node2D, rest_type_: Core.ResetType):
+			current_zone = node_
+			Core.zone = current_zone
+			data.zone_alias = current_zone.alias
+	)
 	
 	Core.game.end_load()
-
-func change_player_area_zoom(
-	area_name_: String, 
-	unit_position_: Vector2 = Core.DEAD_ZONE,
-	unit_mode_: Core.UnitMode = Core.UnitMode.NONE,
-	unit_physics_: Core.UnitPhysics = Core.UnitPhysics.PLATFORM
-) -> void:
-	# TODO: add effect that pauses engine, zooms in 
-	# player camera, then switches area
-	change_player_area(area_name_, unit_position_, unit_mode_, unit_physics_)
 
 func add_mode(mode_: StringName, add_to_children: bool = false) -> void:
 	super.add_mode(mode_)
 	
 	if add_to_children:
-		if area != null:
-			area.add_mode(mode_)
+		if current_zone != null:
+			current_zone.add_mode(mode_)
 	
 func remove_mode(mode_: StringName, remove_from_children: bool = false) -> void:
 	super.remove_mode(mode_)
 			
 	if remove_from_children:
-		if area != null:
-			area.remove_mode(mode_)
-
-func _on_door_opened(door_alias_: StringName, _door_type: Core.DoorType) -> void:
-	if door_alias_ == &"":
-		return
-
-	var door: LevelDoorValue = doors.get_door(door_alias_)
-	if door == null:
-		return
-		
-	change_player_area(door.area_alias, door.unit_position, door.unit_mode)
+		if current_zone != null:
+			current_zone.remove_mode(mode_)

@@ -1,7 +1,7 @@
 extends MarginContainer
 class_name UIMarginContainer
 
-@export_category("Visual")
+@export_group("Visual")
 @export var style: StringName = &"":
 	set(value):
 		style = value

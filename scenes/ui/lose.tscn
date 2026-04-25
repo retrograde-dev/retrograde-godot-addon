@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bfvi5kylfkrhr"]
+[gd_scene format=3 uid="uid://bfvi5kylfkrhr"]
 
 [ext_resource type="Script" uid="uid://d0iefuolgkyx7" path="res://addons/retrograde/scenes/ui/lose.gd" id="1_accp8"]
 [ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="2_hvyql"]
@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b7kxbj3ak5kcg" path="res://addons/retrograde/scenes/ui/component/ui_margin_container.tscn" id="2_r7hee"]
 [ext_resource type="PackedScene" uid="uid://b33ohs7o6hg3l" path="res://addons/retrograde/scenes/ui/component/ui_separator.tscn" id="3_5al6t"]
 
-[node name="Lose" type="Control"]
+[node name="Lose" type="Control" unique_id=1981539487]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,7 +16,7 @@ grow_vertical = 2
 script = ExtResource("1_accp8")
 ui_type = 0
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1336356393]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,7 +25,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.75)
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=86794079]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,73 +33,86 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1251627335]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 
-[node name="UIMarginContainerTitle" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_r7hee")]
+[node name="UIMarginContainerTitle" parent="MarginContainer/VBoxContainer" unique_id=423951925 instance=ExtResource("2_r7hee")]
 layout_mode = 2
 style = &"title"
 
-[node name="UILabelTitle" parent="MarginContainer/VBoxContainer/UIMarginContainerTitle" instance=ExtResource("2_hvyql")]
+[node name="UILabelTitle" parent="MarginContainer/VBoxContainer/UIMarginContainerTitle" unique_id=758739787 instance=ExtResource("2_hvyql")]
 layout_mode = 2
 text = "TITLE_LOSE"
 horizontal_alignment = 1
 style = &"title"
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=1684998030]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 columns = 2
 
-[node name="UILabelTimeField" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("2_hvyql")]
+[node name="UILabelGamePlaytimeField" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=1662251261 instance=ExtResource("2_hvyql")]
+unique_name_in_owner = true
 layout_mode = 2
-text = "LABEL_TIME"
+text = "LABEL_GAME_PLAYTIME"
 horizontal_alignment = 2
 style = &"field"
 
-[node name="UILabelTimeValue" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("2_hvyql")]
+[node name="UILabelGamePlaytimeValue" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=1945714009 instance=ExtResource("2_hvyql")]
 unique_name_in_owner = true
 layout_mode = 2
 style = &"value"
 
-[node name="UISeparatorHeader" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_5al6t")]
+[node name="UILabelLevelPlaytimeField" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=1958507511 instance=ExtResource("2_hvyql")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "LABEL_LEVEL_PLAYTIME"
+horizontal_alignment = 2
+style = &"field"
+
+[node name="UILabelLevelPlaytimeValue" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=1201033654 instance=ExtResource("2_hvyql")]
+unique_name_in_owner = true
+layout_mode = 2
+style = &"value"
+
+[node name="UISeparatorHeader" parent="MarginContainer/VBoxContainer" unique_id=1743042661 instance=ExtResource("3_5al6t")]
 layout_mode = 2
 style = &"header"
 
-[node name="UIButtonTryAgain" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_qxb8d")]
+[node name="UIButtonTryAgain" parent="MarginContainer/VBoxContainer" unique_id=822675992 instance=ExtResource("2_qxb8d")]
 layout_mode = 2
 style = &"menu_large"
 text = "BUTTON_RETRY"
 
-[node name="UIButtonTryAgainEasy" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_qxb8d")]
+[node name="UIButtonTryAgainEasy" parent="MarginContainer/VBoxContainer" unique_id=964958917 instance=ExtResource("2_qxb8d")]
 unique_name_in_owner = true
 layout_mode = 2
 style = &"menu_large"
 text = "BUTTON_RETRY_EASY"
 
-[node name="UIButtonTryAgainNormal" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_qxb8d")]
+[node name="UIButtonTryAgainNormal" parent="MarginContainer/VBoxContainer" unique_id=1829619509 instance=ExtResource("2_qxb8d")]
 unique_name_in_owner = true
 layout_mode = 2
 style = &"menu_large"
 text = "BUTTON_RETRY_NORMAL"
 
-[node name="UIButtonLevelSelect" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_qxb8d")]
+[node name="UIButtonLevelSelect" parent="MarginContainer/VBoxContainer" unique_id=1844255930 instance=ExtResource("2_qxb8d")]
 unique_name_in_owner = true
 layout_mode = 2
 goto_ui_alias = &"level_select"
 style = &"menu_large"
 text = "BUTTON_LEVEL_SELECT"
 
-[node name="UISeparatorButton" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_5al6t")]
+[node name="UISeparatorButton" parent="MarginContainer/VBoxContainer" unique_id=84777751 instance=ExtResource("3_5al6t")]
 layout_mode = 2
 style = &"button"
 
-[node name="UIButtonMenu" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_qxb8d")]
+[node name="UIButtonMenu" parent="MarginContainer/VBoxContainer" unique_id=367618807 instance=ExtResource("2_qxb8d")]
 layout_mode = 2
 goto_ui_alias = &"menu"
 style = &"menu_cancel_large"

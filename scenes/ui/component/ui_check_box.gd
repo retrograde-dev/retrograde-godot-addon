@@ -1,7 +1,7 @@
 extends CheckBox
 class_name UICheckBox
 
-@export_category("Visual")
+@export_group("Visual")
 @export var style: StringName = &"":
 	set(value):
 		style = value

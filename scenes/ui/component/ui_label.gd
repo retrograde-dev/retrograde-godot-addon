@@ -1,7 +1,7 @@
 extends Label
 class_name UILabel
 
-@export_category("Visual")
+@export_group("Visual")
 @export var style: StringName = &"":
 	set(value):
 		style = value

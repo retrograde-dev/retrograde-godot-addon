@@ -2,24 +2,31 @@ extends Node
 class_name Retrograde
 
 var game: BaseGame = null
-var game_difficulty: Core.GameDifficulty = Core.GameDifficulty.NORMAL
+var level: BaseLevel
+var zone: BaseZone
+
+var party: PartyValue
+var player: EntityUnit
+var camera: Camera2D
 
 var nodes: NodeHandler
-var camera: Camera2D
-var level: BaseLevel
-var player: PlayerUnit
 var inputs: InputHandler
 var items: ItemHandler
+var entities: EntityHandler
 var level_select: LevelSelectHandler
 var cursor: BaseCursor
 var hud: HUDController
 var audio: AudioHandler
 var help: HelpHandler
 var speech: SpeechHandler
-var states: Dictionary
+var state: Dictionary
 var settings: SettingsFile
-var save: SaveFile
+var save: SaveHandler
 var ui: UIController
+var data: GameResource
+
+var parties: Dictionary[StringName, PartyResource] = {}
+var inventory: Dictionary[StringName, InventoryResource] = {}
 
 var locale: String = "en"
 var LOCALES: Array[String] = ["en", "jp"]
@@ -35,9 +42,6 @@ var joypad_vibrations: bool = false
 
 var last_input_device: Core.InputDevice = Core.InputDevice.KEYBOARD
 var last_joypad_device: int = 0
-
-var MENU_LEVEL: StringName = &"menu"
-var START_LEVEL: StringName = &"start"
 
 var TILE_SIZE: int = 8
 var PHYSICS_TILE_SIZE: int = 8
@@ -63,7 +67,10 @@ var LEVEL_CAMERA_TARGET_OFFSET: Vector2 = Vector2.ZERO
 var MIN_AUDIO_PITCH: float = 0.9
 var MAX_AUDIO_PITCH: float = 1.11
 
-var ENABLE_PLAY_TIME: bool = false
+var ENABLE_SAVING: bool = false
+var ENABLE_SAVING_MULTIPLE: bool = false
+var ENABLE_GAME_PLAYTIME: bool = false
+var ENABLE_LEVEL_PLAYTIME: bool = false
 var ENABLE_GAME_DIFFICULTY: bool = false
 var ENABLE_LEVEL_SELECT: bool = false
 var ENABLE_LEVEL_SKIP: bool = false
@@ -77,6 +84,7 @@ var MIN_COLLISION_WAIT_DELTA: float = 0.05
 # Used to move unit a slight amount to change collision state
 var MIN_COLLISION_OFFSET: float = 0.01
 
+var PLAYER_GROUPS: Array[StringName] = [&"player"]
 var ENEMY_GROUPS: Array[StringName] = [&"enemy", &"mutual_enemy"]
 var FRIEND_GROUPS: Array[StringName] = [&"friend", &"mutual_friend"]
 var MUTUAL_ENEMY_GROUPS: Array[StringName] = [&"mutual_enemy"]
@@ -271,8 +279,15 @@ func get_field_layer(field_type_: Core.FieldType) -> Core.Layer:
 	return Core.Layer.NONE
 
 enum DoorType {
-	AREA,
+	NONE,
+	ZONE,
 	ROOM,
+}
+
+enum DoorSide {
+	NONE,
+	INSIDE,
+	OUTSIDE,
 }
 
 enum InputDevice {
@@ -310,6 +325,13 @@ enum ResetType {
 	STOP,
 }
 
+enum SaveType {
+	NORMAL,
+	AUTO,
+	CHECKPOINT,
+	RESTART,
+}
+
 enum LevelMode {
 	GAME,
 	MENU
@@ -331,6 +353,12 @@ enum GameDifficulty {
 	HARD,
 }
 
+enum ContentLevel {
+	NONE,
+	MINIMAL,
+	FULL,
+}
+
 enum AudioType {
 	MASTER,
 	MUSIC,
@@ -339,7 +367,7 @@ enum AudioType {
 }
 
 enum DataType {
-	AREA,
+	ZONE,
 	OBJECT,
 	ITEM,
 	LEVEL,
@@ -353,11 +381,23 @@ enum LockType {
 	OBSTRUCTION,
 }
 
+enum LockAccess {
+	NONE,
+	INSIDE_LOCK,
+	OUTSIDE_LOCK,
+	INSIDE_AND_OUTSIDE_LOCK,
+	INSIDE_UNLOCK,
+	OUTSIDE_UNLOCK,
+	INSIDE_AND_OUTSIDE_UNLOCK,
+	INSIDE_LOCK_AND_OUTSIDE_UNLOCK,
+	OUTSIDE_LOCK_AND_INSIDE_UNLOCK,
+}
+
 enum LockMode {
-	LOCK_ONLY,
-	UNLOCK_ONLY,
-	MANUAL,
-	AUTO,
+	UNLOCK,
+	LOCK,
+	LOCK_AND_UNLOCK,
+	AUTO_LOCK,
 }
 
 enum LockState {
@@ -368,12 +408,10 @@ enum LockState {
 }
 
 enum UnitType {
-	ENEMY,
-	FRIEND,
+	NONE,
 	ITEM,
-	NEUTRAL,
 	OBJECT,
-	PLAYER,
+	ENTITY,
 	PROJECTILE,
 	VEHICLE,
 	WEAPON,
@@ -383,33 +421,96 @@ enum ItemType {
 	NONE,
 	ACCESSORY,
 	ARMOR,
-	ARMOR_HEALTH,
 	COMPONENT,
+	CONSUME,
+	CURRENCY,
+	EQUIPMENT,
+	KEY,
+	LOOT,
+	SCENARIO,
+	SHIELD,
+	SPELL,
+	THROW,
+	TOOL,
+	TRAP,
+	WEAPON,
+	
+	# TODO: Remove and replace with appropriate system
+	LOCK_PICK,
+	ARMOR_HEALTH,
 	FOOD,
 	HEALTH,
 	HEALTH_FOOD,
-	KEY,
-	KNIFE,
-	LOCK_PICK,
 	REPAIR,
-	SHIELD,
-	TOOL,
+	RESTORE,
+	STATUS,
 }
 
-enum ItemCollisionMode {
-	PLAYER,
+enum ItemPositionMode {
+	ENTITY,
 	TILE,
 }
 
 enum ItemMode {
-	MULTIPLE, # Multiple items in area
-	SINGLE, # Single item in area
+	NONE, # Disable
+	SINGLE, # Single item in an area
+	MULTIPLE, # Multiple items in an area
 }
 
 enum ComponentType {
+	NONE, # TODO: Handle NONE in component classes
 	MIXED,
 	INPUT,
 	OUTPUT,
+}
+
+enum ConsumeType {
+	NONE,
+	ATTACK,
+	COUNTER,
+	DEFENSE,
+	HEALTH,
+	HUNGER,
+	LOCK_PICK,
+	MAGIC,
+	REPAIR,
+	RESTORE,
+	STATUS,
+}
+
+enum LootType {
+	NONE,
+	REAL,
+	FAKE,
+}
+
+enum SpellType {
+	NONE,
+	ATTACK,
+	COUNTER,
+	DEFENSE,
+	HEALTH,
+	HUNGER,
+	KILL,
+	REPAIR,
+	REVIVE,
+	STATUS, 
+}
+
+enum TrapType {
+	NONE,
+	CURRENCY,
+	HEALTH,
+	HUNGER,
+	MAGIC,
+	STATUS,
+	RULE,
+}
+
+enum ToolType {
+	NONE,
+	CONTAINER,
+	LOCK_PICK,
 }
 
 enum Validation {
@@ -425,6 +526,7 @@ enum UnitMode {
 	NONE,
 	NORMAL,
 	CLIMBING,
+	SITTING,
 }
 
 enum UnitMovement {
@@ -584,14 +686,14 @@ enum AttackType {
 
 func apply_difficulty_modifier(value: int, inverse: bool = false, safe: int = 0) -> int:
 	if inverse:
-		if Core.game_difficulty == Core.GameDifficulty.EASY:
+		if Core.data.difficulty == Core.GameDifficulty.EASY:
 			value *= 2
-		elif Core.game_difficulty == Core.GameDifficulty.HARD:
+		elif Core.data.difficulty == Core.GameDifficulty.HARD:
 			value /= 2
 	else:
-		if Core.game_difficulty == Core.GameDifficulty.EASY:
+		if Core.data.difficulty == Core.GameDifficulty.EASY:
 			value /= 2
-		elif Core.game_difficulty == Core.GameDifficulty.HARD:
+		elif Core.data.difficulty == Core.GameDifficulty.HARD:
 			value *= 2
 
 	if value == 0:
@@ -604,14 +706,14 @@ func apply_difficulty_modifier(value: int, inverse: bool = false, safe: int = 0)
 
 func apply_difficulty_modifier_float(value: float, inverse: bool = false, safe: float = 0.0) -> float:
 	if inverse:
-		if Core.game_difficulty == Core.GameDifficulty.EASY:
+		if Core.data.difficulty == Core.GameDifficulty.EASY:
 			value *= 2.0
-		elif Core.game_difficulty == Core.GameDifficulty.HARD:
+		elif Core.data.difficulty == Core.GameDifficulty.HARD:
 			value /= 2.0
 	else:
-		if Core.game_difficulty == Core.GameDifficulty.EASY:
+		if Core.data.difficulty == Core.GameDifficulty.EASY:
 			value /= 2.0
-		elif Core.game_difficulty == Core.GameDifficulty.HARD:
+		elif Core.data.difficulty == Core.GameDifficulty.HARD:
 			value *= 2.0
 
 	if value == 0:
@@ -664,6 +766,13 @@ func is_enemies(node1: Node2D, node2: Node2D) -> bool:
 
 	return false
 
+func is_player(node: Node2D) -> bool:
+	for group: StringName in Core.PLAYER_GROUPS:
+		if node.is_in_group(group):
+			return true
+
+	return false
+	
 func is_friend(node: Node2D) -> bool:
 	for group: StringName in Core.FRIEND_GROUPS:
 		if node.is_in_group(group):
@@ -720,8 +829,8 @@ func dictionary_contains(superset: Dictionary, subset: Dictionary) -> bool:
 func get_closest_vector2(from: Vector2, to1: Vector2, to2: Vector2) -> Vector2:
 	return to1 if to1.distance_squared_to(from) < to2.distance_squared_to(from) else to2
 
-func format_time(time: int) -> String:
-	var total_seconds: int = floori(time / 1000.0)
+func format_time(time_usec_: int) -> String:
+	var total_seconds: int = floori(time_usec_ / 1_000_000.0)
 	var hours: int = floori(total_seconds / 3600.0)
 	var minutes: int = floori((total_seconds % 3600) / 60.0)
 	var seconds: int = total_seconds % 60

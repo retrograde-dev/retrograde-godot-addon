@@ -132,9 +132,9 @@ func _load_settings() -> void:
 	
 	# Level
 	%CheckBoxLevelsMenuLevel.button_pressed = ProjectSettings.get_setting("addons/retrograde/levels/menu_level", false)
-	%CheckBoxLevelsStartLevel.button_pressed = ProjectSettings.get_setting("addons/retrograde/levels/start_level", false)
-	%LineEditLevelsStartLevelAlias.text = ProjectSettings.get_setting("addons/retrograde/levels/start_level_alias", "start")
-	%CheckBoxLevelsStartAsMenu.button_pressed = ProjectSettings.get_setting("addons/retrograde/levels/start_as_menu", false)
+	%CheckBoxLevelsInitialLevel.button_pressed = ProjectSettings.get_setting("addons/retrograde/levels/initial_level", false)
+	%LineEditLevelsInitialLevelAlias.text = ProjectSettings.get_setting("addons/retrograde/levels/initial_level_alias", "start")
+	%CheckBoxLevelsInitialAsMenu.button_pressed = ProjectSettings.get_setting("addons/retrograde/levels/initial_as_menu", false)
 	
 	# Tile Sets
 	%CheckBoxTileSetsStructure.button_pressed = ProjectSettings.get_setting("addons/retrograde/tile_sets/physics/structure", false)
@@ -152,7 +152,7 @@ func _load_settings() -> void:
 	%CheckBoxUINextLevel.button_pressed = ProjectSettings.get_setting("addons/retrograde/ui/next_level", false)
 	%CheckBoxUIPreviousLevel.button_pressed = ProjectSettings.get_setting("addons/retrograde/ui/previous_level", false)
 	%CheckBoxUIPlayAgain.button_pressed = ProjectSettings.get_setting("addons/retrograde/ui/play_again", false)
-	%CheckBoxUIPlayTime.button_pressed = ProjectSettings.get_setting("addons/retrograde/ui/play_time", false)
+	%CheckBoxUIPlayTime.button_pressed = ProjectSettings.get_setting("addons/retrograde/ui/playtime", false)
 	%CheckBoxUIWin.button_pressed = ProjectSettings.get_setting("addons/retrograde/ui/win", false)
 	%CheckBoxUILose.button_pressed = ProjectSettings.get_setting("addons/retrograde/ui/lose", false)
 	%CheckBoxUISettings.button_pressed = ProjectSettings.get_setting("addons/retrograde/ui/settings", false)
@@ -355,7 +355,7 @@ func _on_button_initialize_pressed() -> void:
 	
 	_create_menu_level()
 	
-	_create_start_level()
+	_create_initial_level()
 	
 	ProjectSettings.save()
 	
@@ -492,13 +492,6 @@ func _create_core_global() -> void:
 	if translations_.size() != 2:
 		script_ += "\tLOCALES = [\"" + "\", \"".join(translations_) + "\"]\n"
 	
-	if %CheckBoxLevelsStartLevel.button_pressed:
-		if %CheckBoxLevelsStartAsMenu.button_pressed:
-			script_ += "\tMENU_LEVEL = &\"" + %LineEditLevelsStartLevelAlias.text + "\"\n"
-			
-		if %LineEditLevelsStartLevelAlias.text != "start":
-			script_ += "\tSTART_LEVEL = &\"" + %LineEditLevelsStartLevelAlias.text + "\"\n"
-	
 	if tile_size_ != 8:
 		script_ += "\tTILE_SIZE = " + str(tile_size_) + "\n"
 	
@@ -515,7 +508,7 @@ func _create_core_global() -> void:
 		script_ += "\tMOUSE_CURSOR_SIZE = " + str(cursor_size_) + "\n"
 		
 	if %CheckBoxUIPlayTime.button_pressed:
-		script_ += "\tENABLE_PLAY_TIME = true\n"
+		script_ += "\tENABLE_LEVEL_PLAYTIME = true\n"
 	
 	if %CheckBoxUIDifficulty.button_pressed:
 		script_ += "\tENABLE_GAME_DIFFICULTY = true\n"
@@ -631,6 +624,7 @@ func _create_main_scene() -> void:
 		var ambiance_: Node2D = Node2D.new()
 		ambiance_.name = &"Ambiance"
 		ambiance_.unique_name_in_owner = true
+		ambiance_.process_mode = Node.PROCESS_MODE_PAUSABLE
 		root_.add_child(ambiance_)
 		ambiance_.owner = root_
 		
@@ -638,6 +632,7 @@ func _create_main_scene() -> void:
 		var level_: Node2D = Node2D.new()
 		level_.name = &"Level"
 		level_.unique_name_in_owner = true
+		level_.process_mode = Node.PROCESS_MODE_PAUSABLE
 		root_.add_child(level_)
 		level_.owner = root_
 		
@@ -685,32 +680,32 @@ func _create_main_scene() -> void:
 	ProjectSettings.set_setting("application/run/main_scene", scene_path_)
 
 func _create_menu_level() -> void:
-	if not %CheckBoxLevelsMenuLevel.button_pressed or %CheckBoxLevelsStartAsMenu.button_pressed:
+	if not %CheckBoxLevelsMenuLevel.button_pressed or %CheckBoxLevelsInitialAsMenu.button_pressed:
 		return
 	
 	_create_level("menu")
 	
-func _create_start_level() -> void:
-	if not %CheckBoxLevelsStartLevel.button_pressed:
+func _create_initial_level() -> void:
+	if not %CheckBoxLevelsInitialLevel.button_pressed:
 		return
 	
-	_create_level(%LineEditLevelsStartLevelAlias.text)
+	_create_level(%LineEditLevelsInitialLevelAlias.text)
 
 func _create_level(alias_: String) -> void:
-	var error_: Error = DirAccess.make_dir_recursive_absolute("res://scenes/level/" + alias_ + "/area")
+	var error_: Error = DirAccess.make_dir_recursive_absolute("res://scenes/level/" + alias_ + "/zone")
 	if error_ != OK:
 		return
 		
-	error_ = DirAccess.make_dir_recursive_absolute("res://data/level/" + alias_ + "/area")
+	error_ = DirAccess.make_dir_recursive_absolute("res://data/level/" + alias_ + "/zone")
 	if error_ != OK:
 		return
 		
 	var script_path_: String = "res://scenes/level/" + alias_ + ".gd"
 	var scene_path_: String = "res://scenes/level/" + alias_ + ".tscn"
-	var area_script_path_: String = "res://scenes/level/" + alias_ + "/area/area_1.gd"
-	var area_scene_path_: String = "res://scenes/level/" + alias_ + "/area/area_1.tscn"
+	var zone_script_path_: String = "res://scenes/level/" + alias_ + "/zone/zone_1.gd"
+	var zone_scene_path_: String = "res://scenes/level/" + alias_ + "/zone/zone_1.tscn"
 	var level_data_path_: String = "res://data/level/" + alias_ + "/level.json"
-	var level_area_data_path_: String = "res://data/level/" + alias_ + "/area/area_1.json"
+	var level_zone_data_path_: String = "res://data/level/" + alias_ + "/zone/zone_1.json"
 
 	if FileAccess.file_exists(scene_path_) and not %CheckBoxOverride.button_pressed:
 		return
@@ -730,28 +725,28 @@ func _create_level(alias_: String) -> void:
 	ResourceSaver.save(scene_, scene_path_)
 	
 	
-	if not FileAccess.file_exists(area_scene_path_) or %CheckBoxOverride.button_pressed:
-		if not FileAccess.file_exists(area_script_path_) or %CheckBoxOverride.button_pressed:
+	if not FileAccess.file_exists(zone_scene_path_) or %CheckBoxOverride.button_pressed:
+		if not FileAccess.file_exists(zone_script_path_) or %CheckBoxOverride.button_pressed:
 			var script_: GDScript = GDScript.new()
-			script_.source_code = "extends BaseArea\n\nfunc _init() -> void:\n\tsuper._init(&\"area_1\")"
+			script_.source_code = "extends BaseZone\n\nfunc _init() -> void:\n\tsuper._init(&\"zone_1\")"
 			
-			ResourceSaver.save(script_, area_script_path_)
+			ResourceSaver.save(script_, zone_script_path_)
 			
-		var area_root_: Node2D = Node2D.new()
-		area_root_.name = &"Area1"
-		area_root_.set_script(load(area_script_path_))
+		var zone_root_: Node2D = Node2D.new()
+		zone_root_.name = &"Zone1"
+		zone_root_.set_script(load(zone_script_path_))
 		
-		var area_scene_: PackedScene = PackedScene.new()
-		area_scene_.pack(area_root_)
-		ResourceSaver.save(area_scene_, area_scene_path_)
+		var zone_scene_: PackedScene = PackedScene.new()
+		zone_scene_.pack(zone_root_)
+		ResourceSaver.save(zone_scene_, zone_scene_path_)
 	
 	if not FileAccess.file_exists(level_data_path_) or %CheckBoxOverride.button_pressed:
 		var data_: Dictionary = {
 			"alias": alias_,
 			"name": alias_.capitalize(),
 			"type": "platformer",
-			"area": {
-				"alias": "area_1"
+			"zone": {
+				"alias": "zone_1"
 			}
 		}
 		
@@ -768,17 +763,17 @@ func _create_level(alias_: String) -> void:
 		file_.store_string(json_)
 		file_.close()
 	
-	if not FileAccess.file_exists(level_area_data_path_) or %CheckBoxOverride.button_pressed:
+	if not FileAccess.file_exists(level_zone_data_path_) or %CheckBoxOverride.button_pressed:
 		var data_: Dictionary = {
-			"alias": "area_1",
-			"Name": "Area 1",
+			"alias": "zone_1",
+			"Name": "Zone 1",
 			"music": null,
 			"ambiance": null
 		}
 		
 		var json_: String = JSON.stringify(data_, "\t", false)
 		
-		var file_: FileAccess = FileAccess.open(level_area_data_path_, FileAccess.WRITE)
+		var file_: FileAccess = FileAccess.open(level_zone_data_path_, FileAccess.WRITE)
 		file_.store_string(json_)
 		file_.close()
 

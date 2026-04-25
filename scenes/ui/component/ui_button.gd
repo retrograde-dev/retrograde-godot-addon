@@ -5,7 +5,7 @@ class_name UIButton
 
 @export var goto_ui_alias: StringName
 
-@export_category("Visual")
+@export_group("Visual")
 @export var style: StringName = &"":
 	set(value):
 		style = value
@@ -17,7 +17,7 @@ class_name UIButton
 	set(value):
 		%UILabel.text = value
 
-@export_category("Audio")
+@export_group("Audio")
 @export var entered_sfx: StringName = &""
 @export var exited_sfx: StringName = &""
 @export var pressed_sfx: StringName = &""

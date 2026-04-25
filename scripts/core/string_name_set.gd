@@ -35,18 +35,18 @@ func add_all(names_: Array[StringName]) -> void:
 		add(name_)
 	
 func remove(name_: StringName) -> bool:
-	for i: int in names.size():
-		if names[i] == name_:
-			names.remove_at(i)
-			updated.emit([], name_)
+	for index_: int in names.size():
+		if names[index_] == name_:
+			names.remove_at(index_)
+			updated.emit([], [name_] as Array[StringName])
 			return true
 			
 	return false
 
 func remove_all(names_: Array[StringName]) -> void:
-	for i: int in range(names.size() - 1, -1, -1):
-		if names_.has(names[i]):
-			names.remove_at(i)
+	for index_: int in range(names.size() - 1, -1, -1):
+		if names_.has(names[index_]):
+			names.remove_at(index_)
 			
 func replace(names_: Array[StringName]) -> void:
 	if updated.get_connections().is_empty():

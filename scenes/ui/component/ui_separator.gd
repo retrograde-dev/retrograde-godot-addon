@@ -1,7 +1,7 @@
 extends Control
 class_name UISeparator
 
-@export_category("Visual")
+@export_group("Visual")
 @export var style: StringName = &"":
 	set(value):
 		style = value

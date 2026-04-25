@@ -33,7 +33,7 @@ func _ready() -> void:
 	%UILabelTitle.visible = show_title_label
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 	
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART or 
@@ -74,14 +74,14 @@ func _update() -> void:
 		hud_items[i].position.y = -item_size.y
 		hud_items[i].position.x = i * item_size.x
 			
-		var item_value_: ItemValue = items_actor.get_item(i)
+		var item_: InventoryItemResource = items_actor.get_item(i)
 		
-		if item_value_ != null:
+		if item_ != null:
 			if i == items_actor.selected_slot:
 				%UILabelName.visible = true
-				%UILabelName.text = "ITEM:" + item_value_.alias
+				%UILabelName.text = "ITEM:" + item_.item.alias
 			
-			hud_items[i].item = item_value_
+			hud_items[i].item = item_
 			
 			hud_items[i].visible = true
 		else:

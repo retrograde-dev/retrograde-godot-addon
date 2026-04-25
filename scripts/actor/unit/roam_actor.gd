@@ -20,7 +20,7 @@ func _on_roam_body_exited(_body: Node2D) -> void:
 	is_in_roam_area = false
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART

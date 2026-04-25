@@ -11,11 +11,24 @@ func show_ui() -> void:
 func update() -> void:
 	super.update()
 	
-	if Core.ENABLE_PLAY_TIME:
-		if Core.level != null:
-			%UILabelTimeValue.text = Core.format_time(Core.level.get_play_time())
-		else:
-			%UILabelTimeValue.text = Core.format_time(0)
+	if Core.ENABLE_GAME_PLAYTIME and Core.level != null:
+		%UILabelGamePlaytimeValue.text = Core.game.playtime.get_formatted_playtime()
+		%UILabelGamePlaytimeField.visible = true
+		%UILabelGamePlaytimeValue.visible = true
+	else:
+		%UILabelGamePlaytimeField.visible = false
+		%UILabelGamePlaytimeValue.visible = false
+		
+	if Core.ENABLE_LEVEL_PLAYTIME and Core.level != null:
+		%UILabelLevelPlaytimeValue.text = Core.level.playtime.get_formatted_playtime()
+		%UILabelLevelPlaytimeField.visible = true
+		%UILabelLevelPlaytimeValue.visible = true
+	else:
+		%UILabelLevelPlaytimeField.visible = false
+		%UILabelLevelPlaytimeValue.visible = false
+		
+	if %UILabelGamePlaytimeField.visible or %UILabelLevelPlaytimeField.visible:
+		%GridContainer.visible = true
 	else:
 		%GridContainer.visible = false
 		
@@ -24,13 +37,13 @@ func update() -> void:
 	else:
 		%UIButtonLevelSelect.visible = false
 		
-	if not Core.ENABLE_GAME_DIFFICULTY:
+	if not Core.ENABLE_GAME_DIFFICULTY or Core.data == null:
 		%UIButtonTryAgainEasy.visible = false
 		%UIButtonTryAgainNormal.visible = false
-	elif Core.game_difficulty == Core.GameDifficulty.EASY:
+	elif Core.data.difficulty == Core.GameDifficulty.EASY:
 		%UIButtonTryAgainEasy.visible = false
 		%UIButtonTryAgainNormal.visible = false
-	elif Core.game_difficulty == Core.GameDifficulty.NORMAL:
+	elif Core.data.difficulty == Core.GameDifficulty.NORMAL:
 		%UIButtonTryAgainEasy.visible = true
 		%UIButtonTryAgainNormal.visible = false
 	else:
@@ -41,9 +54,9 @@ func _on_ui_button_try_again_pressed() -> void:
 	Core.game.restart()
 
 func _on_ui_button_try_again_easy_pressed() -> void:
-	Core.game_difficulty = Core.GameDifficulty.EASY
+	Core.data.difficulty = Core.GameDifficulty.EASY
 	Core.game.restart()
 
 func _on_ui_button_try_again_normal_pressed() -> void:
-	Core.game_difficulty = Core.GameDifficulty.NORMAL
+	Core.data.difficulty = Core.GameDifficulty.NORMAL
 	Core.game.restart()

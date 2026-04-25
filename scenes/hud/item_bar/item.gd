@@ -6,7 +6,7 @@ extends BaseNode2D
 		if get_node_or_null("%UILabelSlot") != null:
 			%UILabelSlot.text = str(value)
 			
-var item: ItemValue = null
+var item: InventoryItemResource = null
 var selected: bool = false
 var show_slot_label: bool = true
 
@@ -17,7 +17,7 @@ func _ready() -> void:
 	%UILabelSlot.visible = show_slot_label
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 	
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART or 
@@ -39,16 +39,14 @@ func _update() -> void:
 	if item == null:
 		%UILabelCount.visible = false
 	else:
-		%UILabelCount.visible = item.meta.can_stack
+		%UILabelCount.visible = item.item.can_stack
 	
 	if item == null:
 		%UILabelCount.text = ""
-	elif not item.meta.has("count"):
-		%UILabelCount.text = "0"
-	elif item.meta.count == -1:
+	elif item.count == -1:
 		%UILabelCount.text = "--"
 	else:
-		%UILabelCount.text = str(item.meta.count)
+		%UILabelCount.text = str(item.count)
 		
 	%UILabelCount.position = item_size_ - label_offset_ - %UILabelCount.size
 	
@@ -101,7 +99,7 @@ func _update() -> void:
 	%ItemOver.set_cell(Vector2i(0, 0), %ItemOver.tile_set.get_source_id(0), Vector2i(x_coord_ + 1, y_coord_))
 
 func _update_item_unit() -> void:
-	var node: ItemUnit = await Core.items.get_item_unit(item)
+	var node: ItemUnit = await Core.items.get_item_unit(item.item)
 	
 	node.collision_layer = 0
 	node.collision_mask = 0

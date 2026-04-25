@@ -1,7 +1,7 @@
 extends HSlider
 class_name UIHSlider
 
-@export_category("Visual")
+@export_group("Visual")
 @export var style: StringName = &"":
 	set(value):
 		style = value

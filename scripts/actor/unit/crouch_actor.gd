@@ -33,7 +33,7 @@ func _init(unit_: BaseUnit, enabled_: bool = true) -> void:
 	unit_modes.push_back(Core.UnitMode.NORMAL)
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART
@@ -176,3 +176,23 @@ func _uncrouch() -> bool:
 	
 func get_actions() -> Array[StringName]:
 	return [action_crouch]
+
+func export() -> Dictionary[StringName, Variant]:
+	var data: Dictionary[StringName, Variant] = super.export()
+	
+	data.merge({
+		&"is_crouch_toggle": is_crouch_toggle,
+		&"is_crouching": is_crouching,
+		&"_reason": _reason,
+		&"_is_crouch_active": _is_crouch_active,
+	})
+	
+	return data
+	
+func import(data: Dictionary[StringName, Variant]) -> void:
+	super.import(data)
+	
+	is_crouch_toggle = data.get(&"is_crouch_toggle", is_crouch_toggle)
+	is_crouching = data.get(&"is_crouching", is_crouching)
+	_reason = data.get(&"_reason", _reason)
+	_is_crouch_active = data.get(&"_is_crouch_active", _is_crouch_active)

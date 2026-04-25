@@ -9,7 +9,7 @@ func _init(unit_: BaseUnit, enabled: bool = true) -> void:
 	super._init(unit_, &"hunger", enabled)
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 	
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART
@@ -50,3 +50,21 @@ func decrease_hunger(amount: float) -> void:
 
 func is_full_hunger() -> bool:
 	return hunger >= max_hunger
+	
+func export() -> Dictionary[StringName, Variant]:
+	var data: Dictionary[StringName, Variant] = super.export()
+	
+	data.merge({
+		&"hunger": hunger,
+		&"hunger_delta": hunger_delta,
+		&"max_hunger": max_hunger,
+	})
+	
+	return data
+	
+func import(data: Dictionary[StringName, Variant]) -> void:
+	super.import(data)
+	
+	hunger = data.get(&"hunger", hunger)
+	hunger_delta = data.get(&"hunger_delta", hunger_delta)
+	max_hunger = data.get(&"max_hunger", max_hunger)

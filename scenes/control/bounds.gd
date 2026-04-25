@@ -45,7 +45,7 @@ func _ready() -> void:
 	%Area2DRight.set_collision_mask_value(layer_, true)
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 	
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART 

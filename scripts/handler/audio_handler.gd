@@ -171,6 +171,7 @@ func _play(
 	if type_ == Core.AudioType.SFX:
 		audio_[name_ + suffix_].play()
 	else:
+		# Stop audio that is not the specified
 		_stop(type_, name_)
 
 		if audio_[name_].playing:
@@ -225,8 +226,10 @@ func _load(type: Core.AudioType, name: StringName, suffix: StringName = &"") -> 
 			audio_player.max_polyphony = 16
 		Core.AudioType.MUSIC:
 			audio_player.bus = &"Music"
+			audio_player.process_mode = Node.PROCESS_MODE_ALWAYS
 		Core.AudioType.AMBIANCE:
 			audio_player.bus = &"Ambiance"
+			audio_player.process_mode = Node.PROCESS_MODE_ALWAYS
 
 	var format: StringName = &""
 	if _data[type].has(name):

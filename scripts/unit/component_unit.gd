@@ -4,12 +4,11 @@ class_name ComponentUnit
 var component: Component
 
 func _init(
-	alias_: StringName,
 	component_: Component,
 	item_meta_: Dictionary = {},
 	item_scene_: SceneValue = null
 ) -> void:
-	super._init(alias_, Core.ItemType.COMPONENT, item_meta_, item_scene_)
+	super._init()
 	
 	component = component_
 
@@ -19,12 +18,13 @@ func reset(reset_type_: Core.ResetType) -> void:
 	):
 		component.reset()
 		
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 
 
 func set_item_meta(item_meta_: Dictionary) -> void:
 	super.set_item_meta(item_meta_)
 
+	#TODO: Refactor this out into @export and add component_resource
 	if item_meta_.has("orientation"):
 		component.set_orientation(item_meta_.orientation)
 		

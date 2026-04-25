@@ -55,12 +55,25 @@ func goto(alias_: StringName) -> void:
 		return
 
 	if alias_ == &"start":
-		Core.game.start()
+		if not Core.ENABLE_SAVING:
+			Core.game.start()
+		elif not Core.ENABLE_SAVING_MULTIPLE and Core.save.has_last_game():
+			Core.game.load_last_game()
+		else:
+			Core.game.start()
+		return
+		
+	if alias_ == &"continue":
+		if Core.save.has_last_game():
+			Core.game.load_last_game()
+		else:
+			Core.game.start()
 		return
 
 	if alias_.begins_with(&"start:"):
 		var level_alias_: StringName = alias_.substr(6)
-		Core.game.start_level(level_alias_)
+		Core.data.level_alias = level_alias_
+		Core.game.start()
 		return
 
 	var ui_node: BaseUI = _get_ui(alias_)

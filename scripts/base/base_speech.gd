@@ -11,7 +11,7 @@ var _refresh_bubble_required: bool = true
 var _refresh_line_required: bool = true
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 	
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART

@@ -20,7 +20,7 @@ func _init(unit_: BaseUnit, enabled_: bool = true) -> void:
 	super._init(unit_, &"win", enabled_)
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART

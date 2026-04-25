@@ -1,67 +1,62 @@
 extends BaseCharacterBody2D
 class_name BaseUnit
 
-var alias: StringName
+@export var alias: StringName = &"":
+	get = get_alias,
+	set = set_alias
+	
 var unit_type: Core.UnitType
 
-var unit_mode: Core.UnitMode = Core.UnitMode.NONE
-var previous_unit_mode: Core.UnitMode = Core.UnitMode.NONE
+var unit_state: UnitStateResource
+var previous_unit_state: UnitStateResource
 
-var unit_speed: Core.UnitSpeed = Core.UnitSpeed.NORMAL
-var previous_unit_speed: Core.UnitSpeed = Core.UnitSpeed.NORMAL
+var unit_mode: Core.UnitMode:
+	get = get_unit_mode,
+	set = set_unit_mode
+var previous_unit_mode: Core.UnitMode:
+	get = get_previous_unit_mode
 
-var unit_stance: Core.UnitStance = Core.UnitStance.NORMAL
-var previous_unit_stance: Core.UnitStance = Core.UnitStance.NORMAL
+var unit_speed: Core.UnitSpeed:
+	get = get_unit_speed,
+	set = set_unit_speed
+var previous_unit_speed: Core.UnitSpeed:
+	get = get_previous_unit_speed
 
-var unit_movement: Core.UnitMovement = Core.UnitMovement.IDLE
-var previous_unit_movement: Core.UnitMovement = Core.UnitMovement.IDLE
+var unit_stance: Core.UnitStance:
+	get = get_unit_stance,
+	set = set_unit_stance
+var previous_unit_stance: Core.UnitStance:
+	get = get_previous_unit_stance
 
-var unit_direction_x: Core.UnitDirection = Core.UnitDirection.NONE
-var previous_unit_direction_x: Core.UnitDirection = Core.UnitDirection.NONE
-
-var unit_direction_y: Core.UnitDirection = Core.UnitDirection.NONE
-var previous_unit_direction_y: Core.UnitDirection = Core.UnitDirection.NONE
+var unit_movement: Core.UnitMovement:
+	get = get_unit_movement,
+	set = set_unit_movement
+var previous_unit_movement: Core.UnitMovement:
+	get = get_previous_unit_movement
 
 var unit_direction: Core.UnitDirection:
-	get:
-		if unit_direction_y == Core.UnitDirection.UP:
-			if unit_direction_x == Core.UnitDirection.LEFT:
-				return Core.UnitDirection.UP_LEFT
-			elif unit_direction_x == Core.UnitDirection.RIGHT:
-				return Core.UnitDirection.UP_RIGHT
-			else:
-				return Core.UnitDirection.UP
-		elif unit_direction_y == Core.UnitDirection.DOWN:
-			if unit_direction_x == Core.UnitDirection.LEFT:
-				return Core.UnitDirection.DOWN_LEFT
-			elif unit_direction_x == Core.UnitDirection.RIGHT:
-				return Core.UnitDirection.DOWN_RIGHT
-			else:
-				return Core.UnitDirection.DOWN
-			
-		return unit_direction_x
-
+	get = get_unit_direction,
+	set = set_unit_direction
 var previous_unit_direction: Core.UnitDirection:
-	get:
-		if previous_unit_direction_y == Core.UnitDirection.UP:
-			if previous_unit_direction_x == Core.UnitDirection.LEFT:
-				return Core.UnitDirection.UP_LEFT
-			elif previous_unit_direction_x == Core.UnitDirection.RIGHT:
-				return Core.UnitDirection.UP_RIGHT
-			else:
-				return Core.UnitDirection.UP
-		elif previous_unit_direction_y == Core.UnitDirection.DOWN:
-			if previous_unit_direction_x == Core.UnitDirection.LEFT:
-				return Core.UnitDirection.DOWN_LEFT
-			elif previous_unit_direction_x == Core.UnitDirection.RIGHT:
-				return Core.UnitDirection.DOWN_RIGHT
-			else:
-				return Core.UnitDirection.DOWN
-			
-		return previous_unit_direction_x
+	get = get_previous_unit_direction
 
-var unit_physics: Core.UnitPhysics = Core.UnitPhysics.PLATFORM
-var previous_unit_physics: Core.UnitPhysics = Core.UnitPhysics.PLATFORM
+var unit_direction_x: Core.UnitDirection:
+	get = get_unit_direction_x,
+	set = set_unit_direction_x
+var previous_unit_direction_x: Core.UnitDirection:
+	get = get_previous_unit_direction_x
+
+var unit_direction_y: Core.UnitDirection:
+	get = get_unit_direction_y,
+	set = set_unit_direction_y
+var previous_unit_direction_y: Core.UnitDirection:
+	get = get_previous_unit_direction_y
+
+var unit_physics: Core.UnitPhysics:
+	get = get_unit_physics,
+	set = set_unit_physics
+var previous_unit_physics: Core.UnitPhysics:
+	get = get_previous_unit_physics
 
 var actions: ActionHandler
 var actors: ActorHandler
@@ -73,12 +68,12 @@ signal unit_mode_changed(unit_mode_: Core.UnitMode, previous_unit_mode_: Core.Un
 signal unit_speed_changed(unit_speed_: Core.UnitSpeed, previous_unit_speed_: Core.UnitSpeed)
 signal unit_stance_changed(unit_stance_: Core.UnitStance, previous_unit_stance_: Core.UnitStance)
 signal unit_movement_changed(unit_movement_: Core.UnitMovement, previous_unit_movement_: Core.UnitMovement)
+signal unit_direction_changed(unit_direction_: Core.UnitDirection, previous_unit_direction_: Core.UnitDirection)
 signal unit_direction_x_changed(unit_direction_x_: Core.UnitDirection, previous_unit_direction_x_: Core.UnitDirection)
 signal unit_direction_y_changed(unit_direction_y_: Core.UnitDirection, previous_unit_direction_y_: Core.UnitDirection)
 signal unit_physics_changed(unit_physics_: Core.UnitPhysics, previous_unit_physics_: Core.UnitPhysics)
 
-func _init(alias_: StringName, unit_type_: Core.UnitType) -> void:
-	alias = alias_
+func _init(unit_type_: Core.UnitType) -> void:
 	unit_type = unit_type_
 
 func _ready() -> void:
@@ -90,58 +85,40 @@ func _ready() -> void:
 		actors.ready()
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 	
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART
 	):
-		unit_mode = Core.UnitMode.NONE
-		previous_unit_mode = Core.UnitMode.NONE
-		
-		unit_speed = Core.UnitSpeed.NORMAL
-		previous_unit_speed = Core.UnitSpeed.NORMAL
-		
-		unit_stance = Core.UnitStance.NORMAL
-		previous_unit_stance = Core.UnitStance.NORMAL
-		
-		unit_movement = Core.UnitMovement.IDLE
-		previous_unit_movement = Core.UnitMovement.IDLE
-		
-		unit_direction_x = Core.UnitDirection.NONE
-		previous_unit_direction_x = Core.UnitDirection.NONE
-		
-		unit_direction_y = Core.UnitDirection.NONE
-		previous_unit_direction_y = Core.UnitDirection.NONE
-		
-		unit_physics = Core.UnitPhysics.PLATFORM
-		previous_unit_physics = Core.UnitPhysics.PLATFORM
+		unit_state = UnitStateResource.new()
+		previous_unit_state = UnitStateResource.new()
 
 func start() -> void:
+	await super.start()
+	
 	if actions != null:
-		actions.start()
+		await actions.start()
 	
 	if actors != null:
-		actors.start()
-	
-	super.start()
+		await actors.start()
 	
 func restart() -> void:
+	await super.restart()
+	
 	if actions != null:
 		actions.restart()
 	
 	if actors != null:
 		actors.restart()
 	
-	super.restart()
-	
 func stop() -> void:
-	super.stop()
-
 	if actors != null:
 		actors.stop()
 		
 	if actions != null:
 		actions.stop()
+		
+	await super.stop()
 
 func _process(delta_: float) -> void:
 	super._process(delta_)
@@ -169,6 +146,11 @@ func _physics_process(delta_: float) -> void:
 		return
 		
 	actors.physics_process(delta_)
+	
+func get_alias() -> StringName:
+	return alias
+func set_alias(value_: StringName) -> void:
+	alias = value_
 
 func timeout(delta_: float) -> void:
 	if not is_enabled:
@@ -189,63 +171,141 @@ func is_moving_x() -> bool:
 	
 func is_moving_y() -> bool:
 	return velocity.y != 0.0
-		
+
+func get_unit_mode() -> Core.UnitMode:
+	return unit_state.unit_mode
 func set_unit_mode(unit_mode_: Core.UnitMode) -> void:
-	if unit_mode != unit_mode_:
-		previous_unit_mode = unit_mode
-		unit_mode = unit_mode_
+	if unit_state.unit_mode != unit_mode_:
+		previous_unit_state.unit_mode = unit_mode
+		unit_state.unit_mode = unit_mode_
 		unit_mode_changed.emit(unit_mode_, previous_unit_mode)
 
+func get_previous_unit_mode() -> Core.UnitMode:
+	return previous_unit_state.unit_mode
+
+func get_unit_speed() -> Core.UnitSpeed:
+	return unit_state.unit_speed
 func set_unit_speed(unit_speed_: Core.UnitSpeed) -> void:
-	if unit_speed != unit_speed_:
-		previous_unit_speed = unit_speed
-		unit_speed = unit_speed_
+	if unit_state.unit_speed != unit_speed_:
+		previous_unit_state.unit_speed = unit_speed
+		unit_state.unit_speed = unit_speed_
 		unit_speed_changed.emit(unit_speed, previous_unit_speed)
 		
+func get_previous_unit_speed() -> Core.UnitSpeed:
+	return previous_unit_state.unit_speed
+
+func get_unit_stance() -> Core.UnitStance:
+	return unit_state.unit_stance
 func set_unit_stance(unit_stance_: Core.UnitStance) -> void:
-	if unit_stance != unit_stance_:
-		previous_unit_stance = unit_stance
-		unit_stance = unit_stance_
+	if unit_state.unit_stance != unit_stance_:
+		previous_unit_state.unit_stance = unit_stance
+		unit_state.unit_stance = unit_stance_
 		unit_stance_changed.emit(unit_stance, previous_unit_stance)
-		
+
+func get_previous_unit_stance() -> Core.UnitStance:
+	return previous_unit_state.unit_stance
+
+func get_unit_movement() -> Core.UnitMovement:
+	return unit_state.unit_movement
 func set_unit_movement(unit_movement_: Core.UnitMovement) -> void:
-	if unit_movement != unit_movement_:
-		previous_unit_movement = unit_movement
-		unit_movement = unit_movement_
+	if unit_state.unit_movement != unit_movement_:
+		previous_unit_state.unit_movement = unit_movement
+		unit_state.unit_movement = unit_movement_
 		unit_movement_changed.emit(unit_movement, previous_unit_movement)
 		
-func set_unit_direction(unit_direction_: Vector2) -> void:
+func get_previous_unit_movement() -> Core.UnitMovement:
+	return previous_unit_state.unit_movement
+		
+func get_unit_direction() -> Core.UnitDirection:
+	return unit_state.unit_direction
+func set_unit_direction(unit_direction_: Core.UnitDirection) -> void:
+	if unit_state.unit_unit_direction != unit_direction_:
+		var current_unit_direction_x_: Core.UnitDirection = unit_state.unit_direction_x
+		var current_unit_direction_y_: Core.UnitDirection = unit_state.unit_direction_y
+		
+		previous_unit_state.unit_direction = unit_direction_
+		unit_state.unit_direction = unit_direction_
+		
+		unit_direction_changed.emit(unit_direction, previous_unit_direction)
+		
+		if current_unit_direction_x_ != unit_state.unit_direction_x:
+			unit_direction_x_changed.emit(unit_state.unit_direction_x, current_unit_direction_x_)
+			
+		if current_unit_direction_y_ != unit_state.unit_direction_y:
+			unit_direction_y_changed.emit(unit_state.unit_direction_y, current_unit_direction_y_)
+			
+func set_unit_direction_from_vector2(unit_direction_: Vector2) -> void:
+	var current_unit_direction_: Core.UnitDirection = unit_state.unit_direction
+	var current_unit_direction_x_: Core.UnitDirection = unit_state.unit_direction_x
+	var current_unit_direction_y_: Core.UnitDirection = unit_state.unit_direction_y
+		
 	if unit_direction_.x == 0.0:
-		set_unit_direction_x(Core.UnitDirection.NONE)
+		unit_state.unit_direction_x = Core.UnitDirection.NONE
 	elif unit_direction_.x > 0:
-		set_unit_direction_x(Core.UnitDirection.RIGHT)
+		unit_state.unit_direction_x = Core.UnitDirection.RIGHT
 	else:
-		set_unit_direction_x(Core.UnitDirection.LEFT)
+		unit_state.unit_direction_x = Core.UnitDirection.LEFT
 		
 	if unit_direction_.y == 0.0:
-		set_unit_direction_y(Core.UnitDirection.NONE)
+		unit_state.unit_direction_y = Core.UnitDirection.NONE
 	elif unit_direction_.y > 0:
-		set_unit_direction_y(Core.UnitDirection.DOWN)
+		unit_state.unit_direction_y = Core.UnitDirection.DOWN
 	else:
-		set_unit_direction_y(Core.UnitDirection.UP)
+		unit_state.unit_direction_y = Core.UnitDirection.UP
+		
+	if current_unit_direction_ != unit_state.unit_direction:
+		previous_unit_state.unit_direction = current_unit_direction_
+		unit_direction_changed.emit(unit_state.unit_direction, current_unit_direction_)
+		
+	if current_unit_direction_x_ != unit_state.unit_direction_x:
+		unit_direction_x_changed.emit(unit_state.unit_direction_x, current_unit_direction_x_)
+		
+	if current_unit_direction_y_ != unit_state.unit_direction_y:
+		unit_direction_y_changed.emit(unit_state.unit_direction_y, current_unit_direction_y_)
 	
+func get_previous_unit_direction() -> Core.UnitDirection:
+	return previous_unit_state.unit_direction
+	
+func get_unit_direction_x() -> Core.UnitDirection:
+	return unit_state.unit_direction_x
 func set_unit_direction_x(unit_direction_x_: Core.UnitDirection) -> void:
 	if unit_direction_x != unit_direction_x_:
+		var current_unit_direction_: Core.UnitDirection = unit_state.unit_direction
+		
 		previous_unit_direction_x = unit_direction_x
 		unit_direction_x = unit_direction_x_
+
+		unit_direction_changed.emit(unit_state.unit_direction, current_unit_direction_)
 		unit_direction_x_changed.emit(unit_direction_x, previous_unit_direction_x)
-		
+
+func get_previous_unit_direction_x() -> Core.UnitDirection:
+	return previous_unit_state.unit_direction_x
+	
+func get_unit_direction_y() -> Core.UnitDirection:
+	return unit_state.unit_direction_y
 func set_unit_direction_y(unit_direction_y_: Core.UnitDirection) -> void:
-	if unit_direction_y != unit_direction_y_:
-		previous_unit_direction_y = unit_direction_y
-		unit_direction_y = unit_direction_y_
+	if unit_state.unit_direction_y != unit_direction_y_:
+		var current_unit_direction_: Core.UnitDirection = unit_state.unit_direction
+		
+		previous_unit_state.unit_direction_y = unit_direction_y
+		unit_state.unit_direction_y = unit_direction_y_
+		
+		unit_direction_changed.emit(unit_state.unit_direction, current_unit_direction_)
 		unit_direction_y_changed.emit(unit_direction_y, previous_unit_direction_y)
 
+func get_previous_unit_direction_y() -> Core.UnitDirection:
+	return previous_unit_state.unit_direction_y
+	
+func get_unit_physics() -> Core.UnitPhysics:
+	return unit_state.unit_physics
 func set_unit_physics(unit_physics_: Core.UnitPhysics) -> void:
-	if unit_physics != unit_physics_:
-		previous_unit_physics = unit_physics
-		unit_physics = unit_physics_
+	if unit_state.unit_physics != unit_physics_:
+		previous_unit_state.unit_physics = unit_physics
+		unit_state.unit_physics = unit_physics_
 		unit_physics_changed.emit(unit_physics, previous_unit_physics)
+
+func get_previous_unit_physics() -> Core.UnitPhysics:
+	return previous_unit_state.unit_physics
 
 func get_actions() -> ActionHandler:
 	return actions
@@ -280,3 +340,44 @@ func get_area_or_null(area_name_: StringName) -> Area2D:
 		return areas_.get_area(area_name_)
 
 	return null
+	
+func export(data_: Resource = null) -> Resource:
+	if data_ == null:
+		data_ = UnitResource.new()
+	else:
+		assert(data_ is UnitResource, "Invalid resource.")
+	
+	super.export(data_)
+	
+	if unit_state == null:
+		data_.unit_state = UnitStateResource.new()
+	else:
+		data_.unit_state = unit_state.duplicate(true) as UnitStateResource
+		
+	if previous_unit_state == null:
+		data_.previous_unit_state = UnitStateResource.new()
+	else:
+		data_.previous_unit_state = previous_unit_state.duplicate(true) as UnitStateResource
+	
+	if actors != null:
+		data_.actors = actors.export()
+	
+	return data_
+	
+func import(data_: Resource) -> void:
+	assert(data_ is UnitResource, "Invalid resource.")
+	
+	super.import(data_)
+	
+	if data_.unit_state != null:
+		unit_state = data_.unit_state.duplicate(true) as UnitStateResource
+	else:
+		unit_state = UnitStateResource.new()
+		
+	if data_.previous_unit_state != null:
+		previous_unit_state = data_.previous_unit_state.duplicate(true) as UnitStateResource
+	else:
+		previous_unit_state = UnitStateResource.new()
+	
+	if actors != null:
+		actors.import(data_.actors)

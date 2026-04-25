@@ -147,7 +147,7 @@ func _on_climb_right_area_exited(_area: Area2D) -> void:
 	is_in_climb_right_area = false
 	
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART
@@ -582,3 +582,41 @@ func get_actions() -> Array[StringName]:
 		action_climb_fast,
 		action_climb_slow
 	]
+
+func export() -> Dictionary[StringName, Variant]:
+	var data: Dictionary[StringName, Variant] = super.export()
+	
+	data.merge({
+		&"slow_climbing_speed": slow_climbing_speed,
+		&"normal_climbing_speed": normal_climbing_speed,
+		&"fast_climbing_speed": fast_climbing_speed,
+		&"climb_jump_behavior": climb_jump_behavior,
+		&"climb_crouch_behavior": climb_crouch_behavior,
+		&"climb_off_behavior": climb_off_behavior,
+		&"climb_on_behavior": climb_on_behavior,
+		&"is_climbing": is_climbing,
+		&"is_climbing_start": is_climbing_start,
+		&"_reason": _reason,
+		&"_is_climb_active": _is_climb_active,
+	})
+	
+	return data
+	
+func import(data: Dictionary[StringName, Variant]) -> void:
+	super.import(data)
+	
+	slow_climbing_speed = data.get(&"slow_climbing_speed", slow_climbing_speed)
+	normal_climbing_speed = data.get(&"normal_climbing_speed", normal_climbing_speed)
+	fast_climbing_speed = data.get(&"fast_climbing_speed", fast_climbing_speed)
+	climb_jump_behavior = data.get(&"climb_jump_behavior", climb_jump_behavior)
+	climb_crouch_behavior = data.get(&"climb_crouch_behavior", climb_crouch_behavior)
+	climb_off_behavior = data.get(&"climb_off_behavior", climb_off_behavior)
+	climb_on_behavior = data.get(&"climb_on_behavior", climb_on_behavior)
+	is_climbing = data.get(&"is_climbing", is_climbing)
+	is_climbing_start = data.get(&"is_climbing_start", is_climbing_start)
+	_reason = data.get(&"_reason", _reason)
+	_is_climb_active = data.get(&"_is_climb_active", _is_climb_active)
+	
+	
+	
+	

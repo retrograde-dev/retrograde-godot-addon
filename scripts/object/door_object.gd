@@ -1,9 +1,10 @@
 extends BaseObject
 class_name DoorObject
 
-@export var door_alias: StringName = ""
-@export var door_type: Core.DoorType = Core.DoorType.ROOM
-@export var lock_alias: StringName = ""
+@export var door_type: Core.DoorType = Core.DoorType.NONE
+@export var door_side: Core.DoorSide = Core.DoorSide.NONE
+@export var lock_alias: StringName = &""
+@export var teleport: TeleportResource = null
 
 var timer: StepTimer
 var animation_alias: StringName = &""
@@ -21,8 +22,8 @@ var is_closed: int:
 	set(value): 
 		is_opened = not value
 
-signal door_opened(door_alias_: StringName, door_type_: Core.DoorType)
-signal door_closed(door_alias_: StringName, door_type_: Core.DoorType)
+signal door_opened(door_: DoorObject)
+signal door_closed(door_: DoorObject)
 
 func _init(step_size_: int, step_delta_: float) -> void:
 	timer = StepTimer.new(step_size_, step_delta_)
@@ -49,7 +50,7 @@ func _ready() -> void:
 	_reset_door()
 	
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART
@@ -62,28 +63,28 @@ func reset(reset_type_: Core.ResetType) -> void:
 		
 		_reset_door()
 	
-func _on_left_side_body_entered(body: Node2D) -> void:
-	if body.is_in_group(&"player"):
+func _on_left_side_body_entered(body_: Node2D) -> void:
+	if Core.is_player(body_):
 		is_on_left_side = true
 
-func _on_left_side_body_exited(body: Node2D) -> void:
-	if body.is_in_group(&"player"):
+func _on_left_side_body_exited(body_: Node2D) -> void:
+	if Core.is_player(body_):
 		is_on_left_side = false
 
-func _on_right_side_body_entered(body: Node2D) -> void:
-	if body.is_in_group(&"player"):
+func _on_right_side_body_entered(body_: Node2D) -> void:
+	if Core.is_player(body_):
 		is_on_right_side = true
 
-func _on_right_side_body_exited(body: Node2D) -> void:
-	if body.is_in_group(&"player"):
+func _on_right_side_body_exited(body_: Node2D) -> void:
+	if Core.is_player(body_):
 		is_on_right_side = false
 
-func _on_vicinity_body_entered(body: Node2D) -> void:
-	if body.is_in_group(&"player"):
+func _on_vicinity_body_entered(body_: Node2D) -> void:
+	if Core.is_player(body_):
 		is_in_vicinity = true
 
-func _on_vicinity_body_exited(body: Node2D) -> void:
-	if body.is_in_group(&"player"):
+func _on_vicinity_body_exited(body_: Node2D) -> void:
+	if Core.is_player(body_):
 		is_in_vicinity = false
 
 func _process(delta: float) -> void:
@@ -104,10 +105,11 @@ func _process(delta: float) -> void:
 		_update_door_animation(timer.current_step)
 	elif timer.is_complete:
 		timer.stop()
+		
 		if is_opened:
-			door_opened.emit(door_alias, door_type)
+			door_opened.emit(self)
 		else:
-			door_closed.emit(door_alias, door_type)
+			door_closed.emit(self)
 	
 func _start_open_door_animation() -> bool:
 	if timer.is_active or timer.is_complete or is_opened:
@@ -176,26 +178,26 @@ func _update_door_animation(step: int) -> void:
 				_close_door(step)
 	
 func _can_open_door() -> bool:
-	var lock: LevelLockValue = Core.level.locks.get_lock(lock_alias)
+	var lock_: LockResource = Core.level.locks.get_lock(lock_alias)
 	
-	if lock == null:
+	if lock_ == null:
 		return true
 	
-	if lock.type == Core.LockType.NONE:
+	if lock_.type == Core.LockType.NONE:
 		return true
 	
-	var lock_state_: Core.LockState = lock.try_unlock()
+	var lock_state_: Core.LockState = lock_.try_unlock()
 	
-	if lock.type == Core.LockType.OBSTRUCTION:
+	if lock_.type == Core.LockType.OBSTRUCTION:
 		_obstruction_action(lock_state_)
-	elif lock.type == Core.LockType.KEY:
+	elif lock_.type == Core.LockType.KEY:
 		_key_action(lock_state_)
-	elif lock.type == Core.LockType.PASSCODE:
+	elif lock_.type == Core.LockType.PASSCODE:
 		_passcode_action(lock_state_)
-	elif lock.type == Core.LockType.TERMINAL:
+	elif lock_.type == Core.LockType.TERMINAL:
 		_terminal_action(lock_state_)
 	
-	return lock.unlocked
+	return lock_.unlocked
 	
 func _can_close_door() -> bool:
 	return true

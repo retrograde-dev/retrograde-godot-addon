@@ -28,7 +28,7 @@ func ready() -> void:
 	_damage_cooldown = CooldownTimer.new(damage_cooldown_delta, true)
 	
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 		
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART
@@ -124,3 +124,25 @@ func decrease_armor(amount: float) -> void:
 	
 func is_full_armor() -> bool:
 	return armor >= max_armor
+
+func export() -> Dictionary[StringName, Variant]:
+	var data: Dictionary[StringName, Variant] = super.export()
+	
+	data.merge({
+		&"health": health,
+		&"max_health": max_health,
+		&"armor": armor,
+		&"max_armor": max_armor,
+		&"durability": durability,
+	})
+	
+	return data
+	
+func import(data: Dictionary[StringName, Variant]) -> void:
+	super.import(data)
+	
+	health = data.get(&"health", health)
+	max_health = data.get(&"max_health", max_health)
+	armor = data.get(&"armor", armor)
+	max_armor = data.get(&"max_armor", max_armor)
+	durability = data.get(&"durability", durability)

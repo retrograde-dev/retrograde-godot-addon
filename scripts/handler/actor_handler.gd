@@ -115,3 +115,16 @@ func set_process_order(actor_aliases_: Array[StringName]) -> void:
 	
 func set_physics_process_order(actor_aliases_: Array[StringName]) -> void:
 	_physics_process_order.order(actor_aliases_)
+
+func export() -> Dictionary[StringName, Dictionary]:
+	var actors_: Dictionary[StringName, Dictionary] = {}
+	
+	for key: StringName in _actors:
+		actors_[key] = _actors[key].export()
+		
+	return actors_
+	
+func import(data_: Dictionary[StringName, Dictionary]) -> void:
+	for key: StringName in data_:
+		if _actors.has(key):
+			_actors[key].import(data_[key])

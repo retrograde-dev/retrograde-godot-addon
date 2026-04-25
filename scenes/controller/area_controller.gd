@@ -1,7 +1,7 @@
 extends BaseNode2D
 class_name AreaController
 
-#@export_category("Directional Areas")
+#@export_group("Directional Areas")
 #@export var area_up: bool = false
 #@export var area_down: bool = false
 #@export var area_left: bool = false

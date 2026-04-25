@@ -23,7 +23,7 @@ func _ready() -> void:
 	get_viewport().connect(&"size_changed", _on_viewport_size_changed)
 	
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 	
 	if reset_type_ == Core.ResetType.START:
 		for hud_: StringName in _data.enabled:

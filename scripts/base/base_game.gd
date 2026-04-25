@@ -1,20 +1,34 @@
 extends Node
 class_name BaseGame
 
-var _level_alias: StringName = &""
+@export var initial_level_alias: StringName = &""
+@export var menu_level_alias: StringName = &""
+
+@export_group("New Game")
+@export var initial_party_alias: StringName = &""
+@export var initial_parties: Dictionary[StringName, PartyResource] = {}
+@export var initial_inventory: Dictionary[StringName, InventoryResource] = {}
+
+var data: GameResource = null
+var playtime: PlaytimeTimer = PlaytimeTimer.new()
+
 var current_level: BaseLevel = null
-var current_player: PlayerUnit = null
+var current_party: PartyValue = null
 var current_cursor: BaseCursor = null
 
 var is_paused: bool = false
 var is_enabled: bool = true
 var _toggle_mouse: bool = true
 
+var _load_index: int = 0
+
 var is_lose: bool = false
 var _is_lose_handeld: bool = false
 var is_win: bool = false
 var _is_win_handeld: bool = false
 var is_started: bool = false
+
+signal pause_toggled(is_paused: bool)
 
 func _init() -> void:
 	Core.nodes = NodeHandler.new()
@@ -31,31 +45,75 @@ func _init() -> void:
 	Core.help = HelpHandler.new()
 	Core.audio = AudioHandler.new()
 	Core.speech = SpeechHandler.new()
-	Core.states = {}
 
 	Core.settings = SettingsFile.new()
 	Core.settings.load()
 
-	Core.save = SaveFile.new()
-	Core.save.load()
+	Core.save = SaveHandler.new()
 
 func _ready() -> void:
 	Core.ui = get_node_or_null("%UI")
 	Core.hud = get_node_or_null("%HUD")
 	Core.camera = get_node_or_null("%Camera")
-
+	
+	Core.save.save_before.connect(_on_save_before)
+	
 	await menu()
 	is_started = true
 
 func start() -> void:
-	await start_level(Core.START_LEVEL)
-
-func start_level(level_alias_: StringName) -> void:
-	_level_alias = level_alias_
+	start_load()
+	Core.save.delete_save(0, Core.SaveType.RESTART)
+	Core.save.delete_save(0, Core.SaveType.CHECKPOINT)
 	await reset(Core.ResetType.START)
+	end_load()
+	
+func load_last() -> void:
+	start_load()
+	
+	var data_: GameResource = Core.save.load_last_game()
+	if data_ != null:
+		data = data_
+		Core.data = data
+		Core.state = data.state
+	
+	await reset(Core.ResetType.START)
+	
+	end_load()
+	
+func load(
+	save_id_: int, 
+	save_type_: Core.SaveType = Core.SaveType.NORMAL,
+) -> void:
+	start_load()
+
+	data = Core.save.load_game(save_id_, save_type_)
+	Core.data = data
+	Core.state = data.state
+	
+	await reset(Core.ResetType.START)
+	
+	end_load()
+	
+func _on_save_before(save_id_: int, data_: GameResource, save_type_: Core.SaveType) -> void:
+	pass
+	
+func save(
+	save_id_: int, 
+	save_type_: Core.SaveType = Core.SaveType.NORMAL,
+) -> Error:
+	#TODO: Save indicator?
+	return Core.save.save_game(save_id_, data, save_type_)
 
 func restart() -> void:
-	await reset(Core.ResetType.RESTART)
+	start_load()
+	
+	if current_level == null or Core.level.level_mode != Core.LevelMode.GAME:
+		await start()
+	else:
+		await reset(Core.ResetType.RESTART)
+		
+	end_load()
 
 func refresh() -> void:
 	await reset(Core.ResetType.REFRESH)
@@ -69,61 +127,89 @@ func stop() -> void:
 	get_tree().quit()
 
 func reset(reset_type_: Core.ResetType) -> void:
-	if current_level == null and reset_type_ == Core.ResetType.RESTART:
-		reset_type_ = Core.ResetType.START
-
 	if reset_type_ == Core.ResetType.START:
-		if _level_alias == &"":
-			_level_alias = Core.START_LEVEL
-
-		level(_level_alias)
-	elif reset_type_ == Core.ResetType.RESTART:
-		Core.ui.show_ui(&"loading")
-
-		if Core.hud != null:
-			await Core.hud.restart()
-
-		if Core.ui != null:
-			await Core.ui.restart()
-
-		reset_player()
-		reset_game()
-
-		Core.nodes.free_all()
-		Core.states.clear()
-		Core.speech.reset()
-
-		start_load()
-
 		_hide_mouse()
-
-		Core.ui.hide_uis(Core.UIType.MENU)
-		Core.ui.hide_uis(Core.UIType.GAME)
-		Core.hud.hide_huds()
-
-		await current_level.restart()
-	elif reset_type_ == Core.ResetType.REFRESH:
-		if Core.hud != null:
-			await Core.hud.restart()
-
-		if Core.ui != null:
-			await Core.ui.restart()
-
-func menu() -> void:
-	Core.ui.show_ui(&"loading")
-
-	if is_started:
-		reset_level()
-		reset_player()
-		reset_game()
+		
+		await reset_party()
+		await reset_level()
+		await reset_game()
 
 		Core.nodes.reset()
 		Core.help.reset()
 		Core.audio.reset()
-		Core.states.clear()
+		Core.speech.reset()
+		
+		Core.ui.hide_uis(Core.UIType.MENU)
+		
+		playtime.reset()
+		playtime.start(data.playtime)
+
+		await change_level(data.level_alias, Core.LevelMode.GAME)
+	elif reset_type_ == Core.ResetType.RESTART:
+		_hide_mouse()
+
+		if Core.hud != null:
+			await Core.hud.restart()
+
+		if Core.ui != null:
+			await Core.ui.restart()
+
+		await reset_party()
+		await reset_game()
+
+		Core.nodes.free_all()
 		Core.speech.reset()
 
+		Core.ui.hide_uis(Core.UIType.MENU)
+		Core.ui.hide_uis(Core.UIType.GAME)
+		Core.hud.hide_huds()
+		
+		var data_: GameResource = Core.save.load_game(
+			data.save_id,
+			Core.SaveType.RESTART,
+		)
+		
+		if data_ != null:
+			data = data_
+			
+		playtime.reset()
+		playtime.start(data.playtime)
+		
+		if current_level == null or data.level_alias != current_level.alias:
+			await change_level(data.level_alias, Core.LevelMode.GAME)
+		else:
+			await current_level.restart()
+	elif reset_type_ == Core.ResetType.REFRESH:
+		if Core.hud != null:
+			await Core.hud.refresh()
+
+		if Core.ui != null:
+			await Core.ui.refresh()
+			
+		if current_level != null:
+			await current_level.refresh()
+
+func menu() -> void:
 	start_load()
+	
+	# Set up a default new game so menus can modify it
+	data = GameResource.new()
+	data.level_alias = initial_level_alias
+	data.party_alias = initial_party_alias
+	data.parties = initial_parties.duplicate(true)
+	data.inventory = initial_inventory.duplicate(true)
+	Core.data = data
+	Core.state = data.state
+
+	if is_started:
+		await reset_party()
+		await reset_level()
+		await reset_game()
+
+		Core.nodes.reset()
+		Core.help.reset()
+		Core.audio.reset()
+		Core.speech.reset()
 
 	if is_started:
 		_show_mouse()
@@ -136,41 +222,20 @@ func menu() -> void:
 		if Core.ui != null:
 			await Core.ui.start()
 
-	await change_level(Core.MENU_LEVEL, Core.LevelMode.MENU)
+	await change_level(menu_level_alias, Core.LevelMode.MENU)
 	Core.ui.show_ui(&"menu")
-
-func level(level_alias_: StringName) -> void:
-	Core.ui.show_ui(&"loading")
-
-	reset_level()
-	reset_player()
-	reset_game()
-
-	Core.nodes.reset()
-	Core.help.reset()
-	Core.audio.reset()
-	if level_alias_ == Core.START_LEVEL:
-		Core.states.clear()
-	Core.speech.reset()
-
-	start_load()
-	_hide_mouse()
-	Core.ui.hide_uis(Core.UIType.MENU)
-
-	await change_level(level_alias_, Core.LevelMode.GAME)
+	
+	end_load()
 
 func reset_game() -> void:
 	reset_state()
 	reset_win_lose()
 
-func reset_player() -> void:
-	reset_cursor()
-
-	if current_player != null:
-		current_player.queue_free()
-		current_player = null
-
-	Core.player = null
+func reset_party() -> void:
+	if current_party != null:
+		await current_party.stop()
+		current_party = null
+		Core.party = null
 
 func reset_level() -> void:
 	%Level.visible = false
@@ -178,15 +243,17 @@ func reset_level() -> void:
 	Core.hud.hide_huds()
 
 	if current_level != null:
+		await current_level.stop()
 		current_level.started.disconnect(_level_started)
-		%Level.remove_child(current_level)
+		remove_level_child(current_level)
 		current_level.queue_free()
 		current_level = null
 		Core.level = null
+		Core.zone = null
 
 func reset_cursor() -> void:
 	if current_cursor != null:
-		%Level.remove_child(current_cursor)
+		remove_level_child(current_cursor)
 		current_cursor.queue_free()
 		current_cursor = null
 		Core.cursor = null
@@ -233,93 +300,87 @@ func remove_mode(mode_: StringName) -> void:
 		if child_ is BaseHUD:
 			child_.remove_mode(mode_, true)
 
-func add_level_child(node: Node2D) -> void:
-	%Level.add_child(node)
+func add_level_child(node_: Node2D) -> void:
+	if node_.get_parent():
+		if node_.get_parent() != %Level:
+			node_.reparent(%Level, true)
+	else:
+		%Level.add_child(node_)
 
-func remove_level_child(node: Node2D) -> void:
-	%Level.remove_child.call_deferred(node)
+func remove_level_child(node_: Node2D) -> void:
+	%Level.remove_child.call_deferred(node_)
 
 func get_level_alias() -> StringName:
-	if Core.level != null:
-		return Core.level.alias
+	if Core.level == null:
+		return &""
 
-	return &""
+	return Core.level.alias
 
-func get_level_area_alias() -> StringName:
-	if Core.level != null and Core.level.area != null:
-			return Core.level.area.alias
+func get_zone_alias() -> StringName:
+	if Core.level == null:
+		return &""
+		
+	if Core.zone == null:
+		return &""
 
-	return &""
+	return Core.zone.alias
 
 func change_level(
 	level_alias_: StringName,
 	level_mode_: Core.LevelMode = Core.LevelMode.GAME
 ) -> void:
-	if current_level == null or current_level.alias != level_alias_:
-		reset_level()
-
-		var level_path_: String = "res://scenes/level/" + level_alias_ + ".tscn"
-
-		var level_resource_: Resource = load(level_path_)
-
-		assert(level_resource_ != null, "Level not found. (" + level_alias_ + ")")
-
-		var level_: BaseLevel = await level_resource_.instantiate()
-
-		%Level.add_child(level_)
-
-		current_level = level_
-		Core.level = level_
-		level_.set_level_mode(level_mode_)
-
-		level_.started.connect(_level_started)
-
-		await level_.start()
-
-		%Level.visible = true
-	else:
+	if current_level != null and current_level.alias == level_alias_:
 		start_load()
 		current_level.set_level_mode(level_mode_)
 		await current_level.restart()
-
-func change_player(player_alias_: StringName) -> void:
-	if current_player and current_player.alias == player_alias_:
-		current_player.restart()
+		#end_load() is handled by level restarted signal
 		return
+		
+	start_load()
+	
+	await reset_level()
 
-	reset_player()
+	var level_path_: String = "res://scenes/level/" + level_alias_ + ".tscn"
 
-	var player_path_: String = "res://scenes/unit/player/" + player_alias_ + ".tscn"
+	var level_scene_: PackedScene = load(level_path_)
 
-	var player_resource_: Resource = load(player_path_)
+	assert(level_scene_ != null, "Level not found. (" + level_alias_ + ")")
 
-	assert(player_resource_ != null, "Player not found. (" + player_alias_ + ")")
+	var level_: BaseLevel = await level_scene_.instantiate()
 
-	if player_resource_ == null:
+	add_level_child(level_)
+
+	current_level = level_
+	Core.level = level_
+	level_.set_level_mode(level_mode_)
+
+	level_.started.connect(_level_started)
+	level_.restarted.connect(_level_restarted)
+
+	await level_.start()
+
+	%Level.visible = true
+	
+	#end_load() is handled by level started signal
+
+func change_party(party_alias_: StringName) -> void:
+	if current_party and current_party.alias != party_alias_:
+		await current_party.restart()
 		return
-
-	var player_: PlayerUnit = await player_resource_.instantiate()
-
-	%Level.add_child(player_)
-	current_player = player_
-	Core.player = player_
-
-	player_.start()
-
-func set_player_position(position: Vector2i) -> void:
-	assert(current_player != null, "Player is not loaded.")
-
-	if current_player == null:
-		return
-
-	current_player.position = position
+		
+	await reset_party()
+		
+	current_party = PartyValue.new(party_alias_)
+	Core.party = current_party
+	
+	await current_party.start()
 
 func change_cursor(cursor_alias: StringName) -> void:
 	if current_cursor and current_cursor.alias == cursor_alias:
-		current_cursor.restart()
+		await current_cursor.restart()
 		return
 
-	reset_cursor()
+	await reset_cursor()
 
 	var cursor_path: String = "res://scenes/cursor/" + cursor_alias + ".tscn"
 
@@ -328,31 +389,50 @@ func change_cursor(cursor_alias: StringName) -> void:
 	current_cursor = cursor
 	Core.cursor = cursor
 
-	%Level.add_child(cursor)
+	add_level_child(cursor)
 
-	cursor.start()
+	await cursor.start()
 
 func _level_started() -> void:
+	Core.save.save_game(data.save_id, data, Core.SaveType.RESTART)
 	end_load()
-	Core.ui.hide_ui(&"loading")
+	
+func _level_restarted() -> void:
+	end_load()
 
 func start_load() -> void:
-	if Core.camera != null:
-		Core.camera.position_smoothing_enabled = false
-	is_enabled = false
-	#Engine.time_scale = 0
+	if _load_index == 0:
+		Core.ui.show_ui(&"loading")
+		
+		if Core.camera != null:
+			Core.camera.position_smoothing_enabled = false
+		is_enabled = false
+		
+	_load_index += 1
 
 func end_load() -> void:
-	if Core.camera != null:
-		Core.camera.position_smoothing_enabled = true
-	#Engine.time_scale = 1
-	is_enabled = true
+	assert(_load_index > 0, "Load not started.")
+	
+	if _load_index == 0:
+		return
+	
+	_load_index -= 1
+	
+	if _load_index == 0:
+		if Core.camera != null:
+			Core.camera.position_smoothing_enabled = true
+		is_enabled = true
+		Core.ui.hide_ui(&"loading")
 
 func _process(delta_: float) -> void:
 	_handle_pause()
 
 	if not is_enabled:
 		return
+
+	playtime.process(delta_)
+	if current_level != null:
+		current_level.playtime.process(delta_)
 
 	Core.speech.process(delta_)
 
@@ -379,24 +459,31 @@ func _handle_pause() -> void:
 	if Input.is_action_just_pressed(&"pause"):
 		toggle_pause()
 
+func pause() -> void:
+	if !is_paused:
+		toggle_pause()
+		
+func unpause() -> void:
+	if is_paused:
+		toggle_pause()
+		
 func toggle_pause() -> void:
 	if is_paused:
-		Engine.time_scale = 1
+		get_tree().paused = false
+		is_paused = false
+		pause_toggled.emit(is_paused)
 
 		if _toggle_mouse:
 			_hide_mouse()
-
-		is_paused = false
-		is_enabled = true
 
 		Core.audio.normal_volume(Core.AudioType.MUSIC)
 		Core.audio.normal_volume(Core.AudioType.AMBIANCE)
 
 		Core.ui.hide_uis(Core.UIType.MENU)
 	elif _can_pause():
-		Engine.time_scale = 0
-		is_enabled = false
+		get_tree().paused = true
 		is_paused = true
+		pause_toggled.emit(is_paused)
 
 		if _toggle_mouse:
 			_show_mouse()

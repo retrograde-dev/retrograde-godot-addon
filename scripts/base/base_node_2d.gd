@@ -29,22 +29,27 @@ func reset(reset_type_: Core.ResetType) -> void:
 		modes.filter(func(mode: StringName) -> bool: return Core.GLOBAL_MODES.has(mode))
 
 	reseted.emit(reset_type_)
+	
+func children_reset(reset_type_: Core.ResetType) -> void:
+	pass
 
 func start() -> void:
-	reset(Core.ResetType.START)
+	await reset(Core.ResetType.START)
 	
 	is_started = true
 		
 	for child: Node in get_children(): 
 		if child is BaseNode2D or child is BaseCharacterBody2D:
 			await child.start()
+			
+	await children_reset(Core.ResetType.START)
 	
 	process_mode = Node.PROCESS_MODE_INHERIT
 
 	started.emit()
 
 func restart() -> void:
-	reset(Core.ResetType.RESTART)
+	await reset(Core.ResetType.RESTART)
 	
 	is_started = true
 	
@@ -52,21 +57,25 @@ func restart() -> void:
 		if child is BaseNode2D or child is BaseCharacterBody2D:
 			await child.restart()
 		
+	await children_reset(Core.ResetType.RESTART)
+	
 	process_mode = Node.PROCESS_MODE_INHERIT
 	
 	restarted.emit()
 	
 func refresh() -> void:
-	reset(Core.ResetType.REFRESH)
+	await reset(Core.ResetType.REFRESH)
 	
 	for child: Node in get_children():
 		if child is BaseNode2D or child is BaseCharacterBody2D:
 			await child.refresh()
 	
+	await children_reset(Core.ResetType.REFRESH)
+	
 	refreshed.emit()
 
 func stop() -> void:
-	reset(Core.ResetType.STOP)
+	await reset(Core.ResetType.STOP)
 	
 	is_started = false
 	is_ready = false
@@ -74,6 +83,8 @@ func stop() -> void:
 	for child: Node in get_children():
 		if child is BaseNode2D or child is BaseCharacterBody2D:
 			await child.stop()
+			
+	await children_reset(Core.ResetType.STOP)
 
 	process_mode = Node.PROCESS_MODE_DISABLED
 
@@ -160,7 +171,32 @@ func get_scale_rect() -> Rect2:
 	return rect_
 
 func get_position_rect() -> Rect2:
-	var rect_: Rect2 = get_rect()
+	var rect_: Rect2 = get_scale_rect()
 	var position_: Vector2 = get_align_global_position(Core.Alignment.TOP_LEFT)
 	rect_.position += position_
 	return rect_
+
+func export(data_: Resource = null) -> Resource:
+	if data_ == null:
+		data_ = Node2DResource.new()
+	else:
+		assert(data_ is Node2DResource, "Invalid resource.")
+	
+	data_.is_enabled = is_enabled
+	data_.modes = modes.names.duplicate()
+	data_.position = global_position
+	data_.scale = scale
+	data_.rotation = rotation
+	data_.visible = visible
+	
+	return data_
+	
+func import(data_: Resource) -> void:
+	assert(data_ is Node2DResource, "Invalid resource.")
+	
+	is_enabled = data_.is_enabled
+	modes.names = data_.modes.duplicate()
+	global_position = data_.position
+	scale = data_.scale
+	rotation = data_.rotation
+	visible = data_.visible

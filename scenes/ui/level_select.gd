@@ -16,9 +16,9 @@ func update() -> void:
 			continue
 			
 		var level: String = str(child_.goto_ui_alias.substr(6))
-		if (Core.save.data.has(level) and 
-			Core.save.data[level].has("win") and
-			Core.save.data[level].win
+		if (Core.state.has(&"level_select") and 
+			Core.state.level_select.has(level) and
+			Core.state.level_select[level].get(&"win", false)
 		):
 			_update_button_star(child_, true)
 		else:

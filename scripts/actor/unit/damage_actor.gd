@@ -97,7 +97,7 @@ func _on_kill_area_exited(area_: Area2D) -> void:
 	is_in_kill_area = false
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 
 	if (reset_type_ == Core.ResetType.START or
 		reset_type_ == Core.ResetType.RESTART
@@ -213,3 +213,17 @@ func process(delta: float) -> void:
 func _damage(damage_value_: DamageValue) -> bool:
 	damage_unit(damage_value_.damage, damage_value_.independent)
 	return true
+	
+func export() -> Dictionary[StringName, Variant]:
+	var data: Dictionary[StringName, Variant] = super.export()
+	
+	data.merge({
+		&"area_damage_amount": area_damage_amount,
+	})
+	
+	return data
+	
+func import(data: Dictionary[StringName, Variant]) -> void:
+	super.import(data)
+	
+	area_damage_amount = data.get(&"area_damage_amount", area_damage_amount)

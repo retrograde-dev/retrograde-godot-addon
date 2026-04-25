@@ -9,11 +9,24 @@ func update() -> void:
 	%UIButtonSettings.visible = Core.ui.has_ui(&"settings")
 	%UIButtonControls.visible = Core.ui.has_ui(&"controls")
 	
-	if Core.ENABLE_PLAY_TIME:
-		if Core.level != null:
-			%UILabelTimeValue.text = Core.format_time(Core.level.get_play_time())
-		else:
-			%UILabelTimeValue.text = Core.format_time(0)
+	if Core.ENABLE_GAME_PLAYTIME and Core.level != null:
+		%UILabelGamePlaytimeValue.text = Core.game.playtime.get_formatted_playtime()
+		%UILabelGamePlaytimeField.visible = true
+		%UILabelGamePlaytimeValue.visible = true
+	else:
+		%UILabelGamePlaytimeField.visible = false
+		%UILabelGamePlaytimeValue.visible = false
+		
+	if Core.ENABLE_LEVEL_PLAYTIME and Core.level != null:
+		%UILabelLevelPlaytimeValue.text = Core.level.playtime.get_formatted_playtime()
+		%UILabelLevelPlaytimeField.visible = true
+		%UILabelLevelPlaytimeValue.visible = true
+	else:
+		%UILabelLevelPlaytimeField.visible = false
+		%UILabelLevelPlaytimeValue.visible = false
+		
+	if %UILabelGamePlaytimeField.visible or %UILabelLevelPlaytimeField.visible:
+		%GridContainer.visible = true
 	else:
 		%GridContainer.visible = false
 	
@@ -39,6 +52,7 @@ func _on_ui_button_skip_level_pressed() -> void:
 	if not Core.level_select.has_next_level(Core.level.alias):
 		return
 		
-	var level_: StringName = Core.level_select.get_next_level(Core.level.alias)
-	if level_ != &"":
-		Core.game.start_level(level_)
+	var level_alias_: StringName = Core.level_select.get_next_level(Core.level.alias)
+	if level_alias_ != &"":
+		Core.data.level_alias = level_alias_
+		Core.game.start()

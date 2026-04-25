@@ -13,6 +13,8 @@ func _ready() -> void:
 func update() -> void:
 	super.update()
 	
+	%UIButtonContinue.visible = Core.ENABLE_SAVING and Core.ENABLE_SAVING_MULTIPLE
+	%UIButtonLoad.visible = Core.ENABLE_SAVING and Core.ENABLE_SAVING_MULTIPLE and Core.ui.has_ui(&"load")
 	%UIButtonSettings.visible = Core.ui.has_ui(&"settings")
 	%UIButtonControls.visible = Core.ui.has_ui(&"controls")
 	%UIButtonCredits.visible = Core.ui.has_ui(&"credits")

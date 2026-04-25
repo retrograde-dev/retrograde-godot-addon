@@ -30,7 +30,7 @@ func reset(reset_type_: Core.ResetType) -> void:
 	reseted.emit(reset_type_)
 	
 func start() -> void:
-	reset(Core.ResetType.START)
+	await reset(Core.ResetType.START)
 	
 	is_started = true
 		
@@ -41,7 +41,7 @@ func start() -> void:
 	started.emit()
 
 func restart() -> void:	
-	reset(Core.ResetType.RESTART)
+	await reset(Core.ResetType.RESTART)
 	
 	is_started = true
 	
@@ -52,7 +52,7 @@ func restart() -> void:
 	restarted.emit()
 	
 func refresh() -> void:
-	reset(Core.ResetType.REFRESH)
+	await reset(Core.ResetType.REFRESH)
 	
 	for child: Node in get_children():
 		if child is BaseNode2D or child is BaseCharacterBody2D:
@@ -61,7 +61,7 @@ func refresh() -> void:
 	refreshed.emit()
 
 func stop() -> void:
-	reset(Core.ResetType.STOP)
+	await reset(Core.ResetType.STOP)
 	
 	is_started = false
 	is_ready = false

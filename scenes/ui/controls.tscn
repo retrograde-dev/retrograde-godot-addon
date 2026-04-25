@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bd8sa6qbfeo5u"]
+[gd_scene format=3 uid="uid://bd8sa6qbfeo5u"]
 
 [ext_resource type="PackedScene" uid="uid://bbssswrytbmd4" path="res://addons/retrograde/scenes/ui/component/ui_button.tscn" id="1_75pis"]
 [ext_resource type="Script" uid="uid://b6qs0kxmx7lwu" path="res://addons/retrograde/scenes/ui/controls.gd" id="1_lrwvo"]
@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b7kxbj3ak5kcg" path="res://addons/retrograde/scenes/ui/component/ui_margin_container.tscn" id="4_v4d0r"]
 [ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="5_l8s1s"]
 
-[node name="Controls" type="Control"]
+[node name="Controls" type="Control" unique_id=75185353]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,7 +15,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_lrwvo")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=906064350]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,7 +24,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.75)
 
-[node name="ControlManage" type="Control" parent="."]
+[node name="ControlManage" type="Control" parent="." unique_id=1703080375]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -33,7 +33,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ControlManage"]
+[node name="MarginContainer" type="MarginContainer" parent="ControlManage" unique_id=1821452545]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,26 +41,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ControlManage/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ControlManage/MarginContainer" unique_id=1925373932]
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="ControlManage/MarginContainer/VBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="ControlManage/MarginContainer/VBoxContainer" unique_id=1542651934]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 follow_focus = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ControlManage/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ControlManage/MarginContainer/VBoxContainer/ScrollContainer" unique_id=1621241517]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 2
 
-[node name="UISeparatorFooter" parent="ControlManage/MarginContainer/VBoxContainer" instance=ExtResource("2_kmk2d")]
+[node name="UISeparatorFooter" parent="ControlManage/MarginContainer/VBoxContainer" unique_id=1515619688 instance=ExtResource("2_kmk2d")]
 layout_mode = 2
 style = &"footer"
 
-[node name="UIButtonParent" parent="ControlManage/MarginContainer/VBoxContainer" instance=ExtResource("1_75pis")]
+[node name="UIButtonParent" parent="ControlManage/MarginContainer/VBoxContainer" unique_id=471406667 instance=ExtResource("1_75pis")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
@@ -73,7 +73,7 @@ goto_ui_alias = &"parent"
 style = &"menu_large"
 text = "BUTTON_OK"
 
-[node name="UIButtonIgnoreConflicts" parent="ControlManage/MarginContainer/VBoxContainer" instance=ExtResource("1_75pis")]
+[node name="UIButtonIgnoreConflicts" parent="ControlManage/MarginContainer/VBoxContainer" unique_id=834951984 instance=ExtResource("1_75pis")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -86,7 +86,7 @@ focus_previous = NodePath("../UIButtonParent")
 style = &"menu_large"
 text = "BUTTON_IGNORE_CONFLICTS"
 
-[node name="UIButtonReset" parent="ControlManage/MarginContainer" instance=ExtResource("1_75pis")]
+[node name="UIButtonReset" parent="ControlManage/MarginContainer" unique_id=1608577143 instance=ExtResource("1_75pis")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
@@ -97,12 +97,12 @@ focus_next = NodePath("../VBoxContainer/UIButtonParent")
 style = &"menu_small"
 text = "BUTTON_RESET"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ControlManage/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ControlManage/MarginContainer" unique_id=879410712]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 
-[node name="UIButtonAll" parent="ControlManage/MarginContainer/HBoxContainer" instance=ExtResource("1_75pis")]
+[node name="UIButtonAll" parent="ControlManage/MarginContainer/HBoxContainer" unique_id=79067559 instance=ExtResource("1_75pis")]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../../VBoxContainer/UIButtonIgnoreConflicts")
@@ -112,7 +112,7 @@ focus_previous = NodePath("../../VBoxContainer/UIButtonIgnoreConflicts")
 toggle_mode = true
 style = &"icon_all"
 
-[node name="UIButtonConflicts" parent="ControlManage/MarginContainer/HBoxContainer" instance=ExtResource("1_75pis")]
+[node name="UIButtonConflicts" parent="ControlManage/MarginContainer/HBoxContainer" unique_id=210662055 instance=ExtResource("1_75pis")]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -123,7 +123,7 @@ focus_previous = NodePath("../UIButtonAll")
 toggle_mode = true
 style = &"icon_conflicts"
 
-[node name="UIButtonKeyboard" parent="ControlManage/MarginContainer/HBoxContainer" instance=ExtResource("1_75pis")]
+[node name="UIButtonKeyboard" parent="ControlManage/MarginContainer/HBoxContainer" unique_id=277341056 instance=ExtResource("1_75pis")]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../UIButtonConflicts")
@@ -133,7 +133,7 @@ focus_previous = NodePath("../UIButtonConflicts")
 toggle_mode = true
 style = &"icon_keyboard"
 
-[node name="UIButtonMouse" parent="ControlManage/MarginContainer/HBoxContainer" instance=ExtResource("1_75pis")]
+[node name="UIButtonMouse" parent="ControlManage/MarginContainer/HBoxContainer" unique_id=1688050887 instance=ExtResource("1_75pis")]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../UIButtonKeyboard")
@@ -143,7 +143,7 @@ focus_previous = NodePath("../UIButtonKeyboard")
 toggle_mode = true
 style = &"icon_mouse"
 
-[node name="UIButtonJoypad" parent="ControlManage/MarginContainer/HBoxContainer" instance=ExtResource("1_75pis")]
+[node name="UIButtonJoypad" parent="ControlManage/MarginContainer/HBoxContainer" unique_id=424660592 instance=ExtResource("1_75pis")]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../UIButtonMouse")
@@ -152,7 +152,7 @@ focus_previous = NodePath("../UIButtonMouse")
 toggle_mode = true
 style = &"icon_joypad"
 
-[node name="ControlInput" type="Control" parent="."]
+[node name="ControlInput" type="Control" parent="." unique_id=898444251]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -162,7 +162,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ControlInput"]
+[node name="MarginContainer" type="MarginContainer" parent="ControlInput" unique_id=1022540010]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -170,31 +170,31 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ControlInput/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="ControlInput/MarginContainer" unique_id=1037811733]
 layout_mode = 2
 
-[node name="UIMarginContainerTitle" parent="ControlInput/MarginContainer/VBoxContainer" instance=ExtResource("4_v4d0r")]
+[node name="UIMarginContainerTitle" parent="ControlInput/MarginContainer/VBoxContainer" unique_id=1186264917 instance=ExtResource("4_v4d0r")]
 layout_mode = 2
 style = &"title"
 
-[node name="UILabel" parent="ControlInput/MarginContainer/VBoxContainer/UIMarginContainerTitle" instance=ExtResource("5_l8s1s")]
+[node name="UILabel" parent="ControlInput/MarginContainer/VBoxContainer/UIMarginContainerTitle" unique_id=1183286226 instance=ExtResource("5_l8s1s")]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "TITLE_INPUT"
 horizontal_alignment = 1
 style = &"title"
 
-[node name="UIMarginContainerValue" parent="ControlInput/MarginContainer/VBoxContainer" instance=ExtResource("4_v4d0r")]
+[node name="UIMarginContainerValue" parent="ControlInput/MarginContainer/VBoxContainer" unique_id=2038731303 instance=ExtResource("4_v4d0r")]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="UILabel" parent="ControlInput/MarginContainer/VBoxContainer/UIMarginContainerValue" instance=ExtResource("5_l8s1s")]
+[node name="UILabel" parent="ControlInput/MarginContainer/VBoxContainer/UIMarginContainerValue" unique_id=1502922848 instance=ExtResource("5_l8s1s")]
 layout_mode = 2
 text = "DESCRIPTION_INPUT"
 horizontal_alignment = 1
 style = &"value"
 
-[node name="UISeparatorTitle" parent="ControlInput/MarginContainer/VBoxContainer" instance=ExtResource("2_kmk2d")]
+[node name="UISeparatorTitle" parent="ControlInput/MarginContainer/VBoxContainer" unique_id=1869505302 instance=ExtResource("2_kmk2d")]
 layout_mode = 2
 style = &"title"
 

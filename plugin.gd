@@ -104,15 +104,15 @@ var _settings: Dictionary = {
 			"value": false,
 			"type": TYPE_BOOL
 		},
-		"start_level": {
+		"initial_level": {
 			"value": false,
 			"type": TYPE_BOOL
 		},
-		"start_level_alias": {
+		"initial_level_alias": {
 			"value": "start",
 			"type": TYPE_STRING
 		},
-		"start_as_menu": {
+		"initial_as_menu": {
 			"value": false,
 			"type": TYPE_BOOL
 		},
@@ -188,7 +188,7 @@ var _settings: Dictionary = {
 			"value": false,
 			"type": TYPE_BOOL
 		},
-		"play_time": {
+		"playtime": {
 			"value": false,
 			"type": TYPE_BOOL
 		},

@@ -19,11 +19,10 @@ var _current_lifespan: float
 var hide_on_complete_death: bool = false
 
 func _init(
-	alias_: StringName, 
 	projectile_type_: Core.ProjectileType,
 	lifespan_delta_: float,
 ) -> void:
-	super._init(alias_, Core.UnitType.PROJECTILE)
+	super._init(Core.UnitType.PROJECTILE)
 	
 	projectile_type = projectile_type_
 	lifespan_delta = lifespan_delta_
@@ -34,7 +33,7 @@ func _init(
 	death_cooldown.add_step(&"hide", Core.MIN_COLLISION_WAIT_DELTA)
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 	
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART

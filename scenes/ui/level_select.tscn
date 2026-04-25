@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://3bia3w2lcryp"]
+[gd_scene format=3 uid="uid://3bia3w2lcryp"]
 
 [ext_resource type="Script" uid="uid://dwu3n20bd8uct" path="res://addons/retrograde/scenes/ui/level_select.gd" id="1_x15a5"]
 [ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="2_7l8mc"]
@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://0xs6vqdbllps" path="res://addons/retrograde/_/assets/ui/320/button/menu_level_select/focused.png" id="7_wh1jf"]
 [ext_resource type="Texture2D" uid="uid://cac6ih4hjotlf" path="res://addons/retrograde/_/assets/ui/320/image/star.png" id="10_wep1i"]
 
-[node name="LevelSelect" type="Control"]
+[node name="LevelSelect" type="Control" unique_id=455396774]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -21,7 +21,7 @@ grow_vertical = 2
 script = ExtResource("1_x15a5")
 metadata/_edit_vertical_guides_ = [-220.0]
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=712494548]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -31,7 +31,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.75)
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=738621464]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -39,32 +39,32 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1604549295]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="UIMarginContainerTitle" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_xo2de")]
+[node name="UIMarginContainerTitle" parent="MarginContainer/VBoxContainer" unique_id=1740857436 instance=ExtResource("2_xo2de")]
 layout_mode = 2
 style = &"title"
 
-[node name="UILabelTitle" parent="MarginContainer/VBoxContainer/UIMarginContainerTitle" instance=ExtResource("2_7l8mc")]
+[node name="UILabelTitle" parent="MarginContainer/VBoxContainer/UIMarginContainerTitle" unique_id=1759694177 instance=ExtResource("2_7l8mc")]
 layout_mode = 2
 text = "TITLE_LEVEL_SELECT"
 horizontal_alignment = 1
 style = &"title"
 
-[node name="UISeparatorHeader" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_bm8jf")]
+[node name="UISeparatorHeader" parent="MarginContainer/VBoxContainer" unique_id=1938037530 instance=ExtResource("3_bm8jf")]
 layout_mode = 2
 style = &"header"
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=2042535849]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
 columns = 3
 
-[node name="UIButton1" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+[node name="UIButton1" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=2104508561 instance=ExtResource("3_ccmqc")]
 layout_mode = 2
 texture_normal = ExtResource("4_8ehll")
 texture_pressed = ExtResource("5_i7y2i")
@@ -74,7 +74,7 @@ goto_ui_alias = &"start:level_1"
 style = &"menu_level_select"
 text = "1"
 
-[node name="TextureRect1" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton1"]
+[node name="TextureRect1" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton1" unique_id=2054071566]
 visible = false
 layout_mode = 1
 offset_left = -8.0
@@ -83,7 +83,7 @@ offset_right = 32.0
 offset_bottom = 32.0
 texture = ExtResource("10_wep1i")
 
-[node name="UIButton2" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+[node name="UIButton2" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=1137603373 instance=ExtResource("3_ccmqc")]
 layout_mode = 2
 texture_normal = ExtResource("4_8ehll")
 texture_pressed = ExtResource("5_i7y2i")
@@ -93,7 +93,7 @@ goto_ui_alias = &"start:level_2"
 style = &"menu_level_select"
 text = "2"
 
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton2"]
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton2" unique_id=1715555065]
 visible = false
 layout_mode = 1
 offset_left = -8.0
@@ -102,7 +102,7 @@ offset_right = 32.0
 offset_bottom = 32.0
 texture = ExtResource("10_wep1i")
 
-[node name="UIButton3" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+[node name="UIButton3" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=456561813 instance=ExtResource("3_ccmqc")]
 layout_mode = 2
 texture_normal = ExtResource("4_8ehll")
 texture_pressed = ExtResource("5_i7y2i")
@@ -112,7 +112,7 @@ goto_ui_alias = &"start:level_3"
 style = &"menu_level_select"
 text = "3"
 
-[node name="TextureRect3" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton3"]
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton3" unique_id=1591795086]
 visible = false
 layout_mode = 1
 offset_left = -8.0
@@ -121,7 +121,7 @@ offset_right = 32.0
 offset_bottom = 32.0
 texture = ExtResource("10_wep1i")
 
-[node name="UIButton4" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+[node name="UIButton4" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=1044213494 instance=ExtResource("3_ccmqc")]
 layout_mode = 2
 texture_normal = ExtResource("4_8ehll")
 texture_pressed = ExtResource("5_i7y2i")
@@ -131,7 +131,7 @@ goto_ui_alias = &"start:level_4"
 style = &"menu_level_select"
 text = "4"
 
-[node name="TextureRect4" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton4"]
+[node name="TextureRect4" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton4" unique_id=41523695]
 visible = false
 layout_mode = 1
 offset_left = -8.0
@@ -140,7 +140,7 @@ offset_right = 32.0
 offset_bottom = 32.0
 texture = ExtResource("10_wep1i")
 
-[node name="UIButton5" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+[node name="UIButton5" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=1226981218 instance=ExtResource("3_ccmqc")]
 layout_mode = 2
 texture_normal = ExtResource("4_8ehll")
 texture_pressed = ExtResource("5_i7y2i")
@@ -150,7 +150,7 @@ goto_ui_alias = &"start:level_5"
 style = &"menu_level_select"
 text = "5"
 
-[node name="TextureRect5" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton5"]
+[node name="TextureRect5" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton5" unique_id=405149175]
 visible = false
 layout_mode = 1
 offset_left = -8.0
@@ -159,7 +159,7 @@ offset_right = 32.0
 offset_bottom = 32.0
 texture = ExtResource("10_wep1i")
 
-[node name="UIButton6" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+[node name="UIButton6" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=496230793 instance=ExtResource("3_ccmqc")]
 layout_mode = 2
 texture_normal = ExtResource("4_8ehll")
 texture_pressed = ExtResource("5_i7y2i")
@@ -169,7 +169,7 @@ goto_ui_alias = &"start:level_6"
 style = &"menu_level_select"
 text = "6"
 
-[node name="TextureRect6" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton6"]
+[node name="TextureRect6" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton6" unique_id=11114423]
 visible = false
 layout_mode = 1
 offset_left = -8.0
@@ -178,7 +178,7 @@ offset_right = 32.0
 offset_bottom = 32.0
 texture = ExtResource("10_wep1i")
 
-[node name="UIButton7" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+[node name="UIButton7" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=604572111 instance=ExtResource("3_ccmqc")]
 layout_mode = 2
 texture_normal = ExtResource("4_8ehll")
 texture_pressed = ExtResource("5_i7y2i")
@@ -188,7 +188,7 @@ goto_ui_alias = &"start:level_7"
 style = &"menu_level_select"
 text = "7"
 
-[node name="TextureRect7" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton7"]
+[node name="TextureRect7" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton7" unique_id=1915189809]
 visible = false
 layout_mode = 1
 offset_left = -8.0
@@ -197,7 +197,7 @@ offset_right = 32.0
 offset_bottom = 32.0
 texture = ExtResource("10_wep1i")
 
-[node name="UIButton8" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+[node name="UIButton8" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=1239273767 instance=ExtResource("3_ccmqc")]
 layout_mode = 2
 texture_normal = ExtResource("4_8ehll")
 texture_pressed = ExtResource("5_i7y2i")
@@ -207,7 +207,7 @@ goto_ui_alias = &"start:level_8"
 style = &"menu_level_select"
 text = "8"
 
-[node name="TextureRect8" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton8"]
+[node name="TextureRect8" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton8" unique_id=869237103]
 visible = false
 layout_mode = 1
 offset_left = -8.0
@@ -216,7 +216,7 @@ offset_right = 32.0
 offset_bottom = 32.0
 texture = ExtResource("10_wep1i")
 
-[node name="UIButton9" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+[node name="UIButton9" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=1307271280 instance=ExtResource("3_ccmqc")]
 layout_mode = 2
 texture_normal = ExtResource("4_8ehll")
 texture_pressed = ExtResource("5_i7y2i")
@@ -226,7 +226,7 @@ goto_ui_alias = &"start:level_9"
 style = &"menu_level_select"
 text = "9"
 
-[node name="TextureRect9" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton9"]
+[node name="TextureRect9" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton9" unique_id=929777720]
 visible = false
 layout_mode = 1
 offset_left = -8.0
@@ -235,7 +235,7 @@ offset_right = 32.0
 offset_bottom = 32.0
 texture = ExtResource("10_wep1i")
 
-[node name="UIButton10" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("3_ccmqc")]
+[node name="UIButton10" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=604541373 instance=ExtResource("3_ccmqc")]
 visible = false
 layout_mode = 2
 texture_normal = ExtResource("4_8ehll")
@@ -246,7 +246,7 @@ goto_ui_alias = &"start:level_10"
 style = &"menu_level_select"
 text = "10"
 
-[node name="TextureRect10" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton10"]
+[node name="TextureRect10" type="TextureRect" parent="MarginContainer/VBoxContainer/GridContainer/UIButton10" unique_id=2126863289]
 visible = false
 layout_mode = 1
 offset_left = -8.0
@@ -255,11 +255,11 @@ offset_right = 32.0
 offset_bottom = 32.0
 texture = ExtResource("10_wep1i")
 
-[node name="UISeparatorFooter" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_bm8jf")]
+[node name="UISeparatorFooter" parent="MarginContainer/VBoxContainer" unique_id=931082375 instance=ExtResource("3_bm8jf")]
 layout_mode = 2
 style = &"footer"
 
-[node name="UIButtonParent" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_ccmqc")]
+[node name="UIButtonParent" parent="MarginContainer/VBoxContainer" unique_id=1160081198 instance=ExtResource("3_ccmqc")]
 layout_mode = 2
 size_flags_horizontal = 4
 goto_ui_alias = &"parent"

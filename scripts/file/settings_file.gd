@@ -1,4 +1,4 @@
-extends BaseJsonFile
+extends JsonFile
 class_name SettingsFile
 
 const FILE_PATH: String = "user://settings.json"

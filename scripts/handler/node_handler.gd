@@ -63,7 +63,7 @@ func get_node(path_: String, reset_method_: Callable = Callable()) -> Node:
 		if node_ is BaseNode2D or node_ is BaseCharacterBody2D:
 			if not reset_method_.is_null():
 				reset_method_.call(node_, Core.ResetType.RESTART)
-			node_.restart()
+			await node_.restart()
 		
 		return node_
 	
@@ -89,7 +89,7 @@ func get_node(path_: String, reset_method_: Callable = Callable()) -> Node:
 	if node_instance_ is BaseNode2D or node_instance_ is BaseCharacterBody2D:
 		if not reset_method_.is_null():
 			reset_method_.call(node_instance_, Core.ResetType.START)
-		node_instance_.start()
+		await node_instance_.start()
 	
 	return node_instance_
 

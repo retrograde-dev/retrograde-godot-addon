@@ -27,7 +27,7 @@ func _init(unit_: BaseUnit, enabled_: bool = true) -> void:
 	unit_modes.push_back(Core.UnitMode.NORMAL)
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART
@@ -126,3 +126,37 @@ func move_process(delta_: float) -> void:
 		else:
 			var velocity_y: float = min(max_fall_speed, unit.velocity.y + (fall_acceleration * delta_))
 			move_actor.apply_velocity(Vector2(0.0, velocity_y))
+
+func export() -> Dictionary[StringName, Variant]:
+	var data: Dictionary[StringName, Variant] = super.export()
+	
+	data.merge({
+		&"fall_acceleration": fall_acceleration,
+		&"max_fall_speed": max_fall_speed,
+		&"is_in_air": is_in_air,
+		&"is_rising": is_rising,
+		&"is_falling": is_falling,
+		&"is_crouch_falling": is_crouch_falling,
+		&"is_crouch_falling_start": is_crouch_falling_start,
+		&"air_time": air_time,
+		&"rise_time": rise_time,
+		&"fall_time": fall_time,
+		&"_previous_y": _previous_y,
+	})
+	
+	return data
+	
+func import(data: Dictionary[StringName, Variant]) -> void:
+	super.import(data)
+	
+	fall_acceleration = data.get(&"fall_acceleration", fall_acceleration)
+	max_fall_speed = data.get(&"max_fall_speed", max_fall_speed)
+	is_in_air = data.get(&"is_in_air", is_in_air)
+	is_rising = data.get(&"is_rising", is_rising)
+	is_falling = data.get(&"is_falling", is_falling)
+	is_crouch_falling = data.get(&"is_crouch_falling", is_crouch_falling)
+	is_crouch_falling_start = data.get(&"is_crouch_falling_start", is_crouch_falling_start)
+	air_time = data.get(&"air_time", air_time)
+	rise_time = data.get(&"rise_time", rise_time)
+	fall_time = data.get(&"fall_time", fall_time)
+	_previous_y = data.get(&"_previous_y", _previous_y)

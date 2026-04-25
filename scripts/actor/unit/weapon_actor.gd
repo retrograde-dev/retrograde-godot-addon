@@ -39,7 +39,7 @@ func _on_use_complete(use_index_: int) -> void:
 	use_complete.emit(use_index_)
 	
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 	
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART

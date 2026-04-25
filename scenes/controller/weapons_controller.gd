@@ -17,8 +17,8 @@ func _ready() -> void:
 		parent.unit_speed_changed.connect(_on_unit_speed_changed)
 		parent.unit_stance_changed.connect(_on_unit_stance_changed)
 		parent.unit_movement_changed.connect(_on_unit_movement_changed)
-		parent.unit_direction_x_changed.connect(_on_unit_direction_x_changed)
-		parent.unit_direction_y_changed.connect(_on_unit_direction_y_changed)
+		parent.unit_direction_changed.connect(_on_unit_direction_changed)
+		parent.unit_physics_changed.connect(_on_unit_physics_changed)
 		
 	#TODO: Some way of making it easy to add and remove weapons from controller
 	#and automatically setup signals
@@ -42,11 +42,11 @@ func _on_unit_stance_changed(unit_stance_: Core.UnitStance, _previous_unit_stanc
 func _on_unit_movement_changed(unit_movement_: Core.UnitMovement, _previous_unit_movement: Core.UnitMovement) -> void:
 	set_unit_movement(unit_movement_)
 	
-func _on_unit_direction_x_changed(unit_direction_x_: Core.UnitDirection, _previous_unit_direction_x: Core.UnitDirection) -> void:
-	set_unit_direction_x(unit_direction_x_)
-	
-func _on_unit_direction_y_changed(unit_direction_y_: Core.UnitDirection, _previous_unit_direction_y: Core.UnitDirection) -> void:
-	set_unit_direction_y(unit_direction_y_)
+func _on_unit_direction_changed(unit_direction_: Core.UnitDirection, _previous_unit_direction: Core.UnitDirection) -> void:
+	set_unit_direction(unit_direction_)
+		
+func _on_unit_physics_changed(unit_physics_: Core.UnitPhysics, _previous_unit_physics: Core.UnitPhysics) -> void:
+	set_unit_physics(unit_physics_)
 
 func _on_attack_error(_weapon: WeaponUnit, attack_: AttackValue, error_: Core.Error) -> void:
 	if attack_.meta.has("weapon_controller_use_index"):
@@ -128,7 +128,6 @@ func set_use(use_index_: int, attack_: AttackValue) -> void:
 		
 	uses[use_index_] = attack_
 
-		
 func set_unit_mode(unit_mode_: Core.UnitMode) -> void:
 	for child: Node in get_children():
 		if child is WeaponUnit:
@@ -149,12 +148,12 @@ func set_unit_movement(unit_movement_: Core.UnitMovement) -> void:
 		if child is WeaponUnit:
 			child.set_unit_movement(unit_movement_)
 	
-func set_unit_direction_x(unit_direction_x_: Core.UnitDirection) -> void:
+func set_unit_direction(unit_direction_: Core.UnitDirection) -> void:
 	for child: Node in get_children():
 		if child is WeaponUnit:
-			child.set_unit_direction_x(unit_direction_x_)
-		
-func set_unit_direction_y(unit_direction_y_: Core.UnitDirection) -> void:
+			child.set_unit_direction(unit_direction_)
+
+func set_unit_physics(unit_physics_: Core.UnitPhysics) -> void:
 	for child: Node in get_children():
 		if child is WeaponUnit:
-			child.set_unit_direction_y(unit_direction_y_)
+			child.set_unit_physics(unit_physics_)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cf5cmnwig2y7m"]
+[gd_scene format=3 uid="uid://cf5cmnwig2y7m"]
 
 [ext_resource type="Script" uid="uid://b7wtox4huf2xs" path="res://addons/retrograde/scenes/ui/win.gd" id="1_qq0jy"]
 [ext_resource type="PackedScene" uid="uid://b7kxbj3ak5kcg" path="res://addons/retrograde/scenes/ui/component/ui_margin_container.tscn" id="2_fo1fp"]
@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b33ohs7o6hg3l" path="res://addons/retrograde/scenes/ui/component/ui_separator.tscn" id="3_k0ohw"]
 [ext_resource type="PackedScene" uid="uid://bbssswrytbmd4" path="res://addons/retrograde/scenes/ui/component/ui_button.tscn" id="3_nn8tw"]
 
-[node name="Win" type="Control"]
+[node name="Win" type="Control" unique_id=869969816]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,7 +16,7 @@ grow_vertical = 2
 script = ExtResource("1_qq0jy")
 ui_type = 0
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=468780454]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -26,7 +26,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.75)
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=512943297]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -34,80 +34,93 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1729069598]
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
 
-[node name="UIMarginContainerTitle" parent="MarginContainer/VBoxContainer" instance=ExtResource("2_fo1fp")]
+[node name="UIMarginContainerTitle" parent="MarginContainer/VBoxContainer" unique_id=918840910 instance=ExtResource("2_fo1fp")]
 layout_mode = 2
 style = &"title"
 
-[node name="UILabelTitle" parent="MarginContainer/VBoxContainer/UIMarginContainerTitle" instance=ExtResource("2_jj8pa")]
+[node name="UILabelTitle" parent="MarginContainer/VBoxContainer/UIMarginContainerTitle" unique_id=1870209999 instance=ExtResource("2_jj8pa")]
 layout_mode = 2
 text = "TITLE_WIN"
 horizontal_alignment = 1
 style = &"title"
 
-[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/VBoxContainer" unique_id=630771347]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 columns = 2
 
-[node name="UILabelTimeField" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("2_jj8pa")]
+[node name="UILabelGamePlaytimeField" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=778113455 instance=ExtResource("2_jj8pa")]
+unique_name_in_owner = true
 layout_mode = 2
-text = "LABEL_TIME	"
+text = "LABEL_GAME_PLAYTIME	"
 horizontal_alignment = 2
 style = &"field"
 
-[node name="UILabelTimeValue" parent="MarginContainer/VBoxContainer/GridContainer" instance=ExtResource("2_jj8pa")]
+[node name="UILabelGamePlaytimeValue" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=816392446 instance=ExtResource("2_jj8pa")]
 unique_name_in_owner = true
 layout_mode = 2
 style = &"value"
 
-[node name="UISeparatorHeader" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_k0ohw")]
+[node name="UILabelLevelPlaytimeField" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=1250347683 instance=ExtResource("2_jj8pa")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "LABEL_LEVEL_PLAYTIME	"
+horizontal_alignment = 2
+style = &"field"
+
+[node name="UILabelLevelPlaytimeValue" parent="MarginContainer/VBoxContainer/GridContainer" unique_id=536003144 instance=ExtResource("2_jj8pa")]
+unique_name_in_owner = true
+layout_mode = 2
+style = &"value"
+
+[node name="UISeparatorHeader" parent="MarginContainer/VBoxContainer" unique_id=102955032 instance=ExtResource("3_k0ohw")]
 layout_mode = 2
 style = &"header"
 
-[node name="UIButtonNextLevel" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_nn8tw")]
+[node name="UIButtonNextLevel" parent="MarginContainer/VBoxContainer" unique_id=2138164213 instance=ExtResource("3_nn8tw")]
 unique_name_in_owner = true
 layout_mode = 2
 style = &"menu_large"
 text = "BUTTON_NEXT_LEVEL"
 
-[node name="UIButtonLevelSelect" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_nn8tw")]
+[node name="UIButtonLevelSelect" parent="MarginContainer/VBoxContainer" unique_id=1586253878 instance=ExtResource("3_nn8tw")]
 unique_name_in_owner = true
 layout_mode = 2
 goto_ui_alias = &"level_select"
 style = &"menu_large"
 text = "BUTTON_LEVEL_SELECT"
 
-[node name="UIButtonPlayAgain" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_nn8tw")]
+[node name="UIButtonPlayAgain" parent="MarginContainer/VBoxContainer" unique_id=1405064931 instance=ExtResource("3_nn8tw")]
 unique_name_in_owner = true
 layout_mode = 2
 style = &"menu_large"
 text = "BUTTON_REPLAY"
 
-[node name="UIButtonPlayAgainNormal" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_nn8tw")]
+[node name="UIButtonPlayAgainNormal" parent="MarginContainer/VBoxContainer" unique_id=603440212 instance=ExtResource("3_nn8tw")]
 unique_name_in_owner = true
 layout_mode = 2
 style = &"menu_large"
 text = "BUTTON_REPLAY_NORMAL"
 
-[node name="UIButtonPlayAgainHard" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_nn8tw")]
+[node name="UIButtonPlayAgainHard" parent="MarginContainer/VBoxContainer" unique_id=2017230354 instance=ExtResource("3_nn8tw")]
 unique_name_in_owner = true
 layout_mode = 2
 style = &"menu_large"
 text = "BUTTON_REPLAY_HARD"
 
-[node name="UISeparatorButton" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_k0ohw")]
+[node name="UISeparatorButton" parent="MarginContainer/VBoxContainer" unique_id=1604184703 instance=ExtResource("3_k0ohw")]
 layout_mode = 2
 style = &"button"
 
-[node name="UIButtonMenu" parent="MarginContainer/VBoxContainer" instance=ExtResource("3_nn8tw")]
+[node name="UIButtonMenu" parent="MarginContainer/VBoxContainer" unique_id=647425322 instance=ExtResource("3_nn8tw")]
 layout_mode = 2
 goto_ui_alias = &"menu"
 style = &"menu_cancel_large"

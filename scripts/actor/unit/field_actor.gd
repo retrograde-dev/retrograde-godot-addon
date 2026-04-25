@@ -50,6 +50,8 @@ func process(delta: float) -> void:
 	
 	if not can_unit_process():
 		return
+		
+	
 
 	# Only follow field if player not in control
 	# TODO: Some sort of toggle, to continue after no inputs from user

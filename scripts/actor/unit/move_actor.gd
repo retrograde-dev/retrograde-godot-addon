@@ -37,19 +37,13 @@ var locked_direction_x: Core.UnitDirection = Core.UnitDirection.NONE
 var locked_direction_y: Core.UnitDirection = Core.UnitDirection.NONE
 var _internal_crouch_direction: Vector2 = Vector2.ZERO
 
-signal unit_speed_changed(unit_speed_: Core.UnitSpeed, previous_unit_speed_: Core.UnitSpeed)
-signal unit_stance_changed(unit_stance_: Core.UnitStance, previous_unit_stance_: Core.UnitStance)
-signal unit_movement_changed(unit_movement_: Core.UnitMovement, previous_unit_movement_: Core.UnitMovement)
-signal unit_direction_changed(unit_direction_: Core.UnitDirection, previous_unit_direction_: Core.UnitDirection)
-signal unit_physics_changed(unit_physics_: Core.UnitPhysics, previous_unit_physics_: Core.UnitPhysics)
-
 func _init(unit_: BaseUnit, enabled: bool = true) -> void:
 	super._init(unit_, &"move", enabled)
 	unit_modes.push_back(Core.UnitMode.NORMAL)
 	unit_modes.push_back(Core.UnitMode.CLIMBING)
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART
@@ -90,6 +84,7 @@ func physics_process(delta_: float) -> void:
 	_update_unit_movement()
 	_update_unit_speed()
 	_update_unit_stance()
+	_update_unit_physics() 
 
 	unit.move_and_slide()
 
@@ -155,47 +150,45 @@ func move_process(_delta: float) -> void:
 	
 
 func _update_unit_direction() -> void:
-	var previous_unit_direction_x: Core.UnitDirection = unit.unit_direction_x
-	var previous_unit_direction_y: Core.UnitDirection = unit.unit_direction_y
+	var unit_vector_: Vector2 = Vector2.ZERO
 	
 	if _internal_crouch_direction.x > 0.0:
 		if locked_direction_x != Core.UnitDirection.NONE:
 			locked_direction_x = Core.UnitDirection.RIGHT
-		unit.set_unit_direction_x(Core.UnitDirection.RIGHT)
+		
+		unit_vector_.x = 1.0
 	elif _internal_crouch_direction.x < 0.0:
 		if locked_direction_x != Core.UnitDirection.NONE:
 			locked_direction_x = Core.UnitDirection.LEFT
-		unit.set_unit_direction_x(Core.UnitDirection.LEFT)
+		
+		unit_vector_.x = -1.0
 	elif locked_direction_x != Core.UnitDirection.NONE:
-		unit.set_unit_direction_x(locked_direction_x)
-	elif unit.velocity.x > 0.0:
-		unit.set_unit_direction_x(Core.UnitDirection.RIGHT)
-	elif unit.velocity.x < 0.0:
-		unit.set_unit_direction_x(Core.UnitDirection.LEFT)
+		if locked_direction_x == Core.UnitDirection.RIGHT:
+			unit_vector_.x = 1.0
+		elif locked_direction_x == Core.UnitDirection.LEFT:
+			unit_vector_.x = -1.0
 	else:
-		unit.set_unit_direction_x(Core.UnitDirection.NONE)	
+		unit_vector_.x = unit.velocity.x
 	
 	if _internal_crouch_direction.y > 0.0:
 		if locked_direction_y != Core.UnitDirection.NONE:
 			locked_direction_y = Core.UnitDirection.DOWN
-		unit.set_unit_direction_y(Core.UnitDirection.DOWN)
+			
+		unit_vector_.y = 1.0
 	elif _internal_crouch_direction.y < 0.0:
 		if locked_direction_y != Core.UnitDirection.NONE:
 			locked_direction_y = Core.UnitDirection.UP
-		unit.set_unit_direction_y(Core.UnitDirection.UP)
+		
+		unit_vector_.y = -1.0
 	if locked_direction_y != Core.UnitDirection.NONE:
-		unit.set_unit_direction_y(locked_direction_y)
-	elif unit.velocity.y > 0.0:
-		unit.set_unit_direction_y(Core.UnitDirection.DOWN)
-	elif unit.velocity.y < 0.0:
-		unit.set_unit_direction_y(Core.UnitDirection.UP)
+		if locked_direction_y == Core.UnitDirection.DOWN:
+			unit_vector_.y = 1.0
+		elif locked_direction_y == Core.UnitDirection.UP:
+			unit_vector_.y = -1.0
 	else:
-		unit.set_unit_direction_y(Core.UnitDirection.NONE)
+		unit_vector_.y = unit.velocity.y
 
-	if (previous_unit_direction_x != unit.unit_direction_x or 
-		previous_unit_direction_y != unit.unit_direction_y 
-	):
-		unit_direction_changed.emit(unit.unit_direction, unit.previous_unit_direction)
+	unit.set_unit_direction_from_vector2(unit_vector_)
 
 	if auto_reset_locked_direction_x and unit.is_moving_x():
 		locked_direction_x = Core.UnitDirection.NONE
@@ -204,8 +197,6 @@ func _update_unit_direction() -> void:
 		locked_direction_y = Core.UnitDirection.NONE
 	
 func _update_unit_movement() -> void:
-	var previous_unit_movement: Core.UnitMovement = unit.unit_movement
-	
 	if is_unit_climbing():
 		unit.set_unit_movement(Core.UnitMovement.CLIMBING)
 	elif is_unit_jumping():
@@ -217,32 +208,19 @@ func _update_unit_movement() -> void:
 	else:
 		unit.set_unit_movement(Core.UnitMovement.MOVING)
 
-	if previous_unit_movement != unit.unit_movement:
-		unit_movement_changed.emit(unit.unit_movement, unit.previous_unit_movement)
-
 func _update_unit_speed() -> void:
-	var previous_unit_speed: Core.UnitSpeed = unit.unit_speed
-	
 	var climb_actor: BaseActor = unit.get_actor_or_null(&"climb")
 	if climb_actor != null and climb_actor.is_climbing:
 		unit.set_unit_speed(climb_actor.climb_speed)
 	else:
 		unit.set_unit_speed(move_speed)
-	
-	if previous_unit_speed != unit.unit_speed:
-		unit_speed_changed.emit(unit.unit_speed, unit.previous_unit_speed)
 
 func _update_unit_stance() -> void:
-	var previous_unit_stance: Core.UnitStance = unit.unit_stance
-
 	var new_stance: Core.UnitStance = Core.UnitStance.NORMAL
 	if _is_crouch_stance():
 		new_stance = Core.UnitStance.CROUCH
 	
 	unit.set_unit_stance(new_stance)
-	
-	if previous_unit_stance != unit.unit_stance:
-		unit_stance_changed.emit(unit.unit_stance, unit.previous_unit_stance)
 		
 func _is_crouch_stance() -> bool:
 	var crouch_actor: BaseActor = unit.get_actor_or_null(&"crouch")
@@ -275,17 +253,13 @@ func _is_crouch_stance() -> bool:
 	
 func _update_unit_physics() -> void:
 	var roam_actor: BaseActor = unit.get_actor_or_null(&"roam")
-	var previous_unit_physics: Core.UnitPhysics = unit.unit_physics
-
+	
 	var new_physics: Core.UnitPhysics = Core.UnitPhysics.PLATFORM
 	
 	if roam_actor != null and roam_actor.is_roaming:
 		new_physics = Core.UnitPhysics.PLANE
 	
 	unit.set_unit_physics(new_physics)
-	
-	if previous_unit_physics != unit.unit_physics:
-		unit_physics_changed.emit(unit.unit_physics, unit.previous_unit_physics)
 
 # TODO: Maybe rename this
 func set_locked_direction_x(value_: Core.UnitDirection) -> void:

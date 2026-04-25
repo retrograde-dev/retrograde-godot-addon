@@ -25,12 +25,12 @@ func _init(
 	weapon_type_: Core.WeaponType,
 	attacks_: Array[WeaponAttack]
 ) -> void:
-	super._init(alias_, Core.UnitType.WEAPON)
+	super._init(Core.UnitType.WEAPON)
 	weapon_type = weapon_type_
 	attacks = attacks_
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 	
 	if (reset_type_ == Core.ResetType.START or
 		reset_type_ == Core.ResetType.RESTART

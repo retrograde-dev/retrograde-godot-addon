@@ -15,7 +15,7 @@ func _init() -> void:
 		}
 	
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 	
 	if reset_type_ == Core.ResetType.START:
 		for ui_: StringName in _data.enabled:
@@ -77,50 +77,50 @@ func get_panel_container(alias_: StringName) -> Dictionary:
 	return _data.panel_containers[alias_]
 
 func has_ui(alias_: StringName) -> bool:
-	for child: Node in get_children():
-		if child is BaseUI and child.alias == alias_:
+	for child_: Node in get_children():
+		if child_ is BaseUI and child_.alias == alias_:
 			return true
 		
 	return false
 
 func get_ui(alias_: StringName) -> BaseUI:
-	for child: Node in get_children():
-		if child is BaseUI and child.alias == alias_:
-			return child
+	for child_: Node in get_children():
+		if child_ is BaseUI and child_.alias == alias_:
+			return child_
 		
 	return null
 	
 func has_visible_uis(ui_type: Core.UIType) -> bool:
-	for child: Node in get_children():
-		if child is BaseUI and child.ui_type == ui_type and child.visible:
+	for child_: Node in get_children():
+		if child_ is BaseUI and child_.ui_type == ui_type and child_.visible:
 			return true
 		
 	return false
 
 func is_ui_visible(alias_: StringName) -> bool:
-	var ui: BaseUI = get_ui(alias_)
+	var ui_: BaseUI = get_ui(alias_)
 	
-	if ui != null and ui.visible == true:
+	if ui_ != null and ui_.visible == true:
 		return true
 		
 	return false
 
 func hide_uis(ui_type: Core.UIType) -> void:
-	for child: Node in get_children():
-		if child is BaseUI and child.ui_type == ui_type:
-			child.hide_ui()
+	for child_: Node in get_children():
+		if child_ is BaseUI and child_.ui_type == ui_type:
+			child_.hide_ui()
 
 func hide_ui(alias_: StringName) -> void:
-	var ui: BaseUI = get_ui(alias_)
+	var ui_: BaseUI = get_ui(alias_)
 	
-	if ui != null:
-		ui.hide_ui()
+	if ui_ != null and ui_.visible:
+		ui_.hide_ui()
 			
 func show_ui(alias_: StringName) -> void:
-	var ui: BaseUI = get_ui(alias_)
+	var ui_: BaseUI = get_ui(alias_)
 	
-	if ui != null:
-		ui.show_ui()
+	if ui_ != null and not ui_.visible:
+		ui_.show_ui()
 	
 func prepare_ui_alias(alias_: StringName, from_alias_: StringName) -> StringName:
 	if alias_ != &"parent":

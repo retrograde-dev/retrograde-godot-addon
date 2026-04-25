@@ -1,4 +1,4 @@
-extends BaseJsonFile
+extends JsonFile
 class_name InputFile
 
 const FILE_PATH: String = "user://inputs.json"

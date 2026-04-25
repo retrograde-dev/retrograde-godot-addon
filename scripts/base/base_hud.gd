@@ -1,7 +1,7 @@
 extends BaseNode2D
 class_name BaseHUD
 
-@export_category("Position")
+@export_group("Position")
 @export var hud_alignment: Core.Alignment = Core.Alignment.TOP_CENTER
 @export var hud_offset: Vector2 = Vector2.ZERO
 

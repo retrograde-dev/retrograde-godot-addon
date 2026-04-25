@@ -172,6 +172,7 @@ func get_input_level(edge_: Core.Edge) -> float:
 	if type == Core.ComponentType.OUTPUT:
 		assert(true, "Can't get input level on output types.")
 		return -1.0
+		
 	if edge_ == Core.Edge.NONE:
 		assert(true, "Invalid edge.")
 		return -1.0

@@ -11,7 +11,7 @@ func _init(unit_: BaseUnit, enabled: bool = true) -> void:
 	unit_modes.push_back(Core.UnitMode.NORMAL)
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART
@@ -40,3 +40,18 @@ func process(delta: float) -> void:
 		
 	kill_unit(&"collision")
 	
+func export() -> Dictionary[StringName, Variant]:
+	var data: Dictionary[StringName, Variant] = super.export()
+	
+	data.merge({
+		&"collision_mode": collision_mode,
+		&"collision_damage_amount": collision_damage_amount,
+	})
+	
+	return data
+	
+func import(data: Dictionary[StringName, Variant]) -> void:
+	super.import(data)
+	
+	collision_mode = data.get(&"collision_mode", collision_mode)
+	collision_damage_amount = data.get(&"collision_damage_amount", collision_damage_amount)

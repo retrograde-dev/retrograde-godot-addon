@@ -24,8 +24,8 @@ func reset(reset_type_: Core.ResetType) -> void:
 	if (reset_type_ == Core.ResetType.START or
 		reset_type_ == Core.ResetType.RESTART
 	):
-		velocity = scale_default
 		scale = scale_default
+		velocity = velocity_default
 
 		is_started = false
 		is_ready = false
@@ -34,33 +34,33 @@ func reset(reset_type_: Core.ResetType) -> void:
 	reseted.emit(reset_type_)
 
 func start() -> void:
-	reset(Core.ResetType.START)
+	await reset(Core.ResetType.START)
 
 	is_started = true
 
 	for child: Node in get_children():
 		if child is BaseNode2D or child is BaseCharacterBody2D:
-			child.start()
+			await child.start()
 
 	process_mode = Node.PROCESS_MODE_INHERIT
 
 	started.emit()
 
 func restart() -> void:
-	reset(Core.ResetType.RESTART)
+	await reset(Core.ResetType.RESTART)
 
 	is_started = true
 
 	for child: Node in get_children():
 		if child is BaseNode2D or child is BaseCharacterBody2D:
-			child.restart()
+			await child.restart()
 
 	process_mode = Node.PROCESS_MODE_INHERIT
 
 	restarted.emit()
 
 func refresh() -> void:
-	reset(Core.ResetType.REFRESH)
+	await reset(Core.ResetType.REFRESH)
 
 	for child: Node in get_children():
 		if child is BaseNode2D or child is BaseCharacterBody2D:
@@ -69,14 +69,14 @@ func refresh() -> void:
 	refreshed.emit()
 
 func stop() -> void:
-	reset(Core.ResetType.STOP)
+	await reset(Core.ResetType.STOP)
 
 	is_started = false
 	is_ready = false
 
 	for child: Node in get_children():
 		if child is BaseNode2D or child is BaseCharacterBody2D:
-			child.stop()
+			await child.stop()
 
 	process_mode = Node.PROCESS_MODE_DISABLED
 
@@ -157,7 +157,34 @@ func get_scale_rect() -> Rect2:
 	return rect_
 
 func get_position_rect() -> Rect2:
-	var rect_: Rect2 = get_rect()
+	var rect_: Rect2 = get_scale_rect()
 	var position_: Vector2 = get_align_global_position(Core.Alignment.TOP_LEFT)
 	rect_.position += position_
 	return rect_
+
+func export(data_: Resource = null) -> Resource:
+	if data_ == null:
+		data_ = CharacterBody2DResource.new()
+	else:
+		assert(data_ is CharacterBody2DResource, "Invalid resource.")
+	
+	data_.is_enabled = is_enabled
+	data_.modes = modes.names.duplicate()
+	data_.position = global_position
+	data_.scale = scale
+	data_.velocity = velocity
+	data_.rotation = rotation
+	data_.visible = visible
+	
+	return data_
+	
+func import(data_: Resource) -> void:
+	assert(data_ is CharacterBody2DResource, "Invalid resource.")
+	
+	is_enabled = data_.is_enabled
+	modes.names = data_.modes.duplicate()
+	global_position = data_.position
+	scale = data_.scale
+	velocity = data_.velocity
+	rotation = data_.rotation
+	visible = data_.visible

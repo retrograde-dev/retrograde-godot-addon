@@ -42,7 +42,7 @@ func _init(unit_: BaseUnit, enabled: bool = true) -> void:
 	super._init(unit_, &"kill", enabled)
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 		
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART
@@ -209,3 +209,46 @@ func _revive() -> bool:
 
 func get_actions() -> Array[StringName]:
 	return [action_kill]
+
+func export() -> Dictionary[StringName, Variant]:
+	var data: Dictionary[StringName, Variant] = super.export()
+
+	var is_killed: bool = false
+	var _reason: StringName = &""
+	var lose_on_kill: bool = false
+	var health_on_revive: float = 0.0
+	var kill_cooldown_delta: float = 0.0
+	var revive_cooldown_delta: float = 0.0
+	var kill_action_enabled: bool = true
+	var kill_action_enabled_default: bool = true
+	var revive_action_enabled: bool = true
+	var revive_action_enabled_default: bool = true
+
+	data.merge({
+		&"is_killed": is_killed,
+		&"_reason": _reason,
+		&"lose_on_kill": lose_on_kill,
+		&"health_on_revive": health_on_revive,
+		&"kill_cooldown_delta": kill_cooldown_delta,
+		&"revive_cooldown_delta": revive_cooldown_delta,
+		&"kill_action_enabled": kill_action_enabled,
+		&"kill_action_enabled_default": kill_action_enabled_default,
+		&"revive_action_enabled": revive_action_enabled,
+		&"revive_action_enabled_default": revive_action_enabled_default,
+	})
+	
+	return data
+	
+func import(data: Dictionary[StringName, Variant]) -> void:
+	super.import(data)
+	
+	is_killed = data.get(&"is_killed", is_killed)
+	_reason = data.get(&"_reason", _reason)
+	lose_on_kill = data.get(&"lose_on_kill", lose_on_kill)
+	health_on_revive = data.get(&"health_on_revive", health_on_revive)
+	kill_cooldown_delta = data.get(&"kill_cooldown_delta", kill_cooldown_delta)
+	revive_cooldown_delta = data.get(&"revive_cooldown_delta", revive_cooldown_delta)
+	kill_action_enabled = data.get(&"kill_action_enabled", kill_action_enabled)
+	kill_action_enabled_default = data.get(&"kill_action_enabled_default", kill_action_enabled_default)
+	revive_action_enabled = data.get(&"revive_action_enabled", revive_action_enabled)
+	revive_action_enabled_default = data.get(&"revive_action_enabled_default", revive_action_enabled_default)

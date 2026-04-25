@@ -32,7 +32,7 @@ func _init(unit_: BaseUnit, enabled_: bool = true) -> void:
 	unit_modes.push_back(Core.UnitMode.NORMAL)
 
 func reset(reset_type_: Core.ResetType) -> void:
-	super.reset(reset_type_)
+	await super.reset(reset_type_)
 	
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART
@@ -170,3 +170,33 @@ func move_process(_delta: float) -> void:
 		
 		if move_actor != null:
 			move_actor.apply_velocity(Vector2(0.0, -jump_speed))
+
+func export() -> Dictionary[StringName, Variant]:
+	var data: Dictionary[StringName, Variant] = super.export()
+	
+	data.merge({
+		&"jump_speed": jump_speed,
+		&"air_time_delay": air_time_delay,
+		&"jump_crouch_behavior": jump_crouch_behavior,
+		&"is_jumping": is_jumping,
+		&"is_jumping_start": is_jumping_start,
+		&"is_crouch_jumping": is_crouch_jumping,
+		&"is_climb_jumping": is_climb_jumping,
+		&"_reason": _reason,
+		&"_is_jump_active": _is_jump_active,
+	})
+	
+	return data
+	
+func import(data: Dictionary[StringName, Variant]) -> void:
+	super.import(data)
+	
+	jump_speed = data.get(&"jump_speed", jump_speed)
+	air_time_delay = data.get(&"air_time_delay", air_time_delay)
+	jump_crouch_behavior = data.get(&"jump_crouch_behavior", jump_crouch_behavior)
+	is_jumping = data.get(&"is_jumping", is_jumping)
+	is_jumping_start = data.get(&"is_jumping_start", is_jumping_start)
+	is_crouch_jumping = data.get(&"is_crouch_jumping", is_crouch_jumping)
+	is_climb_jumping = data.get(&"is_climb_jumping", is_climb_jumping)
+	_reason = data.get(&"_reason", _reason)
+	_is_jump_active = data.get(&"_is_jump_active", _is_jump_active)
