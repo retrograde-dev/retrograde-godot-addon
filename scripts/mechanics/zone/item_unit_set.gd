@@ -126,7 +126,7 @@ func remove_item(item_: ItemUnitResource) -> void:
 	for index_: int in items.size():
 		if items[index_] != item_:
 			continue
-			
+
 		remove_item_before.emit(items[index_])
 		await depopulate_item(items[index_])
 

@@ -85,6 +85,8 @@ func reset(reset_type_: Core.ResetType) -> void:
 			await Core.game.change_party(Core.data.party_alias)
 		
 		await reset_huds()
+	elif reset_type_ == Core.ResetType.STOP:
+		await reset_zone()
 
 func reset_level() -> void:
 	await Core.game.reset_cursor()
@@ -113,6 +115,7 @@ func reset_camera() -> void:
 
 func reset_zone() -> void:
 	if current_zone != null:
+		await current_zone.stop()
 		Core.nodes.clear_node(current_zone)
 		current_zone = null
 		Core.zone = null

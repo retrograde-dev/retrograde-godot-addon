@@ -177,8 +177,12 @@ func add_item(
 	var has_merged_: bool = false
 	
 	# Prioritize selected slot
-	if items[selected_slot] == null and not unselected_:
-		empty_slot_ = selected_slot
+	if not unselected_:
+		if slots == -1:
+			if selected_slot < items.size() and items[selected_slot] == null:
+				empty_slot_ = selected_slot
+		elif items[selected_slot] == null:
+			empty_slot_ = selected_slot
 	
 	var item_stack_: ItemStackResource = inventory_item_.item.inventory_stack
 	if item_stack_ == null:
@@ -209,45 +213,50 @@ func add_item(
 				return true
 				
 			has_merged_ = true
-		
+	
 	if has_merged_ and item_stack_.item_mode == Core.ItemMode.SINGLE:
 		return true
-		
-	if slots == -1 or empty_slot_ != -1:
-		if match_count >= inventory_item_.item.max_stacks:
-			return has_merged_
-		
-		var new_inventory_item_: InventoryItemResource
-		
-		if inventory_item_ is ZoneItemResource:
-			new_inventory_item_ = inventory_item_.get_inventory_item()
-		else:
-			new_inventory_item_ = inventory_item_.duplicate(true) as InventoryItemResource
-		
-		if inventory_item_.count == -1:
-			if item_stack_.add_infinite:
-				inventory_item_.count = 0
-			elif item_stack_.item_mode == Core.ItemMode.SINGLE:
-				new_inventory_item_.count = 1
-				inventory_item_.count -= 1
-			elif item_stack_.item_mode == Core.ItemMode.MULTIPLE:
-				inventory_item_.count = 0
+	
+	# No available slots
+	if slots != -1 and empty_slot_ == -1:
+		return has_merged_
+	
+	if match_count >= inventory_item_.item.max_stacks:
+		return has_merged_
+	
+	var new_inventory_item_: InventoryItemResource
+	
+	if inventory_item_ is ZoneItemResource:
+		new_inventory_item_ = inventory_item_.get_inventory_item()
+	else:
+		new_inventory_item_ = inventory_item_.duplicate(true) as InventoryItemResource
+	
+	if inventory_item_.count == -1:
+		if item_stack_.add_infinite:
+			inventory_item_.count = 0
 		elif item_stack_.item_mode == Core.ItemMode.SINGLE:
 			new_inventory_item_.count = 1
 			inventory_item_.count -= 1
 		elif item_stack_.item_mode == Core.ItemMode.MULTIPLE:
-			var count_: int = maxi(1, item_stack_.stack_size)
+			inventory_item_.count = 0
+	elif item_stack_.item_mode == Core.ItemMode.SINGLE:
+		new_inventory_item_.count = 1
+		inventory_item_.count -= 1
+	elif item_stack_.item_mode == Core.ItemMode.MULTIPLE:
+		var count_: int = maxi(1, item_stack_.stack_size)
+		
+		if count_ > inventory_item_.count:
+			count_ = inventory_item_.count
 			
-			if count_ > inventory_item_.count:
-				count_ = inventory_item_.count
-				
-			new_inventory_item_.count = count_
-			inventory_item_.count -= count_
+		new_inventory_item_.count = count_
+		inventory_item_.count -= count_
 
+	if empty_slot_ == -1:
+		items.push_back(new_inventory_item_)
+	else:
 		items[empty_slot_] = new_inventory_item_
-		return true
 	
-	return has_merged_
+	return true
 
 func replace_item(slot_: int, inventory_item_: InventoryItemResource) -> void:
 	assert(_is_in_range(slot_), "Slot is out of range.")
@@ -258,12 +267,7 @@ func replace_item(slot_: int, inventory_item_: InventoryItemResource) -> void:
 	items[slot_] = inventory_item_
 	
 func replace_selected_item(item_: InventoryItemResource) -> void:
-	assert(_is_in_range(selected_slot), "Slot is out of range.")
-
-	if not _is_in_range(selected_slot):
-		return
-		
-	items[selected_slot] = item_
+	replace_item(selected_slot, item_)
 	
 func remove_item(slot_: int) -> void:
 	assert(_is_in_range(slot_), "Slot is out of range.")
@@ -273,13 +277,12 @@ func remove_item(slot_: int) -> void:
 	
 	items[slot_] = null
 	
+	if slots == -1:
+		while items.back() == null:
+			items.pop_back()
+	
 func remove_selected_item() -> void:
-	assert(_is_in_range(selected_slot), "Slot is out of range.")
-
-	if not _is_in_range(selected_slot):
-		return
-		
-	items[selected_slot] = null
+	remove_item(selected_slot)
 
 func is_empty() -> bool:
 	for item_: InventoryItemResource in items:

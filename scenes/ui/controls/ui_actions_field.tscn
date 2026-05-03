@@ -1,21 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://bhjcqk3drh10j"]
+[gd_scene format=3 uid="uid://bhjcqk3drh10j"]
 
 [ext_resource type="Script" uid="uid://ct4arcf872kxk" path="res://addons/retrograde/scenes/ui/controls/ui_actions_field.gd" id="1_lykql"]
 [ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="2_cq6q2"]
 [ext_resource type="PackedScene" uid="uid://b7kxbj3ak5kcg" path="res://addons/retrograde/scenes/ui/component/ui_margin_container.tscn" id="3_cq6q2"]
 [ext_resource type="PackedScene" uid="uid://bbssswrytbmd4" path="res://addons/retrograde/scenes/ui/component/ui_button.tscn" id="4_ny0sy"]
 
-[node name="UIActionsField" type="HBoxContainer"]
+[node name="UIActionsField" type="HBoxContainer" unique_id=213524235]
 offset_right = 170.0
 offset_bottom = 18.0
 script = ExtResource("1_lykql")
 
-[node name="UIMarginContainerField" parent="." instance=ExtResource("3_cq6q2")]
+[node name="UIMarginContainerField" parent="." unique_id=1868595765 instance=ExtResource("3_cq6q2")]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 style = &"field"
 
-[node name="UILabel" parent="UIMarginContainerField" instance=ExtResource("2_cq6q2")]
+[node name="UILabel" parent="UIMarginContainerField" unique_id=443227526 instance=ExtResource("2_cq6q2")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
@@ -23,27 +23,27 @@ text = "ACTION"
 horizontal_alignment = 2
 style = &"field"
 
-[node name="UIMarginContainerActions" parent="." instance=ExtResource("3_cq6q2")]
+[node name="UIMarginContainerActions" parent="." unique_id=64477874 instance=ExtResource("3_cq6q2")]
 layout_mode = 2
 size_flags_horizontal = 3
 style = &"actions"
 
-[node name="ColorRect" type="ColorRect" parent="UIMarginContainerActions"]
+[node name="ColorRect" type="ColorRect" parent="UIMarginContainerActions" unique_id=1889346110]
 visible = false
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UIMarginContainerActions"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UIMarginContainerActions" unique_id=1945260696]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UIMarginContainerActions/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UIMarginContainerActions/HBoxContainer" unique_id=1487845988]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="UIButtonAdd" parent="UIMarginContainerActions/HBoxContainer" instance=ExtResource("4_ny0sy")]
+[node name="UIButtonAdd" parent="UIMarginContainerActions/HBoxContainer" unique_id=1804815030 instance=ExtResource("4_ny0sy")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8

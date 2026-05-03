@@ -5,6 +5,20 @@ var resources: InputResourceHandler = null
 var _file: InputFile
 var _data: Dictionary
 
+var _no_key_label_keys: Array[int] = [
+	KEY_ALT,
+	KEY_BACKSPACE,
+	KEY_CTRL,
+	KEY_DELETE,
+	KEY_END,
+	KEY_ESCAPE,
+	KEY_HOME,
+	KEY_PAGEDOWN,
+	KEY_PAGEUP,
+	KEY_SPACE,
+	KEY_SHIFT,
+]
+
 signal input_device_changed(input_device_: Core.InputDevice)
 signal joypad_device_changed(input_joypad_: Core.InputJoypad)
 
@@ -240,23 +254,9 @@ func get_joypad_motion_input_events(action_: StringName) -> Array[InputEvent]:
 	return get_input_events(action_, Core.InputType.JOYPAD_MOTION)
 
 func get_key_label(input_event_: InputEventKey) -> String:
-	var key_: String = input_event_.as_text().trim_suffix(" (Physical)")
+	var key_: String = input_event_.as_text().trim_suffix(" - Physical")
 	
-	var no_key_label_keys_: Array[int] = [
-		KEY_ALT,
-		KEY_BACKSPACE,
-		KEY_CTRL,
-		KEY_DELETE,
-		KEY_END,
-		KEY_ESCAPE,
-		KEY_HOME,
-		KEY_PAGEDOWN,
-		KEY_PAGEUP,
-		KEY_SPACE,
-		KEY_SHIFT,
-	]
-	
-	if no_key_label_keys_.has(input_event_.physical_keycode):
+	if _no_key_label_keys.has(input_event_.physical_keycode):
 		return key_
 
 	var label_: String = tr("KEY")

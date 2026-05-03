@@ -107,12 +107,15 @@ func _can_pick_up_zone_item(
 func pick_up_item() -> bool:
 	var items_: Array[ItemUnitResource] = _items.get_item_area_items()
 	var item_: ItemUnitResource = _get_closest_pick_up_zone_item(items_)
+		
+	var can_pick_up_: bool = false
 	
-	var can_pick_up_: bool = _can_pick_up_zone_item(
-		items_, 
-		item_,
-		Core.ItemMode.SINGLE
-	)
+	if item_ != null:
+		can_pick_up_ = _can_pick_up_zone_item(
+			items_, 
+			item_,
+			Core.ItemMode.SINGLE
+		)
 
 	if not can_pick_up_:
 		# Try swap
@@ -128,7 +131,10 @@ func pick_up_item() -> bool:
 				return false
 		
 	if not can_pick_up_:
-		pick_up_error.emit(item_.zone_item, Core.Error.ACTOR_RESTRICTION)
+		if item_ == null:
+			pick_up_error.emit(item_, Core.Error.ACTOR_RESTRICTION)
+		else:
+			pick_up_error.emit(item_.zone_item, Core.Error.ACTOR_RESTRICTION)
 		return false
 		
 	signal_can_pick_up = true
@@ -207,7 +213,7 @@ func _get_closest_pick_up_zone_item(items_: Array[ItemUnitResource]) -> ItemUnit
 		return null
 		
 	if items_.size() == 1:
-		if items_[0].zone_item.item.meta.can_pick_up:
+		if items_[0].zone_item.item.can_pick_up:
 			return items_[0]
 			
 		return null
@@ -218,7 +224,7 @@ func _get_closest_pick_up_zone_item(items_: Array[ItemUnitResource]) -> ItemUnit
 	var closest_position_: Vector2
 	
 	for item_: ItemUnitResource in items_:
-		if not item_.zone_item.item.meta.can_pick_up:
+		if not item_.zone_item.item.can_pick_up:
 			continue
 			
 		var item_position_: Vector2 = item_.node.get_align_global_position(_items.item_alignment)
@@ -245,7 +251,7 @@ func _remove_empty_zone_item(item_: ItemUnitResource) -> bool:
 		not item_.zone_item.item.zone_stack.remove_empty
 	):
 		return false
-		
+	
 	if Core.zone == null:
 		return false
 	

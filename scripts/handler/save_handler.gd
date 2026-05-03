@@ -121,7 +121,7 @@ func load_game(
 
 	load_before.emit(save_id_, save_type_)
 
-	var data_: GameResource = ResourceLoader.load(path_)
+	var data_: GameResource = ResourceLoader.load(path_, "GameResource")
 	
 	load_after.emit(save_id_, data_, save_type_)
 	

@@ -21,13 +21,9 @@ func start() -> void:
 	
 	if entity_unit_ == null:
 		return
-	
+		
 	Core.player = entity_unit_.node
-	
-	#if not Core.inventory.has(inventory_alias):
-		#Core.inventory.set(inventory_alias, InventoryResource.new())
-		#
-		#inventory = Core.inventory.get(inventory_alias)
+	Core.player.add_to_group(&"input")
 		
 	if Core.camera != null:
 		Core.camera.set_target(Core.player)

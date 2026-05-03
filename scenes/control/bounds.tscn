@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c64t7qla3bii3"]
+[gd_scene format=3 uid="uid://c64t7qla3bii3"]
 
 [ext_resource type="Script" uid="uid://b054uwghl8bci" path="res://addons/retrograde/scenes/control/bounds.gd" id="1_36x8c"]
 
@@ -17,37 +17,47 @@ resource_local_to_scene = true
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_chvrx"]
 resource_local_to_scene = true
 
-[node name="Bounds" type="Node2D"]
+[node name="Bounds" type="Node2D" unique_id=1436192619]
 script = ExtResource("1_36x8c")
 
-[node name="Area2DCenter" type="Area2D" parent="."]
+[node name="Area2DCenter" type="Area2D" parent="." unique_id=1982972187]
 unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DCenter"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DCenter" unique_id=697665972]
 shape = SubResource("RectangleShape2D_oqw7g")
 
-[node name="Area2DUp" type="Area2D" parent="."]
+[node name="Area2DUp" type="Area2D" parent="." unique_id=1922530307]
 unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DUp"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DUp" unique_id=1012030586]
 shape = SubResource("RectangleShape2D_xgxhp")
 
-[node name="Area2DDown" type="Area2D" parent="."]
+[node name="Area2DDown" type="Area2D" parent="." unique_id=1618966718]
 unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DDown"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DDown" unique_id=689571084]
 shape = SubResource("RectangleShape2D_ncw2l")
 
-[node name="Area2DLeft" type="Area2D" parent="."]
+[node name="Area2DLeft" type="Area2D" parent="." unique_id=845438905]
 unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DLeft"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DLeft" unique_id=337538008]
 shape = SubResource("RectangleShape2D_wun0s")
 
-[node name="Area2DRight" type="Area2D" parent="."]
+[node name="Area2DRight" type="Area2D" parent="." unique_id=1033072025]
 unique_name_in_owner = true
+collision_layer = 0
+collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DRight"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2DRight" unique_id=151470331]
 shape = SubResource("RectangleShape2D_chvrx")
 
 [connection signal="area_entered" from="Area2DCenter" to="." method="_on_area_2d_center_area_entered"]

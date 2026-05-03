@@ -108,7 +108,7 @@ func _add_areas() -> void:
 	if areas_ == null:
 		return
 		
-	areas_.add_area(&"Item", Core.Edge.NONE)
+	areas_.add_area(&"Item", Core.Edge.NONE, Core.Layer.INTERACTION)
 
 func _connect_events() -> void:
 	var item_area_: Area2D = unit.get_area_or_null(&"Item")
@@ -216,7 +216,7 @@ func get_item_area_items() -> Array[ItemUnitResource]:
 	if not is_in_item_area:
 		return items_
 	
-	if Core.level == null:
+	if Core.zone == null:
 		return items_
 	
 	for item_: ItemUnitResource in Core.zone.items.get_items():

@@ -4,7 +4,10 @@ class_name BaseUnit
 @export var alias: StringName = &"":
 	get = get_alias,
 	set = set_alias
-	
+
+@export_group("Setup")
+@export var initial_unit_state: UnitStateResource = null
+
 var unit_type: Core.UnitType
 
 var unit_state: UnitStateResource
@@ -90,8 +93,12 @@ func reset(reset_type_: Core.ResetType) -> void:
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART
 	):
-		unit_state = UnitStateResource.new()
-		previous_unit_state = UnitStateResource.new()
+		if initial_unit_state != null:
+			unit_state = initial_unit_state.duplicate(true)
+			previous_unit_state = initial_unit_state.duplicate(true)
+		else:
+			unit_state = UnitStateResource.new()
+			previous_unit_state = UnitStateResource.new()
 
 func start() -> void:
 	await super.start()
@@ -371,11 +378,15 @@ func import(data_: Resource) -> void:
 	
 	if data_.unit_state != null:
 		unit_state = data_.unit_state.duplicate(true) as UnitStateResource
+	elif initial_unit_state != null:
+		unit_state = initial_unit_state.duplicate(true)
 	else:
 		unit_state = UnitStateResource.new()
 		
 	if data_.previous_unit_state != null:
 		previous_unit_state = data_.previous_unit_state.duplicate(true) as UnitStateResource
+	elif initial_unit_state != null:
+		previous_unit_state = initial_unit_state.duplicate(true)
 	else:
 		previous_unit_state = UnitStateResource.new()
 	

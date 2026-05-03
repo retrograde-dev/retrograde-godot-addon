@@ -75,6 +75,9 @@ func is_just_pressed(action_: StringName, has_: bool = false) -> bool:
 	if not unit.is_in_group(&"input"):
 		return false
 
+	if not InputMap.has_action(action_):
+		return false
+
 	return Input.is_action_just_pressed(action_)
 
 func is_just_released(action_: StringName, has_: bool = false) -> bool:

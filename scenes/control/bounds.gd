@@ -59,7 +59,7 @@ func _update_areas() -> void:
 	
 	if not rect_.has_area():
 		rect_ = _get_parent_collision_rect()
-		
+
 		if not rect_.has_area():
 			rect_ = Rect2(
 				Vector2(-Core.TILE_SIZE / 2, -Core.TILE_SIZE / 2), 
@@ -74,8 +74,8 @@ func _update_areas() -> void:
 
 	_set_area_shape(
 		%Area2DCenter,
-		_center_rect.size,
 		_center_rect.position + (_center_rect.size * 0.5),
+		_center_rect.size,
 	)
 
 	_set_area_shape(

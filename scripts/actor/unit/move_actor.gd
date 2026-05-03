@@ -96,6 +96,7 @@ func move_process(_delta: float) -> void:
 	var roam_actor: BaseActor = unit.get_actor_or_null(&"roam")
 	var is_roaming: bool = roam_actor != null and roam_actor.is_roaming
 	
+	# If falling and crouching remove horizontal velocity
 	if fall_actor != null and fall_actor.is_crouch_falling:
 		velocity.x = move_toward(unit.velocity.x, 0.0, normal_move_speed)
 		return
@@ -134,7 +135,7 @@ func move_process(_delta: float) -> void:
 
 	var crouch_actor: BaseActor = unit.get_actor_or_null(&"crouch")
 		
-	if crouch_actor != null and crouch_actor.is_crouching:	
+	if crouch_actor != null and crouch_actor.is_crouching:
 		if fall_actor == null or not fall_actor.is_in_air:
 			if move_crouch_behavior == Core.PlatformerBehavior.NONE:
 				_internal_crouch_direction.x = direction.x

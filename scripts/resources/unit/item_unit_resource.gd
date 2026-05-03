@@ -7,7 +7,7 @@ class_name ItemUnitResource
 var node: Node = null
 
 func _init(
-	zone_item_: ZoneItemResource,
+	zone_item_: ZoneItemResource = null,
 	meta_: Dictionary = {}
 ) -> void:
 	zone_item = zone_item_

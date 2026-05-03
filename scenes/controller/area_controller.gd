@@ -17,7 +17,11 @@ func get_area(area_name_: StringName) -> Area2D:
 		return area
 		
 	if _queue_areas.has(area_name_):
-		_add_area_internal(area_name_, _queue_areas[area_name_])
+		_add_area_internal(
+			area_name_, 
+			_queue_areas[area_name_][0],
+			_queue_areas[area_name_][1],
+		)
 		_queue_areas.erase(area_name_)
 		
 	if _areas.has(area_name_):
@@ -25,25 +29,39 @@ func get_area(area_name_: StringName) -> Area2D:
 		
 	return null
 	
-func add_area(area_name_: StringName, edge_: Core.Edge) -> void:
-	_queue_areas[area_name_] = edge_
+func add_area(
+	area_name_: StringName, 
+	edge_: Core.Edge, 
+	layer_: Core.Layer = Core.Layer.NONE,
+) -> void:
+	_queue_areas[area_name_] = [edge_, layer_]
 
-func _add_area_internal(area_name_: StringName, edge_: Core.Edge) -> void:
+func _add_area_internal(
+	area_name_: StringName, 
+	edge_: Core.Edge, 
+	layer_: Core.Layer,
+) -> void:
 	var area_: Area2D 
 	
 	if _areas.has(area_name_):
 		area_ = _areas[area_name_].area
-		
-		for child: Node in area_.get_children():
-			if child is CollisionShape2D:
-				area_.remove_child(child)
-				break
 	else:
 		area_ = Area2D.new()
+		area_.set_collision_layer_value(1, false)
+		area_.set_collision_mask_value(1, false)
+		
 		add_child(area_)
+	
+		var collisionShape2d_ = CollisionShape2D.new()
+		collisionShape2d_.position = %Bounds.get_collision_shape_2d(edge_).position
+		collisionShape2d_.shape = %Bounds.get_collision_shape_2d(edge_).shape
+		area_.add_child(collisionShape2d_)
 		
-	area_.add_child(%Bounds.get_collision_shape_2d(edge_))
-		
+	if layer_ != Core.Layer.NONE:
+		var collision_layer_: int = Core.get_layer_number(layer_)
+		area_.set_collision_layer_value(collision_layer_, true)
+		area_.set_collision_mask_value(collision_layer_, true)
+	
 	_areas[area_name_] = {
 		&"edge": edge_,
 		&"area": area_

@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=28 format=3 uid="uid://dpyw2bfpkciiu"]
+[gd_resource type="Theme" format=3 uid="uid://dpyw2bfpkciiu"]
 
 [ext_resource type="Texture2D" uid="uid://c20fghb452ms6" path="res://addons/retrograde/_/assets/ui/320/check_box/checked.png" id="1_dmovp"]
 [ext_resource type="Texture2D" uid="uid://q1ohlt0rbq44" path="res://addons/retrograde/_/assets/ui/320/check_box/unchecked.png" id="2_s73pj"]

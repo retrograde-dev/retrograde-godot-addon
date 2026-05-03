@@ -43,12 +43,13 @@ func _add_areas() -> void:
 	if areas_ == null:
 		return
 		
-	areas_.add_area(&"Roam", Core.Edge.NONE)
+	areas_.add_area(&"Roam", Core.Edge.NONE, Core.Layer.ROAM)
 	
 func _connect_events() -> void:
 	unit.connect(&"unit_physics_changed", _on_unit_physics_changed)
 	
 	var roam_area_: Area2D = unit.get_area_or_null(&"Roam")
+
 	if roam_area_ != null:
 		roam_area_.connect(&"body_entered", _on_roam_body_entered)
 		roam_area_.connect(&"body_exited", _on_roam_body_exited)

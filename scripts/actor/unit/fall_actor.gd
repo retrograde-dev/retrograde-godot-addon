@@ -56,6 +56,7 @@ func physics_process(delta_: float) -> void:
 		return
 		
 	var jump_actor: BaseActor = unit.get_actor_or_null(&"jump")
+	var roam_actor: BaseActor = unit.get_actor_or_null(&"roam")
 	
 	if is_unit_climbing():
 		if is_in_air:
@@ -70,6 +71,12 @@ func physics_process(delta_: float) -> void:
 			rise_time = 0.0
 			fall_time = 0.0
 	elif unit.is_on_floor():
+		if is_in_air:
+			is_in_air = false 
+			is_falling = false
+			is_rising = false 
+			is_crouch_falling = false
+	elif roam_actor != null and roam_actor.is_roaming:
 		if is_in_air:
 			is_in_air = false 
 			is_falling = false

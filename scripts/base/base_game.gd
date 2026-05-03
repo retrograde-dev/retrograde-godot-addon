@@ -9,7 +9,14 @@ class_name BaseGame
 @export var initial_parties: Dictionary[StringName, PartyResource] = {}
 @export var initial_inventory: Dictionary[StringName, InventoryResource] = {}
 
-var data: GameResource = null
+var data: GameResource = null:
+	get():
+		return data
+	set(value):
+		data = value
+		Core.data = data
+		Core.state = data.state
+		
 var playtime: PlaytimeTimer = PlaytimeTimer.new()
 
 var current_level: BaseLevel = null
@@ -38,6 +45,7 @@ func _init() -> void:
 	Core.inputs.load()
 
 	Core.items = ItemHandler.new()
+	Core.entities = EntityHandler.new()
 
 	if Core.ENABLE_LEVEL_SELECT:
 		Core.level_select = LevelSelectHandler.new()
@@ -72,10 +80,9 @@ func load_last() -> void:
 	start_load()
 	
 	var data_: GameResource = Core.save.load_last_game()
+	
 	if data_ != null:
 		data = data_
-		Core.data = data
-		Core.state = data.state
 	
 	await reset(Core.ResetType.START)
 	
@@ -88,8 +95,6 @@ func load(
 	start_load()
 
 	data = Core.save.load_game(save_id_, save_type_)
-	Core.data = data
-	Core.state = data.state
 	
 	await reset(Core.ResetType.START)
 	
@@ -107,12 +112,12 @@ func save(
 
 func restart() -> void:
 	start_load()
-	
+
 	if current_level == null or Core.level.level_mode != Core.LevelMode.GAME:
 		await start()
 	else:
 		await reset(Core.ResetType.RESTART)
-		
+	
 	end_load()
 
 func refresh() -> void:
@@ -129,7 +134,7 @@ func stop() -> void:
 func reset(reset_type_: Core.ResetType) -> void:
 	if reset_type_ == Core.ResetType.START:
 		_hide_mouse()
-		
+
 		await reset_party()
 		await reset_level()
 		await reset_game()
@@ -175,10 +180,7 @@ func reset(reset_type_: Core.ResetType) -> void:
 		playtime.reset()
 		playtime.start(data.playtime)
 		
-		if current_level == null or data.level_alias != current_level.alias:
-			await change_level(data.level_alias, Core.LevelMode.GAME)
-		else:
-			await current_level.restart()
+		await change_level(data.level_alias, Core.LevelMode.GAME)
 	elif reset_type_ == Core.ResetType.REFRESH:
 		if Core.hud != null:
 			await Core.hud.refresh()
@@ -198,8 +200,6 @@ func menu() -> void:
 	data.party_alias = initial_party_alias
 	data.parties = initial_parties.duplicate(true)
 	data.inventory = initial_inventory.duplicate(true)
-	Core.data = data
-	Core.state = data.state
 
 	if is_started:
 		await reset_party()
@@ -245,6 +245,7 @@ func reset_level() -> void:
 	if current_level != null:
 		await current_level.stop()
 		current_level.started.disconnect(_level_started)
+		current_level.restarted.disconnect(_level_restarted)
 		remove_level_child(current_level)
 		current_level.queue_free()
 		current_level = null
@@ -260,8 +261,7 @@ func reset_cursor() -> void:
 
 func reset_state() -> void:
 	is_paused = false
-	Engine.time_scale = 1
-	is_enabled = true
+	get_tree().paused = false
 
 	if Core.camera != null:
 		Core.camera.position_smoothing_enabled = true
@@ -367,7 +367,7 @@ func change_party(party_alias_: StringName) -> void:
 	if current_party and current_party.alias != party_alias_:
 		await current_party.restart()
 		return
-		
+	
 	await reset_party()
 		
 	current_party = PartyValue.new(party_alias_)
@@ -406,6 +406,7 @@ func start_load() -> void:
 		
 		if Core.camera != null:
 			Core.camera.position_smoothing_enabled = false
+			
 		is_enabled = false
 		
 	_load_index += 1
@@ -421,7 +422,9 @@ func end_load() -> void:
 	if _load_index == 0:
 		if Core.camera != null:
 			Core.camera.position_smoothing_enabled = true
+			
 		is_enabled = true
+		
 		Core.ui.hide_ui(&"loading")
 
 func _process(delta_: float) -> void:

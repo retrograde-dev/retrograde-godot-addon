@@ -39,11 +39,11 @@ func reset(reset_type_: Core.ResetType) -> void:
 			data = Core.data.get_zone(Core.level.alias, alias)
 			
 			# Remove items since handled by data
-			for child: Node in get_children():
-				if child is ItemUnit:
-					child.parent.remove_child(child)
-				elif child is EntityUnit:
-					child.parent.remove_child(child)
+			for child_: Node in get_children():
+				if child_ is ItemUnit:
+					child_.parent.remove_child(child_)
+				elif child_ is EntityUnit:
+					child_.parent.remove_child(child_)
 		else:
 			data = ZoneResource.new()
 			data.items = initial_items.duplicate(true)
@@ -63,7 +63,11 @@ func reset(reset_type_: Core.ResetType) -> void:
 			Core.audio.play_ambiance(ambiance)
 		else: 
 			Core.audio.stop_ambiance()
-
+	elif reset_type_ == Core.ResetType.STOP:
+		await items.depopulate_items()
+		await entities.depopulate_entities()
+		await players.depopulate_entities()
+		
 func children_reset(reset_type_: Core.ResetType) -> void:
 	await super.children_reset(reset_type_)
 
@@ -73,12 +77,20 @@ func children_reset(reset_type_: Core.ResetType) -> void:
 		# Add any items in level to data.items
 		for child_: Node in get_children():
 			if child_ is ItemUnit:
-				data.items.push_back(child_.export())
+				var item_unit_: ItemUnitResource = child_.export()
+				initial_items.push_back(item_unit_.duplicate(true))
+				data.items.push_back(item_unit_)
+				
+				Core.game.add_level_child(child_)
 			elif child_ is EntityUnit:
+				var entity_unit_: EntityUnitResource = child_.export()
+				
 				if Core.is_player(child_):
-					data.players.push_back(child_.export())
+					initial_players.push_back(entity_unit_.duplicate(true))
+					data.players.push_back(entity_unit_)
 				else:
-					data.entities.push_back(child_.export())
+					initial_entities.push_back(entity_unit_.duplicate(true))
+					data.entities.push_back(entity_unit_)
 				
 				Core.game.add_level_child(child_)
 			elif child_ is DoorObject:

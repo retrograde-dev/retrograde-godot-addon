@@ -127,6 +127,14 @@ func free_node(node: Node, reset_method_: Callable = Callable()) -> void:
 			await node.stop()
 		
 		node.position = Core.DEAD_ZONE
+	else:
+		if node is BaseNode2D or node is BaseCharacterBody2D:
+			if not reset_method_.is_null():
+				reset_method_.call(node, Core.ResetType.STOP)
+			await node.stop()
+			
+		node.get_parent().remove_child(node)
+		node.queue_free()
 
 func free_nodes(nodes_: Array[Node], reset_method_: Callable = Callable()) -> void:
 	for node: Node in nodes_:

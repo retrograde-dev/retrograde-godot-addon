@@ -178,11 +178,11 @@ func _add_areas() -> void:
 	if areas_ == null:
 		return
 		
-	areas_.add_area(&"Climb", Core.Edge.NONE)
-	areas_.add_area(&"ClimbUp", Core.Edge.NONE) # This is correct
-	areas_.add_area(&"ClimbDown", Core.Edge.DOWN)
-	areas_.add_area(&"ClimbLeft", Core.Edge.LEFT)
-	areas_.add_area(&"ClimbRight", Core.Edge.RIGHT)
+	areas_.add_area(&"Climb", Core.Edge.NONE, Core.Layer.CLIMB)
+	areas_.add_area(&"ClimbUp", Core.Edge.NONE, Core.Layer.CLIMB) # This is correct
+	areas_.add_area(&"ClimbDown", Core.Edge.DOWN, Core.Layer.CLIMB)
+	areas_.add_area(&"ClimbLeft", Core.Edge.LEFT, Core.Layer.CLIMB)
+	areas_.add_area(&"ClimbRight", Core.Edge.RIGHT, Core.Layer.CLIMB)
 
 func _connect_events() -> void:
 	unit.connect(&"unit_mode_changed", _on_unit_mode_changed)

@@ -45,7 +45,7 @@ func _add_areas() -> void:
 	if areas_ == null:
 		return
 		
-	areas_.add_area(&"lose", Core.Edge.NONE)
+	areas_.add_area(&"lose", Core.Edge.NONE, Core.Layer.LOSE)
 
 func _connect_events() -> void:
 	var lose_area: Area2D = unit.get_area_or_null(&"lose")
@@ -100,6 +100,10 @@ func process(delta: float) -> void:
 		lose_complete.emit(_reason)
 
 func can_lose() -> bool:
+	var win_actor_: BaseActor = unit.get_actor_or_null(&"win")
+	if win_actor_ != null and win_actor_.is_win:
+		return false
+	
 	return not is_lose
 
 func lose(reason_: StringName = &"") -> bool:
