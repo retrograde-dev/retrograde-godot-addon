@@ -34,7 +34,7 @@ func process(delta_: float) -> void:
 	if stop_time != 0:
 		return
 		
-	if is_paused or Core.game.is_paused:
+	if is_paused or Core.game.pause.is_paused:
 		pause_delta += delta_
 	
 func get_playtime() -> int:

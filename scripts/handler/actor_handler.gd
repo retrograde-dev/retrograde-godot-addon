@@ -1,14 +1,10 @@
 class_name ActorHandler
 
-var unit: BaseUnit
 var _actors: Dictionary = {}
 var _current: int = 0
 var _count: int = 0
 var _process_order: StringNameSet = StringNameSet.new()
 var _physics_process_order: StringNameSet = StringNameSet.new()
-
-func _init(unit_: BaseUnit) -> void:
-	unit = unit_
 	
 func _iter_init(_arg: Array) -> bool:
 	_current = 0
@@ -34,22 +30,28 @@ func reset(reset_type_: Core.ResetType) -> void:
 			_actors[key].alias = key
 
 func start() -> void:
-	reset(Core.ResetType.START)
+	await reset(Core.ResetType.START)
 	
 	for key: StringName in _actors:
-		_actors[key].start()
+		await _actors[key].start()
 
 func restart() -> void:
-	reset(Core.ResetType.RESTART)
+	await reset(Core.ResetType.RESTART)
 	
 	for key: StringName in _actors:
-		_actors[key].restart()
-
+		await _actors[key].restart()
+		
+func refresh() -> void:
+	await reset(Core.ResetType.REFRESH)
+	
+	for key: StringName in _actors:
+		await _actors[key].refresh()
+		
 func stop() -> void:
-	reset(Core.ResetType.STOP)
+	await reset(Core.ResetType.STOP)
 	
 	for key: StringName in _actors:
-		_actors[key].stop()
+		await _actors[key].stop()
 
 func process(delta_: float) -> void:
 	for key: StringName in _process_order:
@@ -97,9 +99,6 @@ func get_actions() -> Array[StringName]:
 	var actions_: Array[StringName] = []
 	
 	for key: StringName in _actors:
-		if not _actors[key] is UnitActor:
-			continue
-		
 		for action_: StringName in _actors[key].get_actions():
 			if not actions_.has(action_):
 				actions_.push_back(action_)

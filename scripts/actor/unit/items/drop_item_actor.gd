@@ -8,8 +8,6 @@ var drop_offset: Vector2 = Vector2.ZERO
 var drop_mode: Core.ItemMode = Core.ItemMode.SINGLE
 var drop_swap: bool = false
 
-var drop_action_enabled: bool = true
-var drop_action_enabled_default: bool = true
 var signal_can_drop: bool = false
 var signal_drop_handled: bool = false
 
@@ -22,14 +20,6 @@ signal drop_after(inventory_item_: InventoryItemResource)
 func _init(items_: ItemsActor, unit_: BaseUnit, enabled_: bool = true) -> void:
 	super._init(unit_, &"drop_item", enabled_)
 	_items = items_
-
-func reset(reset_type_: Core.ResetType) -> void:
-	await super.reset(reset_type_)
-	
-	if (reset_type_ == Core.ResetType.START or 
-		reset_type_ == Core.ResetType.RESTART
-	):
-		drop_action_enabled = drop_action_enabled_default
 	
 func physics_process(delta: float) -> void:
 	super.physics_process(delta)
@@ -46,9 +36,6 @@ func physics_process(delta: float) -> void:
 	_action_drop_selected_item()
 	
 func _action_drop_selected_item() -> void:
-	if not drop_action_enabled:
-		return
-		
 	if not unit.actions.is_just_pressed(action_drop):
 		return
 		

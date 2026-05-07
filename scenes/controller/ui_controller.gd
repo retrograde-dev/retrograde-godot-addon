@@ -134,7 +134,7 @@ func prepare_ui_alias(alias_: StringName, from_alias_: StringName) -> StringName
 			
 		return alias_
 		
-	if Core.game.is_paused:
+	if Core.game.pause.is_paused:
 		return &"pause"
 		
 	if (from_alias_ == &"level_select" and 

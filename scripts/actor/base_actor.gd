@@ -1,3 +1,4 @@
+@abstract
 class_name BaseActor
 
 var alias: StringName
@@ -37,16 +38,22 @@ func reset(reset_type_: Core.ResetType) -> void:
 		assert(process_skip >= process_skip_offset, "Invalid process skip offset for current proccess skip.")
 
 func start() -> void:
-	reset(Core.ResetType.START)
+	await reset(Core.ResetType.START)
 	is_started = true
 
 func restart() -> void:
-	reset(Core.ResetType.RESTART)
+	await reset(Core.ResetType.RESTART)
+	
+func refresh() -> void:
+	await reset(Core.ResetType.REFRESH)
 
 func stop() -> void:
-	reset(Core.ResetType.STOP)
+	await reset(Core.ResetType.STOP)
 	is_started = false
 
+func get_actions() -> Array[StringName]:
+	return []
+	
 func process(_delta: float) -> void:
 	# Needs to be called before can_process since it affects can_process
 	_update_process_skip()

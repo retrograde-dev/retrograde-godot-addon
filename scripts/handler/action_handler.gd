@@ -1,6 +1,7 @@
 class_name ActionHandler
 
-var unit: BaseUnit
+var node: Node
+var actors: ActorHandler
 
 var _actions: Array[StringName] = []
 var _press: Array[StringName] = []
@@ -11,8 +12,9 @@ var _press_queue: Array[StringName] = []
 var _pressed_queue: Array[StringName] = []
 var _release_queue: Array[StringName] = []
 
-func _init(unit_: BaseUnit) -> void:
-	unit = unit_
+func _init(node_: Node, actors_: ActorHandler) -> void:
+	node = node_
+	actors = actors_
 
 func reset(reset_type_: Core.ResetType) -> void:
 	if (reset_type_ == Core.ResetType.START or
@@ -27,13 +29,16 @@ func reset(reset_type_: Core.ResetType) -> void:
 		_release_queue.clear()
 
 		_actions.clear()
-		_actions.append_array(unit.actors.get_actions())
+		_actions.append_array(actors.get_actions())
 
 func start() -> void:
 	await reset(Core.ResetType.START)
 
 func restart() -> void:
 	await reset(Core.ResetType.RESTART)
+
+func refresh() -> void:
+	await reset(Core.ResetType.REFRESH)
 
 func stop() -> void:
 	await reset(Core.ResetType.STOP)
@@ -71,13 +76,13 @@ func is_just_pressed(action_: StringName, has_: bool = false) -> bool:
 
 	if _pressed.has(action_):
 		return true
-
-	if not unit.is_in_group(&"input"):
+	
+	if not node.is_in_group(&"input"):
 		return false
 
 	if not InputMap.has_action(action_):
 		return false
-
+	
 	return Input.is_action_just_pressed(action_)
 
 func is_just_released(action_: StringName, has_: bool = false) -> bool:
@@ -87,7 +92,7 @@ func is_just_released(action_: StringName, has_: bool = false) -> bool:
 	if _released.has(action_):
 		return true
 
-	if not unit.is_in_group(&"input"):
+	if not node.is_in_group(&"input"):
 		return false
 
 	return Input.is_action_just_released(action_)
@@ -99,7 +104,7 @@ func is_pressed(action_: StringName, has_: bool = false) -> bool:
 	if _press.has(action_):
 		return true
 
-	if not unit.is_in_group(&"input"):
+	if not node.is_in_group(&"input"):
 		return false
 	
 	if Core.inputs.has_action(action_):
@@ -118,7 +123,7 @@ func get_axis(negative_action_: StringName, positive_action_: StringName, has_: 
 		if _press.has(negative_action_):
 			return -1.0
 
-		if not unit.is_in_group(&"input"):
+		if not node.is_in_group(&"input"):
 			return 0.0
 
 		return Input.get_action_strength(negative_action_)
@@ -126,7 +131,7 @@ func get_axis(negative_action_: StringName, positive_action_: StringName, has_: 
 		if _press.has(positive_action_):
 			return 1.0
 
-		if not unit.is_in_group(&"input"):
+		if not node.is_in_group(&"input"):
 			return 0.0
 
 		return -Input.get_action_strength(positive_action_)
@@ -136,7 +141,7 @@ func get_axis(negative_action_: StringName, positive_action_: StringName, has_: 
 func _get_press_axis(negative_action_: StringName, positive_action_: StringName) -> float:
 	var result: float = 0.0
 
-	if unit.is_in_group(&"input"):
+	if node.is_in_group(&"input"):
 		result += Input.get_axis(negative_action_, positive_action_)
 
 	if _press.has(positive_action_):

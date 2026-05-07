@@ -7,8 +7,6 @@ var pick_up_mode: Core.ItemMode = Core.ItemMode.SINGLE
 var pick_up_swap: bool = false
 var pick_up_use: bool = false # When true, if slots are full, will attempt to use item on pickup
 
-var pick_up_action_enabled: bool = true
-var pick_up_action_enabled_default: bool = true
 var signal_can_pick_up: bool = false
 var signal_pick_up_handled: bool = false
 
@@ -21,14 +19,6 @@ signal pick_up_after(inventory_item_: InventoryItemResource)
 func _init(items_: ItemsActor, unit_: BaseUnit, enabled_: bool = true) -> void:
 	super._init(unit_, &"drop_item", enabled_)
 	_items = items_
-
-func reset(reset_type_: Core.ResetType) -> void:
-	await super.reset(reset_type_)
-	
-	if (reset_type_ == Core.ResetType.START or 
-		reset_type_ == Core.ResetType.RESTART
-	):
-		pick_up_action_enabled = pick_up_action_enabled_default
 	
 func physics_process(delta: float) -> void:
 	super.physics_process(delta)
@@ -45,9 +35,6 @@ func physics_process(delta: float) -> void:
 	_action_pick_up_item()
 	
 func _action_pick_up_item() -> void:
-	if not pick_up_action_enabled:
-		return
-		
 	if not unit.actions.is_just_pressed(action_pick_up):
 		return
 		

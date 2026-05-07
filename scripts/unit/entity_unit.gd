@@ -85,7 +85,7 @@ var roam: BaseActor:
 func _init() -> void:
 	super._init(Core.UnitType.ENTITY)
 	
-	actors = ActorHandler.new(self)
+	actors = ActorHandler.new()
 	actors.add_all({
 		&"interact": InteractActor.new(self),
 		&"items": ItemsActor.new(self),
@@ -106,7 +106,7 @@ func _init() -> void:
 		&"move": MoveActor.new(self),
 	})
 
-	actions = ActionHandler.new(self)
+	actions = ActionHandler.new(self, actors)
 	alignment = Core.Alignment.BOTTOM_CENTER
 	
 func use_item(item_: ItemResource) -> bool:

@@ -23,9 +23,7 @@ var current_level: BaseLevel = null
 var current_party: PartyValue = null
 var current_cursor: BaseCursor = null
 
-var is_paused: bool = false
 var is_enabled: bool = true
-var _toggle_mouse: bool = true
 
 var _load_index: int = 0
 
@@ -35,7 +33,12 @@ var is_win: bool = false
 var _is_win_handeld: bool = false
 var is_started: bool = false
 
-signal pause_toggled(is_paused: bool)
+var actions: ActionHandler
+var actors: ActorHandler
+
+var pause: BaseActor:
+	get:
+		return actors.use(&"pause")
 
 func _init() -> void:
 	Core.nodes = NodeHandler.new()
@@ -58,6 +61,15 @@ func _init() -> void:
 	Core.settings.load()
 
 	Core.save = SaveHandler.new()
+	
+	actors = ActorHandler.new()
+	actors.add_all({
+		&"pause": PauseActor.new()
+	})
+	
+	actions = ActionHandler.new(self, actors)
+	
+	add_to_group(&"input")
 
 func _ready() -> void:
 	Core.ui = get_node_or_null("%UI")
@@ -66,14 +78,22 @@ func _ready() -> void:
 	
 	Core.save.save_before.connect(_on_save_before)
 	
+	actors.ready()
+	
 	await menu()
 	is_started = true
 
 func start() -> void:
 	start_load()
+	
 	Core.save.delete_save(0, Core.SaveType.RESTART)
 	Core.save.delete_save(0, Core.SaveType.CHECKPOINT)
+	
 	await reset(Core.ResetType.START)
+	
+	await actors.start()
+	await actions.start()
+	
 	end_load()
 	
 func load_last() -> void:
@@ -86,6 +106,9 @@ func load_last() -> void:
 	
 	await reset(Core.ResetType.START)
 	
+	await actors.start()
+	await actions.start()
+	
 	end_load()
 	
 func load(
@@ -97,6 +120,9 @@ func load(
 	data = Core.save.load_game(save_id_, save_type_)
 	
 	await reset(Core.ResetType.START)
+	
+	await actors.start()
+	await actions.start()
 	
 	end_load()
 	
@@ -117,14 +143,23 @@ func restart() -> void:
 		await start()
 	else:
 		await reset(Core.ResetType.RESTART)
+		
+		await actors.restart()
+		await actions.restart()
 	
 	end_load()
 
 func refresh() -> void:
 	await reset(Core.ResetType.REFRESH)
+	
+	await actors.refresh()
+	await actions.refresh()
 
 func stop() -> void:
 	await reset(Core.ResetType.STOP)
+
+	await actions.stop()
+	await actors.stop()
 
 	if Core.EXIT_DELAY > 0.0:
 		await get_tree().create_timer(Core.EXIT_DELAY).timeout
@@ -133,7 +168,7 @@ func stop() -> void:
 
 func reset(reset_type_: Core.ResetType) -> void:
 	if reset_type_ == Core.ResetType.START:
-		_hide_mouse()
+		hide_mouse()
 
 		await reset_party()
 		await reset_level()
@@ -151,7 +186,7 @@ func reset(reset_type_: Core.ResetType) -> void:
 
 		await change_level(data.level_alias, Core.LevelMode.GAME)
 	elif reset_type_ == Core.ResetType.RESTART:
-		_hide_mouse()
+		hide_mouse()
 
 		if Core.hud != null:
 			await Core.hud.restart()
@@ -211,11 +246,17 @@ func menu() -> void:
 		Core.audio.reset()
 		Core.speech.reset()
 
-	if is_started:
-		_show_mouse()
+		show_mouse()
+		
+		await actors.start()
+		await actions.start()
+	
 		Core.ui.hide_uis(Core.UIType.GAME)
 		Core.hud.hide_huds()
 	else:
+		await actors.start()
+		await actions.start()
+	
 		if Core.hud != null:
 			await Core.hud.start()
 
@@ -260,9 +301,6 @@ func reset_cursor() -> void:
 		Core.cursor = null
 
 func reset_state() -> void:
-	is_paused = false
-	get_tree().paused = false
-
 	if Core.camera != null:
 		Core.camera.position_smoothing_enabled = true
 
@@ -428,8 +466,9 @@ func end_load() -> void:
 		Core.ui.hide_ui(&"loading")
 
 func _process(delta_: float) -> void:
-	_handle_pause()
-
+	actions.process(delta_)
+	actors.process(delta_)
+	
 	if not is_enabled:
 		return
 
@@ -441,60 +480,16 @@ func _process(delta_: float) -> void:
 
 	if is_lose and not _is_lose_handeld:
 		_is_lose_handeld = true
-		_show_mouse()
+		show_mouse()
 		Core.ui.show_ui(&"lose")
 
 	if is_win and not _is_win_handeld:
 		_is_win_handeld = true
-		_show_mouse()
+		show_mouse()
 		Core.ui.show_ui(&"win")
 
-func _physics_process(_delta: float) -> void:
-	pass
-
-func _handle_pause() -> void:
-	if current_level == null:
-		return
-
-	if not InputMap.has_action(&"pause"):
-		return
-
-	if Input.is_action_just_pressed(&"pause"):
-		toggle_pause()
-
-func pause() -> void:
-	if !is_paused:
-		toggle_pause()
-		
-func unpause() -> void:
-	if is_paused:
-		toggle_pause()
-		
-func toggle_pause() -> void:
-	if is_paused:
-		get_tree().paused = false
-		is_paused = false
-		pause_toggled.emit(is_paused)
-
-		if _toggle_mouse:
-			_hide_mouse()
-
-		Core.audio.normal_volume(Core.AudioType.MUSIC)
-		Core.audio.normal_volume(Core.AudioType.AMBIANCE)
-
-		Core.ui.hide_uis(Core.UIType.MENU)
-	elif _can_pause():
-		get_tree().paused = true
-		is_paused = true
-		pause_toggled.emit(is_paused)
-
-		if _toggle_mouse:
-			_show_mouse()
-
-		Core.audio.quiet_volume(Core.AudioType.MUSIC)
-		Core.audio.quiet_volume(Core.AudioType.AMBIANCE)
-
-		Core.ui.show_ui(&"pause")
+func _physics_process(delta_: float) -> void:
+	actors.physics_process(delta_)
 
 func _can_pause() -> bool:
 	if not is_enabled:
@@ -514,25 +509,30 @@ func _can_pause() -> bool:
 
 	return true
 
-func _hide_mouse() -> void:
-	if not is_paused:
-		_toggle_mouse = true
-
+func hide_mouse() -> void:
 	if Core.ENABLE_MOUSE_CAPTURE:
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 		if Core.cursor:
 			Core.cursor.visible = true
 
-func _show_mouse() -> void:
-	if not is_paused:
-		_toggle_mouse = false
-
+func show_mouse() -> void:
 	if Core.ENABLE_MOUSE_CAPTURE:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 		if Core.cursor:
 			Core.cursor.visible = false
+
+func get_actor_or_null(actor_alias_: StringName) -> BaseActor:
+	if not actors.has(actor_alias_):
+		return null
+	
+	var actor: BaseActor = actors.use(actor_alias_)
+	
+	if not actor.is_enabled:
+		return null
+		
+	return actor
 
 func _input(event_: InputEvent) -> void:
 	if Core.inputs == null:

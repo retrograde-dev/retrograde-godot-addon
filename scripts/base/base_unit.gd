@@ -103,27 +103,36 @@ func reset(reset_type_: Core.ResetType) -> void:
 func start() -> void:
 	await super.start()
 	
-	if actions != null:
-		await actions.start()
-	
 	if actors != null:
 		await actors.start()
+	
+	if actions != null:
+		await actions.start()
 	
 func restart() -> void:
 	await super.restart()
 	
-	if actions != null:
-		actions.restart()
-	
 	if actors != null:
-		actors.restart()
-	
-func stop() -> void:
-	if actors != null:
-		actors.stop()
+		await actors.restart()
 		
 	if actions != null:
-		actions.stop()
+		await actions.restart()
+		
+func refresh() -> void:
+	await super.refresh()
+	
+	if actors != null:
+		await actors.refresh()
+		
+	if actions != null:
+		await actions.refresh()
+	
+func stop() -> void:
+	if actions != null:
+		await actions.stop()
+		
+	if actors != null:
+		await actors.stop()
 		
 	await super.stop()
 

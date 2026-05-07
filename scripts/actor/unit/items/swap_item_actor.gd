@@ -6,8 +6,6 @@ var _current_item: ItemUnitResource = null
 
 var swap_mode: Core.ItemMode = Core.ItemMode.SINGLE
 
-var swap_action_enabled: bool = true
-var swap_action_enabled_default: bool = true
 var signal_can_swap: bool = false
 var signal_swap_handled: bool = false
 
@@ -20,14 +18,6 @@ signal swap_after(inventory_item_: InventoryItemResource, zone_item_: ZoneItemRe
 func _init(items_: ItemsActor, unit_: BaseUnit, enabled_: bool = true) -> void:
 	super._init(unit_, &"drop_item", enabled_)
 	_items = items_
-
-func reset(reset_type_: Core.ResetType) -> void:
-	await super.reset(reset_type_)
-	
-	if (reset_type_ == Core.ResetType.START or 
-		reset_type_ == Core.ResetType.RESTART
-	):
-		swap_action_enabled = swap_action_enabled_default
 		
 func physics_process(delta: float) -> void:
 	super.physics_process(delta)
@@ -44,9 +34,6 @@ func physics_process(delta: float) -> void:
 	_action_swap_selected_item()
 	
 func _action_swap_selected_item() -> void:
-	if not swap_action_enabled:
-		return
-		
 	if not unit.actions.is_just_pressed(action_swap):
 		return
 		

@@ -1,3 +1,4 @@
+@abstract
 extends BaseActor
 class_name UnitActor
 
@@ -13,9 +14,6 @@ func _init(
 	super._init(alias_, enabled_)
 	
 	unit = unit_
-	
-func get_actions() -> Array[StringName]:
-	return []
 	
 func move_process(_delta: float) -> void:
 	pass

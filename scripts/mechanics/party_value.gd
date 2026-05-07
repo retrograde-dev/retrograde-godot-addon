@@ -37,6 +37,15 @@ func refresh() -> void:
 func stop() -> void:
 	pass
 
+func select_next_unit() -> void:
+	pass
+	
+func select_previous_unit() -> void:
+	pass
+	
+func select_unit(index_: int) -> void:
+	pass
+
 func set_leader(leader_: int) -> void:
 	assert(leader_ >= 0 and leader_ < _party.units.size(), "Leader is out of range.")
 	

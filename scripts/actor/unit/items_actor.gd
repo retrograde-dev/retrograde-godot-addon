@@ -49,10 +49,10 @@ var is_in_item_area: bool = false
 var item_area_items: Array[ItemUnit] = [] # Items within the units item area
 var item_position_mode: Core.ItemPositionMode = Core.ItemPositionMode.ENTITY
 
-var select_action_slots: int = 10
+var select_action_size: int = 10
 
-var action_next: StringName = &"item_next"
-var action_previous: StringName = &"item_previous"
+var action_select_next: StringName = &"item_select_next"
+var action_select_previous: StringName = &"item_select_previous"
 var action_select: StringName = &"item_select_"
 
 func _init(unit_: BaseUnit, enabled_: bool = true) -> void:
@@ -145,10 +145,10 @@ func _process_items(delta_: float) -> void:
 	if Core.game.is_win or Core.game.is_lose:
 		return
 	
-	_action_move_selection_next()
-	_action_move_selection_previous()
+	_action_select_next_item()
+	_action_select_previous_item()
 	
-	for i: int in select_action_slots:
+	for i: int in select_action_size:
 		_action_select_item(i)
 
 func physics_process(delta_: float) -> void:
@@ -177,29 +177,29 @@ func _on_item_body_exited(body: Node2D) -> void:
 	
 	is_in_item_area = item_area_items.size() > 0
 
-func _action_move_selection_next() -> void:
+func _action_select_next_item() -> void:
 	if not can_select:
 		return
 
-	if not unit.actions.is_just_pressed(action_next, true):
+	if not unit.actions.is_just_pressed(action_select_next, true):
 		return
 	
-	if unit.actions.is_just_pressed(action_previous, true):
+	if unit.actions.is_just_pressed(action_select_previous, true):
 		return
 		
-	move_selection_next()
+	select_next_item()
 	
-func _action_move_selection_previous() -> void:
+func _action_select_previous_item() -> void:
 	if not can_select:
 		return
 
-	if not unit.actions.is_just_pressed(action_previous, true):
+	if not unit.actions.is_just_pressed(action_select_previous, true):
 		return
 	
-	if unit.actions.is_just_pressed(action_next, true):
+	if unit.actions.is_just_pressed(action_select_next, true):
 		return
 		
-	move_selection_previous()
+	select_previous_item()
 
 func _action_select_item(slot_: int) -> void:
 	if not can_select:
@@ -243,11 +243,11 @@ func get_item_area_items() -> Array[ItemUnitResource]:
 		
 	return items_
 	
-func move_selection_next() -> void:
-	inventory.move_selection_next()
+func select_next_item() -> void:
+	inventory.select_next_item()
 		
-func move_selection_previous() -> void:
-	inventory.move_selection_previous()
+func select_previous_item() -> void:
+	inventory.select_previous_item()
 		
 func select_item(slot_: int) -> void:
 	inventory.select_item(slot_)
@@ -319,11 +319,11 @@ func has_empty() -> bool:
 
 func get_actions() -> Array[StringName]:
 	var actions_: Array[StringName] = [
-		action_next,
-		action_previous,
+		action_select_next,
+		action_select_previous,
 	]
 	
-	for i: int in select_action_slots:
+	for i: int in select_action_size:
 		actions_.push_back(action_select + str(i + 1))
 		
 	for action_: StringName in drop.get_actions():

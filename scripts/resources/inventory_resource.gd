@@ -22,7 +22,7 @@ func clear() -> void:
 			items.push_back(null)
 
 
-func move_selection_next() -> void:
+func select_next_item() -> void:
 	if slots == 0:
 		selected_slot = 0
 		return
@@ -36,7 +36,7 @@ func move_selection_next() -> void:
 	else:
 		selected_slot = (selected_slot + 1) % slots
 		
-func move_selection_previous() -> void:
+func select_previous_item() -> void:
 	if slots == 0:
 		selected_slot = 0
 		return

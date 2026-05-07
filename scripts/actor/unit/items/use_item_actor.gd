@@ -3,8 +3,6 @@ class_name UseItemActor
 
 var _items: ItemsActor
 
-var use_action_enabled: bool = true
-var use_action_enabled_default: bool = true
 var signal_can_use: bool = false
 var signal_use_handled: bool = false
 
@@ -17,14 +15,6 @@ signal use_after(inventory_item_: InventoryItemResource)
 func _init(items_: ItemsActor, unit_: BaseUnit, enabled_: bool = true) -> void:
 	super._init(unit_, &"drop_item", enabled_)
 	_items = items_
-
-func reset(reset_type_: Core.ResetType) -> void:
-	await super.reset(reset_type_)
-	
-	if (reset_type_ == Core.ResetType.START or 
-		reset_type_ == Core.ResetType.RESTART
-	):
-		use_action_enabled = use_action_enabled_default
 
 func physics_process(delta: float) -> void:
 	super.physics_process(delta)
@@ -41,9 +31,6 @@ func physics_process(delta: float) -> void:
 	_action_use_selected_item()
 	
 func _action_use_selected_item() -> void:
-	if not use_action_enabled:
-		return
-	
 	if not unit.actions.is_just_pressed(action_use):
 		return
 	
