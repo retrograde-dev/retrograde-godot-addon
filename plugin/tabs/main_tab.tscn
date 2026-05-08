@@ -46,7 +46,7 @@ text = "Viewport Size"
 [node name="OptionButtonSetupViewportSize" type="OptionButton" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer" unique_id=1005934135]
 unique_name_in_owner = true
 layout_mode = 2
-selected = 2
+selected = 3
 item_count = 4
 popup/item_0/text = "180 x 90"
 popup/item_0/id = 0
@@ -75,7 +75,7 @@ text = "Tile Size"
 [node name="OptionButtonSetupTileSize" type="OptionButton" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer" unique_id=168390854]
 unique_name_in_owner = true
 layout_mode = 2
-selected = 0
+selected = 2
 item_count = 7
 popup/item_0/text = "8 px"
 popup/item_0/id = 0
@@ -100,7 +100,7 @@ text = "Physics Size"
 [node name="OptionButtonSetupPhysicsSize" type="OptionButton" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer" unique_id=1817392645]
 unique_name_in_owner = true
 layout_mode = 2
-selected = 0
+selected = 2
 item_count = 7
 popup/item_0/text = "8 px"
 popup/item_0/id = 0
@@ -125,7 +125,7 @@ text = "Field Size"
 [node name="OptionButtonSetupFieldSize" type="OptionButton" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer" unique_id=2081673336]
 unique_name_in_owner = true
 layout_mode = 2
-selected = 0
+selected = 2
 item_count = 7
 popup/item_0/text = "8 px"
 popup/item_0/id = 0
@@ -150,7 +150,7 @@ text = "Cursor Size"
 [node name="OptionButtonSetupCursorSize" type="OptionButton" parent="ScrollContainer/FlowContainer/VBoxContainerSetup/GridContainer" unique_id=345214513]
 unique_name_in_owner = true
 layout_mode = 2
-selected = 0
+selected = 2
 item_count = 7
 popup/item_0/text = "8 px"
 popup/item_0/id = 0
@@ -357,27 +357,29 @@ text = "Create"
 layout_mode = 2
 text = "Initial Level"
 
-[node name="CheckboxLevelsInitialLevel" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerLevels/GridContainer" unique_id=1399560759]
+[node name="CheckBoxLevelsInitialLevel" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerLevels/GridContainer" unique_id=1399560759]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Create"
 
 [node name="LabelLevelsInitialLevelAlias" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerLevels/GridContainer" unique_id=600085846]
 layout_mode = 2
-text = "Start Level Alias"
+text = "Initial Level Alias"
 
 [node name="LineEditLevelsInitialLevelAlias" type="LineEdit" parent="ScrollContainer/FlowContainer/VBoxContainerLevels/GridContainer" unique_id=687931722]
 unique_name_in_owner = true
 layout_mode = 2
-text = "start"
+text = "level_1"
 
 [node name="LabelLevelsInitialAsMenu" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerLevels/GridContainer" unique_id=549730484]
 layout_mode = 2
-text = "Start As Menu"
+text = "Initial As Menu"
 
 [node name="CheckBoxLevelsInitialAsMenu" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerLevels/GridContainer" unique_id=967093016]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Set"
 
 [node name="VBoxContainerTileSets" type="VBoxContainer" parent="ScrollContainer/FlowContainer" unique_id=745553385]
@@ -399,6 +401,7 @@ text = "Structure Physics"
 [node name="CheckBoxTileSetsStructure" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer" unique_id=1887012939]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Add"
 
 [node name="LabelTileSetsClimb" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer" unique_id=556544456]
@@ -435,6 +438,7 @@ text = "Win"
 [node name="CheckBoxTileSetsWin" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer" unique_id=1129932153]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Add"
 
 [node name="LabelTileSetsLose" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerTileSets/GridContainer" unique_id=1986699807]
@@ -474,6 +478,7 @@ text = "Game Difficulty"
 [node name="CheckBoxUIDifficulty" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=1358955353]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="LabelUILevelSelect" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=1150843024]
@@ -483,6 +488,7 @@ text = "Level Select"
 [node name="CheckBoxUILevelSelect" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=1195766141]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="LabelUISkipLevel" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=1618327188]
@@ -492,6 +498,7 @@ text = "Level Skip"
 [node name="CheckBoxUISkipLevel" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=1927676567]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="LabelUINextLevel" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=28486023]
@@ -501,6 +508,7 @@ text = "Next Level"
 [node name="CheckBoxUINextLevel" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=2109810503]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="LabelUIPreviousLevel" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=2058339834]
@@ -510,6 +518,7 @@ text = "Previous Level"
 [node name="CheckBoxUIPreviousLevel" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=1547334063]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="LabelUIPlayAgain" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=100899333]
@@ -519,6 +528,7 @@ text = "Play Again"
 [node name="CheckBoxUIPlayAgain" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=1701223061]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="LabelUIPlayTime" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=1369593400]
@@ -537,6 +547,7 @@ text = "Win"
 [node name="CheckBoxUIWin" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=819716380]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="LabelUILose" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=39208069]
@@ -546,6 +557,7 @@ text = "Lose"
 [node name="CheckBoxUILose" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=7382995]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="LabelUISettings" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=671335527]
@@ -555,6 +567,7 @@ text = "Settings"
 [node name="CheckBoxUISettings" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=667261876]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="LabelUIControls" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=1263342257]
@@ -564,6 +577,7 @@ text = "Controls"
 [node name="CheckBoxUIControls" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=60452109]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="LabelUICredits" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=253481305]
@@ -573,6 +587,7 @@ text = "Credits"
 [node name="CheckBoxUICredits" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerUI/GridContainer" unique_id=1589400881]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="VBoxContainerHUD" type="VBoxContainer" parent="ScrollContainer/FlowContainer" unique_id=165946841]
@@ -612,6 +627,7 @@ text = "Items"
 [node name="CheckBoxHUDItems" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerHUD/GridContainer" unique_id=1932894008]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Add"
 
 [node name="VBoxContainerData" type="VBoxContainer" parent="ScrollContainer/FlowContainer" unique_id=2032641858]
@@ -633,6 +649,7 @@ text = "Settings JSON"
 [node name="CheckBoxDataSettings" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=528624677]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Create"
 
 [node name="LabelDataSFX" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=843833082]
@@ -642,6 +659,7 @@ text = "SFX JSON"
 [node name="CheckBoxDataSFX" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=1204903896]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Create"
 
 [node name="LabelDataCredits" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=55264851]
@@ -651,6 +669,7 @@ text = "Credits JSON"
 [node name="CheckBoxDataCredits" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=929128421]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Create"
 
 [node name="LabelDataLevelSelect" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=536562472]
@@ -660,6 +679,7 @@ text = "Level Select JSON"
 [node name="CheckBoxDataLevelSelect" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=296891450]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Create"
 
 [node name="LabelDataInput" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=1066185794]
@@ -669,6 +689,7 @@ text = "Input JSON"
 [node name="CheckBoxDataInput" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=1336311539]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Create"
 
 [node name="LabelDataControls" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=113070483]
@@ -678,6 +699,7 @@ text = "Controls JSON"
 [node name="CheckBoxDataControls" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=1845829085]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Create"
 
 [node name="LabelDataUI" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=1530157208]
@@ -687,6 +709,7 @@ text = "UI JSON"
 [node name="CheckBoxDataUI" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=422591038]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Create"
 
 [node name="LabelDataHUD" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=726387688]
@@ -696,6 +719,7 @@ text = "HUD JSON"
 [node name="CheckBoxDataHUD" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerData/GridContainer" unique_id=615192359]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Create"
 
 [node name="VBoxContainerInput" type="VBoxContainer" parent="ScrollContainer/FlowContainer" unique_id=1780486550]
@@ -717,6 +741,7 @@ text = "Movement"
 [node name="CheckBoxInputMove" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer" unique_id=979375165]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Add"
 
 [node name="LabelInputClimb" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer" unique_id=60311980]
@@ -762,6 +787,7 @@ text = "Use Item"
 [node name="CheckBoxInputItemUse" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer" unique_id=404607821]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Add"
 
 [node name="LabelInputItemPickUp" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerInput/GridContainer" unique_id=1512795452]
@@ -790,6 +816,7 @@ text = "Select Item"
 unique_name_in_owner = true
 layout_mode = 2
 max_value = 10.0
+value = 4.0
 rounded = true
 
 [node name="VBoxContainerSettings" type="VBoxContainer" parent="ScrollContainer/FlowContainer" unique_id=1840168590]
@@ -811,6 +838,7 @@ text = "Audio"
 [node name="CheckBoxSettingsAudio" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer" unique_id=776332331]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="LabelSettingsMouseSpeed" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer" unique_id=285433661]
@@ -838,6 +866,7 @@ horizontal_alignment = 2
 [node name="CheckBoxSettingsNormalMouseSpeed" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer" unique_id=1060237115]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="LabelSettingsFastMouseSpeed" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer" unique_id=1376159457]
@@ -875,6 +904,7 @@ horizontal_alignment = 2
 [node name="CheckBoxSettingsNormalJoypadSpeed" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer" unique_id=575029243]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="LabelSettingsFastJoypadSpeed" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerSettings/GridContainer" unique_id=1914922877]
@@ -915,6 +945,7 @@ text = "Translations"
 [node name="CheckBoxLocalizationTranslations" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization/GridContainer" unique_id=1785538764]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Add"
 
 [node name="LabelLocalizationLocales" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization/GridContainer" unique_id=1303756988]
@@ -932,6 +963,7 @@ horizontal_alignment = 2
 [node name="CheckBoxLocalizationEnglish" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization/GridContainer" unique_id=1755568615]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="LabelLocalizationJapanese" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization/GridContainer" unique_id=472928811]
@@ -942,6 +974,7 @@ horizontal_alignment = 2
 [node name="CheckBoxLocalizationJapanese" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerLocalization/GridContainer" unique_id=1397374554]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Enable"
 
 [node name="VBoxContainerFileSystem" type="VBoxContainer" parent="ScrollContainer/FlowContainer" unique_id=1034467357]
@@ -963,6 +996,7 @@ text = "Folders"
 [node name="CheckBoxFileSystemCreateFolders" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerFileSystem/GridContainer" unique_id=350043827]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Create"
 
 [node name="LabelFileSystemSetFolderColors" type="Label" parent="ScrollContainer/FlowContainer/VBoxContainerFileSystem/GridContainer" unique_id=1983768264]
@@ -972,6 +1006,7 @@ text = "Folder Colors"
 [node name="CheckBoxFileSystemSetFolderColors" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerFileSystem/GridContainer" unique_id=1468985810]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Set"
 
 [node name="VBoxContainerDebug" type="VBoxContainer" parent="ScrollContainer/FlowContainer" unique_id=1546206075]
@@ -993,6 +1028,7 @@ text = "Strict Typing"
 [node name="CheckBoxDebugStrictTyping" type="CheckBox" parent="ScrollContainer/FlowContainer/VBoxContainerDebug/GridContainer" unique_id=1595489957]
 unique_name_in_owner = true
 layout_mode = 2
+button_pressed = true
 text = "Set"
 
 [node name="VBoxContainerInitialize" type="VBoxContainer" parent="ScrollContainer/FlowContainer" unique_id=2115324808]

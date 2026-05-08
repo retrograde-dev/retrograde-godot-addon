@@ -6,12 +6,14 @@ uid="uid://dsoowanloguso"
 
 [deps]
 
-files=["res://addons/retrograde/_/data/translations/input_translations.en.translation", "res://addons/retrograde/_/data/translations/input_translations.jp.translation"]
+files=["res://addons/retrograde/_/data/translations/input_translations.en.translation", "res://addons/retrograde/_/data/translations/input_translations.en.translation"]
 
 source_file="res://addons/retrograde/_/data/translations/input_translations.csv"
-dest_files=["res://addons/retrograde/_/data/translations/input_translations.en.translation", "res://addons/retrograde/_/data/translations/input_translations.jp.translation"]
+dest_files=["res://addons/retrograde/_/data/translations/input_translations.en.translation", "res://addons/retrograde/_/data/translations/input_translations.en.translation"]
 
 [params]
 
 compress=true
 delimiter=0
+unescape_keys=false
+unescape_translations=true

@@ -620,6 +620,15 @@ func _create_main_scene() -> void:
 	root_.name = &"Game"
 	root_.set_script(load(script_path_))
 	
+	if %CheckBoxLevelsInitialLevel.button_pressed:
+		root_.set(&"initial_level_alias", StringName(%LineEditLevelsInitialLevelAlias.text))
+		
+	if not %CheckBoxLevelsMenuLevel.button_pressed:
+		if %CheckBoxLevelsInitialAsMenu.button_pressed:
+			root_.set(&"menu_level_alias", StringName(%LineEditLevelsInitialLevelAlias.text))
+		else:
+			root_.set(&"menu_level_alias", &"menu")
+	
 	if %CheckBoxGameAmbianceController.button_pressed:
 		var ambiance_: Node2D = Node2D.new()
 		ambiance_.name = &"Ambiance"
@@ -637,7 +646,7 @@ func _create_main_scene() -> void:
 		level_.owner = root_
 		
 		if %CheckBoxGameCamera.button_pressed:
-			var camera_: Camera2D = load("res://addons/retrograde/scenes/control/target_camera_2d.tscn").instantiate()
+			var camera_: Camera2D = load("res://addons/retrograde/scenes/camera/target_camera_2d.tscn").instantiate()
 			camera_.name = &"Camera"
 			camera_.unique_name_in_owner = true
 			camera_.limit_smoothed = true
@@ -704,21 +713,21 @@ func _create_level(alias_: String) -> void:
 	var scene_path_: String = "res://scenes/level/" + alias_ + ".tscn"
 	var zone_script_path_: String = "res://scenes/level/" + alias_ + "/zone/zone_1.gd"
 	var zone_scene_path_: String = "res://scenes/level/" + alias_ + "/zone/zone_1.tscn"
-	var level_data_path_: String = "res://data/level/" + alias_ + "/level.json"
-	var level_zone_data_path_: String = "res://data/level/" + alias_ + "/zone/zone_1.json"
 
 	if FileAccess.file_exists(scene_path_) and not %CheckBoxOverride.button_pressed:
 		return
 
 	if not FileAccess.file_exists(script_path_) or %CheckBoxOverride.button_pressed:
 		var script_: GDScript = GDScript.new()
-		script_.source_code = "extends BaseLevel\n\nfunc _init() -> void:\n\tsuper._init(&\"" + alias_ + "\")"
+		script_.source_code = "extends BaseLevel"
 		
 		ResourceSaver.save(script_, script_path_)
 		
 	var root_: Node2D = Node2D.new()
 	root_.name = StringName(alias_.to_pascal_case())
 	root_.set_script(load(script_path_))
+	root_.set(&"alias", StringName(alias_))
+	root_.set(&"initial_zone_alias", &"zone_1")
 	
 	var scene_: PackedScene = PackedScene.new()
 	scene_.pack(root_)
@@ -728,54 +737,19 @@ func _create_level(alias_: String) -> void:
 	if not FileAccess.file_exists(zone_scene_path_) or %CheckBoxOverride.button_pressed:
 		if not FileAccess.file_exists(zone_script_path_) or %CheckBoxOverride.button_pressed:
 			var script_: GDScript = GDScript.new()
-			script_.source_code = "extends BaseZone\n\nfunc _init() -> void:\n\tsuper._init(&\"zone_1\")"
+			script_.source_code = "extends BaseZone"
 			
 			ResourceSaver.save(script_, zone_script_path_)
 			
 		var zone_root_: Node2D = Node2D.new()
 		zone_root_.name = &"Zone1"
 		zone_root_.set_script(load(zone_script_path_))
+		root_.set(&"alias", &"zone_1")
 		
 		var zone_scene_: PackedScene = PackedScene.new()
 		zone_scene_.pack(zone_root_)
 		ResourceSaver.save(zone_scene_, zone_scene_path_)
 	
-	if not FileAccess.file_exists(level_data_path_) or %CheckBoxOverride.button_pressed:
-		var data_: Dictionary = {
-			"alias": alias_,
-			"name": alias_.capitalize(),
-			"type": "platformer",
-			"zone": {
-				"alias": "zone_1"
-			}
-		}
-		
-		if alias_ != "menu":
-			data_.set("player", {
-				"alias": "player",
-				"position": [0, 0],
-				"mode": "normal",
-			})
-		
-		var json_: String = JSON.stringify(data_, "\t", false)
-		
-		var file_: FileAccess = FileAccess.open(level_data_path_, FileAccess.WRITE)
-		file_.store_string(json_)
-		file_.close()
-	
-	if not FileAccess.file_exists(level_zone_data_path_) or %CheckBoxOverride.button_pressed:
-		var data_: Dictionary = {
-			"alias": "zone_1",
-			"Name": "Zone 1",
-			"music": null,
-			"ambiance": null
-		}
-		
-		var json_: String = JSON.stringify(data_, "\t", false)
-		
-		var file_: FileAccess = FileAccess.open(level_zone_data_path_, FileAccess.WRITE)
-		file_.store_string(json_)
-		file_.close()
 
 func _create_tile_sets() -> void:
 	await _create_physics_tile_set()

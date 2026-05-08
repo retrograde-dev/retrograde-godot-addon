@@ -15,3 +15,5 @@ dest_files=["res://addons/retrograde/_/data/translations/ui_translations.en.tran
 
 compress=true
 delimiter=0
+unescape_keys=false
+unescape_translations=true
