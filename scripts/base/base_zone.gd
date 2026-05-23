@@ -35,15 +35,20 @@ func reset(reset_type_: Core.ResetType) -> void:
 	if (reset_type_ == Core.ResetType.START or
 		reset_type_ == Core.ResetType.RESTART
 	):
+		if reset_type_ == Core.ResetType.RESTART:
+			await items.depopulate_items()
+			await entities.depopulate_entities()
+			await players.depopulate_entities()
+		
 		if Core.data.has_zone(Core.level.alias, alias):
 			data = Core.data.get_zone(Core.level.alias, alias)
 			
 			# Remove items since handled by data
 			for child_: Node in get_children():
 				if child_ is ItemUnit:
-					child_.parent.remove_child(child_)
+					child_.get_parent().remove_child(child_)
 				elif child_ is EntityUnit:
-					child_.parent.remove_child(child_)
+					child_.get_parent().remove_child(child_)
 		else:
 			data = ZoneResource.new()
 			data.items = initial_items.duplicate(true)

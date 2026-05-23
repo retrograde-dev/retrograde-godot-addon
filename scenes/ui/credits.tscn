@@ -16,6 +16,7 @@ grow_vertical = 2
 script = ExtResource("1_oap8i")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=987670523]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -89,7 +90,6 @@ style = &"footer"
 
 [node name="UIButtonParent" parent="MarginContainer/VBoxContainer" unique_id=694845028 instance=ExtResource("3_e5ls7")]
 layout_mode = 2
-size_flags_horizontal = 4
 goto_ui_alias = &"parent"
 style = &"menu_large"
 text = "BUTTON_OK"

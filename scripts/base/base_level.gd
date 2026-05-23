@@ -64,7 +64,7 @@ func reset(reset_type_: Core.ResetType) -> void:
 			if auto_start_playtime:
 				playtime.start()
 			
-		if data.override_parties:
+		if data.override_parties and not data.parties.is_empty():
 			Core.parties = data.parties
 		else:
 			Core.parties = Core.data.parties
@@ -78,12 +78,12 @@ func reset(reset_type_: Core.ResetType) -> void:
 		await reset_level()
 		
 		await change_zone(data.zone_alias)
-		
+
 		if data.override_parties:
 			await Core.game.change_party(data.party_alias)
 		else:
 			await Core.game.change_party(Core.data.party_alias)
-		
+
 		await reset_huds()
 	elif reset_type_ == Core.ResetType.STOP:
 		await reset_zone()
@@ -116,7 +116,8 @@ func reset_camera() -> void:
 func reset_zone() -> void:
 	if current_zone != null:
 		await current_zone.stop()
-		Core.nodes.clear_node(current_zone)
+		Core.game.remove_level_child(current_zone)
+		current_zone.queue_free()
 		current_zone = null
 		Core.zone = null
 		
@@ -158,13 +159,19 @@ func change_zone(zone_alias_: String) -> void:
 	
 	var zone_path_: String = "res://scenes/level/" + alias + "/zone/" + zone_alias_ + ".tscn"
 	
-	var zone_: BaseZone = await Core.nodes.get_node(
-		zone_path_,
-		func(node_: Node2D, rest_type_: Core.ResetType):
-			current_zone = node_
-			Core.zone = current_zone
-			data.zone_alias = current_zone.alias
-	)
+	var zone_scene_: PackedScene = load(zone_path_)
+
+	assert(zone_scene_ != null, "Zone not found. (" + zone_alias_ + ")")
+
+	var zone_: BaseZone = await zone_scene_.instantiate()
+
+	Core.game.add_level_child(zone_)
+
+	current_zone = zone_
+	Core.zone = current_zone
+	data.zone_alias = current_zone.alias
+	
+	await zone_.start()
 	
 	Core.game.end_load()
 

@@ -59,7 +59,7 @@ func _on_damage_area_entered(area_: Area2D) -> void:
 
 		_damage_nodes[area_.get_instance_id()] = area_.get_damage_value()
 
-	is_in_damage_area = true
+		is_in_damage_area = true
 
 func _on_damage_area_exited(area_: Area2D) -> void:
 	if unit.is_ancestor_of(area_):
@@ -108,10 +108,10 @@ func reset(reset_type_: Core.ResetType) -> void:
 
 		if reset_type_ == Core.ResetType.START:
 			_add_areas()
-
-		_connect_events()
+			_connect_events()
 	elif reset_type_ == Core.ResetType.STOP:
 		_disconnect_events()
+		_remove_areas()
 
 func _add_areas() -> void:
 	var areas_: AreaController = unit.get_areas()
@@ -121,6 +121,15 @@ func _add_areas() -> void:
 
 	areas_.add_area(&"Damage", Core.Edge.NONE)
 	areas_.add_area(&"Kill", Core.Edge.NONE)
+
+func _remove_areas() -> void:
+	var areas_: AreaController = unit.get_areas()
+
+	if areas_ == null:
+		return
+
+	areas_.remove_area(&"Damage")
+	areas_.remove_area(&"Kill")
 
 func _connect_events() -> void:
 	var damage_area_: Area2D = unit.get_area_or_null(&"Damage")
@@ -157,10 +166,10 @@ func process(delta: float) -> void:
 
 	if not can_process():
 		return
-
+	
 	if not can_unit_process():
 		return
-
+	
 	if is_in_damage_area:
 		for instance_id_: int in _damage_nodes:
 			if _handled_damage_nodes.has(instance_id_):

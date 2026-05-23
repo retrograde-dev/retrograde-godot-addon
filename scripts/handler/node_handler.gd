@@ -19,9 +19,10 @@ func reset() -> void:
 	if _thread.is_started():
 		_cancel_thread = true
 
-	for path: String in nodes:
-		for node: Node in nodes[path]:
-			Core.game.remove_level_child(node)
+	for path_: String in nodes:
+		for node_: Node in nodes[path_]:
+			Core.game.remove_level_child(node_)
+			node_.queue_free()
 	
 	nodes.clear()
 	
@@ -31,17 +32,19 @@ func reset() -> void:
 	_queue = []
 	_in_use = []
 	
-func load_node(path: String, count: int = 1) -> void:
+func load_node(path_: String, count_: int = 1) -> void:
+	path_ = ResourceUID.ensure_path(path_)
+	
 	if is_loading:
 		_queue.push_back({
-			&"path": path,
-			&"count": count,
+			&"path": path_,
+			&"count": count_,
 		})
 		return
 		
 	is_loading = true
-	_current_loading_path = path
-	_thread.start(_threaded_load.bind(path, count))
+	_current_loading_path = path_
+	_thread.start(_threaded_load.bind(path_, count_))
 	load_started.emit()
 
 func _is_loading_node(path: String) -> bool:
@@ -55,15 +58,17 @@ func _is_loading_node(path: String) -> bool:
 	return false
 	
 func get_node(path_: String, reset_method_: Callable = Callable()) -> Node:
-	var node_: Node = _get_free_node(path_)
+	path_ = ResourceUID.ensure_path(path_)
 	
+	var node_: Node = _get_free_node(path_)
+
 	if node_ != null:
 		_in_use.push_back(node_.get_instance_id())
 		
 		if node_ is BaseNode2D or node_ is BaseCharacterBody2D:
 			if not reset_method_.is_null():
-				reset_method_.call(node_, Core.ResetType.RESTART)
-			await node_.restart()
+				reset_method_.call(node_, Core.ResetType.START)
+			await node_.start()
 		
 		return node_
 	
@@ -102,39 +107,43 @@ func _get_free_node(path: String) -> Node:
 			return node
 			
 	return null
-	
-func clear_node(node: Node) -> void:
-	free_node(node)
-	_remove_node(node)
-	
-func _remove_node(node_: Node) -> void:
+
+func has_node(node_: Node) -> bool:
 	var path_: String = node_.scene_file_path
 	
 	if nodes.has(path_):
 		for index_: int in nodes[path_].size():
 			if nodes[path_][index_] == node_:
-				Core.game.remove_level_child(nodes[path_][index_])
-				nodes[path_].remove_at(index_)
-				break
-
-func free_node(node: Node, reset_method_: Callable = Callable()) -> void:
-	if _in_use.has(node.get_instance_id()):
-		_in_use.erase(node.get_instance_id())
-		
-		if node is BaseNode2D or node is BaseCharacterBody2D:
+				return true
+				
+	return false
+	
+func remove_node(node_: Node) -> void:
+	await free_node(node_)
+	
+	if has_node(node_):
+		nodes[node_.scene_file_path].erase(node_)
+		Core.game.remove_level_child(node_)
+		node_.queue_free()
+	
+func free_node(node_: Node, reset_method_: Callable = Callable()) -> void:
+	if _in_use.has(node_.get_instance_id()):
+		if node_ is BaseNode2D or node_ is BaseCharacterBody2D:
 			if not reset_method_.is_null():
-				reset_method_.call(node, Core.ResetType.STOP)
-			await node.stop()
+				reset_method_.call(node_, Core.ResetType.STOP)
+			await node_.stop()
 		
-		node.position = Core.DEAD_ZONE
-	else:
-		if node is BaseNode2D or node is BaseCharacterBody2D:
+		node_.position = Core.DEAD_ZONE
+		
+		_in_use.erase(node_.get_instance_id())
+	elif not has_node(node_):
+		if node_ is BaseNode2D or node_ is BaseCharacterBody2D:
 			if not reset_method_.is_null():
-				reset_method_.call(node, Core.ResetType.STOP)
-			await node.stop()
+				reset_method_.call(node_, Core.ResetType.STOP)
+			await node_.stop()
 			
-		node.get_parent().remove_child(node)
-		node.queue_free()
+		node_.get_parent().remove_child(node_)
+		node_.queue_free()
 
 func free_nodes(nodes_: Array[Node], reset_method_: Callable = Callable()) -> void:
 	for node: Node in nodes_:

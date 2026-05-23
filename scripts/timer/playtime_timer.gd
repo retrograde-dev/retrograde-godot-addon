@@ -31,14 +31,14 @@ func toggle_pause() -> void:
 	is_paused = !is_paused
 
 func process(delta_: float) -> void:
-	if stop_time != 0:
+	if not is_running():
 		return
 		
 	if is_paused or Core.game.pause.is_paused:
 		pause_delta += delta_
 	
 func get_playtime() -> int:
-	if stop_time != 0:
+	if stop_time == 0:
 		return Time.get_ticks_usec() - start_time - int(pause_delta * 1_000_000)
 		
 	return stop_time - start_time - int(pause_delta * 1_000_000)

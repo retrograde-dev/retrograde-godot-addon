@@ -47,7 +47,7 @@ func can_damage(node_: Node2D) -> bool:
 	#TODO: this should be handled somewhere else
 	if node_ is BaseUnit:
 		var life_: BaseActor = node_.get_actor_or_null(&"life")
-		if life_.is_killed:
+		if life_ != null and life_.is_killed:
 			return false
 
 	if groups.size() == 0:

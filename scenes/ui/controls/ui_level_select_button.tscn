@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://cywjjvik3xyxg"]
+
+[ext_resource type="Script" uid="uid://c8573ihggrj43" path="res://addons/retrograde/scenes/ui/controls/ui_level_select_button.gd" id="1_avpm2"]
+[ext_resource type="PackedScene" uid="uid://b7kxbj3ak5kcg" path="res://addons/retrograde/scenes/ui/component/ui_margin_container.tscn" id="2_10m4j"]
+[ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="3_2gn4k"]
+
+[node name="UILevelSelectButton" type="TextureButton" unique_id=1755921652]
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_avpm2")
+style = &"menu_level_select"
+
+[node name="UIMarginContainer" parent="." unique_id=1973124199 instance=ExtResource("2_10m4j")]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UILabel" parent="UIMarginContainer" unique_id=1011988266 instance=ExtResource("3_2gn4k")]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UIMarginContainer" unique_id=57861289]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+expand_mode = 4
+
+[node name="TextureRectCompleted" type="TextureRect" parent="UIMarginContainer" unique_id=2011630820]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]

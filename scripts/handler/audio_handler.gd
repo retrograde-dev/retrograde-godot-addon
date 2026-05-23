@@ -4,6 +4,7 @@ var _data: Dictionary
 var sfx: Dictionary = {}
 var music: Dictionary = {}
 var ambiance: Dictionary = {}
+var dialogue: Dictionary = {}
 var last: Dictionary = {}
 
 var _current_volume: Dictionary = {
@@ -11,15 +12,20 @@ var _current_volume: Dictionary = {
 	Core.AudioType.MUSIC: 0.5,
 	Core.AudioType.SFX: 0.5,
 	Core.AudioType.AMBIANCE: 0.5,
+	Core.AudioType.DIALOGUE: 0.5,
 }
 
 func _init() -> void:
 	var sfx_file: AudioDataFile = AudioDataFile.new("res://data/audio/sfx.json")
 	sfx_file.load()
+	
+	var music_file: AudioDataFile = AudioDataFile.new("res://data/audio/music.json")
+	music_file.load()
 
-	_data[Core.AudioType.MUSIC] = {}
+	_data[Core.AudioType.MUSIC] = music_file.data
 	_data[Core.AudioType.SFX] = sfx_file.data
 	_data[Core.AudioType.AMBIANCE] = {}
+	_data[Core.AudioType.DIALOGUE] = {}
 
 func reset() -> void:
 	reset_state()
@@ -33,6 +39,7 @@ func reset_audio() -> void:
 	reset_sfx()
 	reset_music()
 	reset_ambiance()
+	reset_dialogue()
 
 func reset_sfx() -> void:
 	var ui_sfx_: Dictionary = {}
@@ -41,19 +48,24 @@ func reset_sfx() -> void:
 		if name.begins_with(&"ui/"):
 			ui_sfx_.set(name, sfx[name])
 		else:
-			Core.game.remove_child(sfx[name])
+			Core.game.remove_level_child(sfx[name])
 		
 	sfx = ui_sfx_
 
 func reset_music() -> void:
 	for name: StringName in music:
-		Core.game.remove_child(music[name])
+		Core.game.remove_level_child(music[name])
 	music = {}
 
 func reset_ambiance() -> void:
 	for name: StringName in ambiance:
-		Core.game.remove_child(ambiance[name])
+		Core.game.remove_level_child(ambiance[name])
 	ambiance = {}
+	
+func reset_dialogue() -> void:
+	for name: StringName in dialogue:
+		Core.game.remove_level_child(dialogue[name])
+	dialogue = {}
 
 func play_music(name: StringName, fade_time: float = 0.0) -> void:
 	_play(Core.AudioType.MUSIC, name, &"", fade_time)
@@ -122,6 +134,18 @@ func load_ambiance(name: StringName) -> void:
 func unload_ambiance(name: StringName) -> void:
 	_unload(Core.AudioType.AMBIANCE, name)
 
+func play_dialogue(name: StringName) -> void:
+	_play(Core.AudioType.DIALOGUE, name)
+
+func stop_dialogue(name: StringName = &"") -> void:
+	_stop(Core.AudioType.DIALOGUE, name)
+
+func load_dialogue(name: StringName) -> void:
+	_load(Core.AudioType.DIALOGUE, name)
+
+func unload_dialogue(name: StringName) -> void:
+	_unload(Core.AudioType.DIALOGUE, name)
+
 func get_volume(type: Core.AudioType) -> float:
 	var bus: int = _get_audio_bus_index(type)
 	return db_to_linear(AudioServer.get_bus_volume_db(bus))
@@ -160,13 +184,20 @@ func _play(
 	_load(type_, name_, suffix_)
 
 	var pitch_: float = 1.0
+	var pan_offset_: Vector2 = Vector2.ZERO
 
 	if _data[type_].has(name_):
 		var data_: Dictionary = _data[type_].get(name_)
 		if data_.pitch:
 			pitch_ = randf_range(data_.min_pitch, data_.max_pitch)
+			
+		if data_.has(&"pan_offset"):
+			pan_offset_ = data_.pan_offset
 
 	audio_[name_ + suffix_].pitch_scale = pitch_
+	
+	if audio_[name_ + suffix_] is AudioStreamPlayer2D:
+		audio_[name_ + suffix_].position = Core.camera.position + pan_offset_
 
 	if type_ == Core.AudioType.SFX:
 		audio_[name_ + suffix_].play()
@@ -218,35 +249,57 @@ func _load(type: Core.AudioType, name: StringName, suffix: StringName = &"") -> 
 		return
 
 	var path: String = _get_path(type)
-	var audio_player: AudioStreamPlayer = AudioStreamPlayer.new()
 
+	var format: StringName = &""
+	var pause_: bool = false
+	var has_pan: bool = false
+	var file_name: StringName = name
+	
+	if _data[type].has(name):
+		var data_: Dictionary = _data[type].get(name)
+		format = data_.format
+
+		if data_.has(&"pause"):
+			pause_ = data_.pause
+			
+		if data_.has(&"name"):
+			file_name = data_.name
+			
+		if data_.has(&"pan_offset"):
+			has_pan = true
+	
+	var audio_player: Variant 
+	if has_pan:
+		audio_player = AudioStreamPlayer2D.new()
+	else:
+		audio_player = AudioStreamPlayer.new()
+	
 	match type:
 		Core.AudioType.SFX:
 			audio_player.bus = &"SFX"
 			audio_player.max_polyphony = 16
 		Core.AudioType.MUSIC:
 			audio_player.bus = &"Music"
-			audio_player.process_mode = Node.PROCESS_MODE_ALWAYS
+			if not pause_:
+				audio_player.process_mode = Node.PROCESS_MODE_ALWAYS
 		Core.AudioType.AMBIANCE:
 			audio_player.bus = &"Ambiance"
-			audio_player.process_mode = Node.PROCESS_MODE_ALWAYS
-
-	var format: StringName = &""
-	if _data[type].has(name):
-		var data_: Dictionary = _data[type].get(name)
-		format = data_.format
+			if not pause_:
+				audio_player.process_mode = Node.PROCESS_MODE_ALWAYS
+		Core.AudioType.DIALOGUE:
+			audio_player.bus = &"Dialogue"
 
 	if format != &"":
-		audio_player.stream = load("res://assets/audio/" + path + "/" + name + suffix + "." + format)
+		audio_player.stream = load("res://assets/audio/" + path + "/" + file_name + suffix + "." + format)
 	else:
-		if ResourceLoader.exists("res://assets/audio/" + path + "/" + name + suffix + ".ogg"):
-			audio_player.stream = load("res://assets/audio/" + path + "/" + name + suffix + ".ogg")
-		elif ResourceLoader.exists("res://assets/audio/" + path + "/" + name + suffix + ".mp3"):
-			audio_player.stream = load("res://assets/audio/" + path + "/" + name + suffix + ".mp3")
+		if ResourceLoader.exists("res://assets/audio/" + path + "/" + file_name + suffix + ".ogg"):
+			audio_player.stream = load("res://assets/audio/" + path + "/" + file_name + suffix + ".ogg")
+		elif ResourceLoader.exists("res://assets/audio/" + path + "/" + file_name + suffix + ".mp3"):
+			audio_player.stream = load("res://assets/audio/" + path + "/" + file_name + suffix + ".mp3")
 		else:
-			audio_player.stream = load("res://assets/audio/" + path + "/" + name + suffix + ".wav")
+			audio_player.stream = load("res://assets/audio/" + path + "/" + file_name + suffix + ".wav")
 
-	Core.game.add_child(audio_player)
+	Core.game.add_level_child(audio_player)
 
 	audio[name + suffix] = audio_player
 
@@ -263,12 +316,12 @@ func _unload(type: Core.AudioType, name: StringName) -> void:
 		if count > 1:
 			for i: int in count:
 				if audio.has(name + "_" + str(count + 1)):
-					Core.game.remove_child(audio[name + "_" + str(count + 1)])
+					Core.game.remove_level_child(audio[name + "_" + str(count + 1)])
 		elif audio.has(name):
-			Core.game.remove_child(audio[name])
+			Core.game.remove_level_child(audio[name])
 	else:
 		if audio.has(name):
-			Core.game.remove_child(audio[name])
+			Core.game.remove_level_child(audio[name])
 
 func _get_audio(type: Core.AudioType) -> Dictionary:
 	match type:
@@ -278,6 +331,8 @@ func _get_audio(type: Core.AudioType) -> Dictionary:
 			return music
 		Core.AudioType.AMBIANCE:
 			return ambiance
+		Core.AudioType.DIALOGUE:
+			return dialogue
 
 	assert(false, "Invalid Core.AudioType passed.")
 	return {}
@@ -290,6 +345,8 @@ func _get_path(type: Core.AudioType) -> String:
 			return "music"
 		Core.AudioType.AMBIANCE:
 			return "ambiance"
+		Core.AudioType.DIALOGUE:
+			return "dialogue"
 
 	assert(false, "Invalid Core.AudioType passed.")
 	return ""
@@ -302,6 +359,8 @@ func _get_last_name(type: Core.AudioType, name: StringName) -> String:
 			return "music." + name
 		Core.AudioType.AMBIANCE:
 			return "ambiance." + name
+		Core.AudioType.DIALOGUE:
+			return "dialogue." + name
 
 	assert(false, "Invalid Core.AudioType passed.")
 	return ""
@@ -314,6 +373,8 @@ func _get_audio_bus_index(type: Core.AudioType) -> int:
 			return AudioServer.get_bus_index(&"Music")
 		Core.AudioType.AMBIANCE:
 			return AudioServer.get_bus_index(&"Ambiance")
+		Core.AudioType.DIALOGUE:
+			return AudioServer.get_bus_index(&"Dialogue")
 		Core.AudioType.MASTER:
 			return AudioServer.get_bus_index(&"Master")
 

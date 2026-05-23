@@ -1,5 +1,5 @@
 extends Node2D
-class_name BaseEffect
+class_name StepVFX
 
 var timer: StepTimer
 
@@ -10,7 +10,7 @@ func _process(delta: float) -> void:
 	timer.process(delta)
 
 	if timer.requires_update:
-		update_sprites(timer.current_step)
+		update(timer.current_step)
 	elif timer.is_complete:
 		timer.stop()
 
@@ -19,10 +19,10 @@ func start() -> bool:
 
 func stop() -> void:
 	timer.stop()
-	reset_sprites()
+	reset()
 
-func update_sprites(_step: int) -> void:
+func update(_step: int) -> void:
 	pass
 
-func reset_sprites() -> void:
+func reset() -> void:
 	pass

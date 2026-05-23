@@ -118,6 +118,7 @@ func _load_settings() -> void:
 	%CheckBoxAudioMusic.button_pressed = ProjectSettings.get_setting("addons/retrograde/audio/music", false)
 	%CheckBoxAudioAmbiance.button_pressed = ProjectSettings.get_setting("addons/retrograde/audio/ambiance", false)
 	%CheckBoxAudioSFX.button_pressed = ProjectSettings.get_setting("addons/retrograde/audio/sfx", false)
+	%CheckBoxAudioDialogue.button_pressed = ProjectSettings.get_setting("addons/retrograde/audio/dialogue", false)
 	
 	# Game
 	%CheckBoxGameMainScene.button_pressed = ProjectSettings.get_setting("addons/retrograde/game/main_scene", false)
@@ -581,6 +582,15 @@ func _create_audio_bus_layout() -> void:
 		resource_text_ += "bus/" + str(bus_index_) + "/bypass_fx = false\n"
 		resource_text_ += "bus/" + str(bus_index_) + "/volume_db = 0.0\n"
 		resource_text_ += "bus/" + str(bus_index_) + "/send = &\"Master\"\n"
+		bus_index_ += 1
+		
+	if %CheckBoxAudioDialogue.button_pressed:
+		resource_text_ += "bus/" + str(bus_index_) + "/name = &\"Dialogue\"\n"
+		resource_text_ += "bus/" + str(bus_index_) + "/solo = false\n"
+		resource_text_ += "bus/" + str(bus_index_) + "/mute = false\n"
+		resource_text_ += "bus/" + str(bus_index_) + "/bypass_fx = false\n"
+		resource_text_ += "bus/" + str(bus_index_) + "/volume_db = 0.0\n"
+		resource_text_ += "bus/" + str(bus_index_) + "/send = &\"Master\"\n"
 
 	var file_: FileAccess = FileAccess.open(path_, FileAccess.WRITE)
 	file_.store_string(resource_text_)
@@ -619,6 +629,7 @@ func _create_main_scene() -> void:
 	var root_: Node = Node.new()
 	root_.name = &"Game"
 	root_.set_script(load(script_path_))
+	root_.process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	if %CheckBoxLevelsInitialLevel.button_pressed:
 		root_.set(&"initial_level_alias", StringName(%LineEditLevelsInitialLevelAlias.text))
@@ -1181,10 +1192,13 @@ func _create_settings_data() -> void:
 			data_.enabled.push_back("audio_music")
 			
 		if %CheckBoxAudioSFX.button_pressed:
-			data_.enabled.push_back("audio_music")
+			data_.enabled.push_back("audio_sfx")
 			
 		if %CheckBoxAudioAmbiance.button_pressed:
-			data_.enabled.push_back("audio_music")
+			data_.enabled.push_back("audio_ambiance")
+			
+		if %CheckBoxAudioDialogue.button_pressed:
+			data_.enabled.push_back("audio_dialogue")
 	
 	if %CheckBoxSettingsNormalMouseSpeed.button_pressed:
 		data_.enabled.push_back("normal_mouse_speed")

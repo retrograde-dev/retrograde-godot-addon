@@ -229,12 +229,13 @@ func reset(reset_type_: Core.ResetType) -> void:
 func menu() -> void:
 	start_load()
 	
-	# Set up a default new game so menus can modify it
-	data = GameResource.new()
-	data.level_alias = initial_level_alias
-	data.party_alias = initial_party_alias
-	data.parties = initial_parties.duplicate(true)
-	data.inventory = initial_inventory.duplicate(true)
+	if data == null:
+		# Set up a default new game so menus can modify it
+		data = GameResource.new()
+		data.level_alias = initial_level_alias
+		data.party_alias = initial_party_alias
+		data.parties = initial_parties.duplicate(true)
+		data.inventory = initial_inventory.duplicate(true)
 
 	if is_started:
 		await reset_party()
@@ -338,14 +339,14 @@ func remove_mode(mode_: StringName) -> void:
 		if child_ is BaseHUD:
 			child_.remove_mode(mode_, true)
 
-func add_level_child(node_: Node2D) -> void:
+func add_level_child(node_: Node) -> void:
 	if node_.get_parent():
 		if node_.get_parent() != %Level:
 			node_.reparent(%Level, true)
 	else:
 		%Level.add_child(node_)
 
-func remove_level_child(node_: Node2D) -> void:
+func remove_level_child(node_: Node) -> void:
 	%Level.remove_child.call_deferred(node_)
 
 func get_level_alias() -> StringName:
@@ -490,24 +491,6 @@ func _process(delta_: float) -> void:
 
 func _physics_process(delta_: float) -> void:
 	actors.physics_process(delta_)
-
-func _can_pause() -> bool:
-	if not is_enabled:
-		return false
-
-	if Core.ui.has_visible_uis(Core.UIType.MENU):
-		return false
-
-	if current_level != null and current_level.level_mode == Core.LevelMode.MENU:
-		return false
-
-	if Core.ui.is_ui_visible(&"win"):
-		return false
-
-	if Core.ui.is_ui_visible(&"lose"):
-		return false
-
-	return true
 
 func hide_mouse() -> void:
 	if Core.ENABLE_MOUSE_CAPTURE:

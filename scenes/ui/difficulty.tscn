@@ -16,6 +16,7 @@ grow_vertical = 2
 script = ExtResource("1_blgml")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1666537465]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -53,7 +54,6 @@ size_flags_vertical = 3
 
 [node name="UIButtonEasy" parent="MarginContainer/VBoxContainer" unique_id=1054066703 instance=ExtResource("3_8m16a")]
 layout_mode = 2
-size_flags_horizontal = 4
 focus_neighbor_top = NodePath("../UIButtonParent")
 focus_neighbor_bottom = NodePath("../UIButtonNormal")
 goto_ui_alias = &"level_select"
@@ -62,7 +62,6 @@ text = "DIFFICULTY_EASY"
 
 [node name="UIButtonNormal" parent="MarginContainer/VBoxContainer" unique_id=352003592 instance=ExtResource("3_8m16a")]
 layout_mode = 2
-size_flags_horizontal = 4
 focus_neighbor_top = NodePath("../UIButtonEasy")
 focus_neighbor_bottom = NodePath("../UIButtonHard")
 goto_ui_alias = &"level_select"
@@ -71,7 +70,6 @@ text = "DIFFICULTY_NORMAL"
 
 [node name="UIButtonHard" parent="MarginContainer/VBoxContainer" unique_id=1926439673 instance=ExtResource("3_8m16a")]
 layout_mode = 2
-size_flags_horizontal = 4
 focus_neighbor_top = NodePath("../UIButtonNormal")
 focus_neighbor_bottom = NodePath("../UIButtonParent")
 goto_ui_alias = &"level_select"
@@ -84,7 +82,6 @@ style = &"button"
 
 [node name="UIButtonParent" parent="MarginContainer/VBoxContainer" unique_id=803014637 instance=ExtResource("3_8m16a")]
 layout_mode = 2
-size_flags_horizontal = 4
 focus_neighbor_top = NodePath("../UIButtonHard")
 focus_neighbor_bottom = NodePath("../UIButtonEasy")
 goto_ui_alias = &"parent"

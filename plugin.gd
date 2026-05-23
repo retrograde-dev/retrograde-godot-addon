@@ -60,6 +60,10 @@ var _settings: Dictionary = {
 			"value": false,
 			"type": TYPE_BOOL
 		},
+		"dialogue": {
+			"value": false,
+			"type": TYPE_BOOL
+		},
 	},
 	"game": {
 		"main_scene": {

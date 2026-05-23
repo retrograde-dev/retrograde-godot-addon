@@ -88,7 +88,7 @@ func hide_hud(alias_: StringName) -> void:
 			
 func show_hud(alias_: StringName) -> void:
 	var hud_: BaseHUD = get_hud(alias_)
-	
+
 	if hud_ != null:
 		hud_.show()
 		_reposition_hud(hud_)

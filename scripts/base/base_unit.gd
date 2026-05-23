@@ -133,8 +133,17 @@ func stop() -> void:
 		
 	if actors != null:
 		await actors.stop()
-		
+	
+	if areas != null:
+		areas.disable()
+	
 	await super.stop()
+	
+func ready() -> void:
+	super.ready()
+	
+	if areas != null:
+		areas.enable()
 
 func _process(delta_: float) -> void:
 	super._process(delta_)

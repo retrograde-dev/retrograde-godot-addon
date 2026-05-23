@@ -41,9 +41,9 @@ func start() -> void:
 	for child: Node in get_children():
 		if child is BaseNode2D or child is BaseCharacterBody2D:
 			await child.start()
-
+	
 	process_mode = Node.PROCESS_MODE_INHERIT
-
+	
 	started.emit()
 
 func restart() -> void:
@@ -75,8 +75,14 @@ func stop() -> void:
 	is_ready = false
 
 	for child: Node in get_children():
-		if child is BaseNode2D or child is BaseCharacterBody2D:
+		if child is CollisionShape2D or child is CollisionPolygon2D:
+			child.disabled = true
+		elif child is BaseNode2D or child is BaseCharacterBody2D:
 			await child.stop()
+
+	# Clear any existing collision data
+	velocity = Vector2.ZERO
+	move_and_slide()
 
 	process_mode = Node.PROCESS_MODE_DISABLED
 
@@ -94,6 +100,12 @@ func _physics_process(_delta: float) -> void:
 func _handle_ready() -> void:
 	if is_ready:
 		return
+	
+	if Engine.is_editor_hint():
+		return
+		
+	if not Core.game.is_enabled:
+		return
 
 	if not is_started:
 		return
@@ -105,9 +117,14 @@ func _handle_ready() -> void:
 	ready()
 
 func ready() -> void:
-	pass
+	for child: Node in get_children():
+		if child is CollisionShape2D or child is CollisionPolygon2D:
+			child.disabled = false
 
 func is_running() -> bool:
+	if Engine.is_editor_hint():
+		return false
+		
 	if not Core.game.is_enabled:
 		return false
 

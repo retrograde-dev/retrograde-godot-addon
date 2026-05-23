@@ -24,4 +24,11 @@ static func clean_load_data(data_: Dictionary) -> Dictionary:
 			if not item_.has(&"max_pitch"):
 				item_.max_pitch = Core.MAX_AUDIO_PITCH
 
+		
+		if item_.has(&"pan_offset"):
+			item_.pan_offset = Vector2(
+				item_.pan_offset[0],
+				item_.pan_offset[1],
+			)
+
 	return data_

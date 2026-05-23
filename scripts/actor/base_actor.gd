@@ -23,7 +23,7 @@ func _init(alias_: StringName, enabled_: bool = true) -> void:
 	alias = alias_
 	is_enabled = enabled_
 	is_enabled_default = enabled_
-	
+
 func ready() -> void:
 	pass
 
@@ -97,6 +97,17 @@ func can_physics_process() -> bool:
 		return false
 
 	return true
+	
+func disable(default_: bool = false) -> void:
+	is_enabled = false
+	if default_:
+		is_enabled_default = false
+		
+func enable(default_: bool = false) -> void:
+	is_enabled = true
+	if default_:
+		is_enabled_default = true
+	
 
 func export() -> Dictionary[StringName, Variant]:
 	return {

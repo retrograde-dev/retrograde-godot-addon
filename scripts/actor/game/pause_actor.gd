@@ -20,6 +20,8 @@ func reset(reset_type_: Core.ResetType) -> void:
 		Core.game.get_tree().paused = false
 		is_paused = false
 		_toggle_mouse = false
+		Core.audio.normal_volume(Core.AudioType.MUSIC)
+		Core.audio.normal_volume(Core.AudioType.AMBIANCE)
 
 func process(delta_: float) -> void:
 	super.process(delta_)

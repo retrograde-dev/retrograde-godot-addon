@@ -75,3 +75,14 @@ func remove_area(area_name_: StringName) -> void:
 	if _queue_areas.has(area_name_):
 		_queue_areas.erase(area_name_)
 	
+func disable() -> void:
+	for area_: Node in get_children():
+		for child_: Node in area_.get_children():
+			if child_ is CollisionShape2D:
+				child_.disabled = true
+	
+func enable() -> void:
+	for area_: Node in get_children():
+		for child_: Node in area_.get_children():
+			if child_ is CollisionShape2D:
+				child_.disabled = false

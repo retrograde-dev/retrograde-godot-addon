@@ -31,7 +31,7 @@ func _ready() -> void:
 	_existing_textures.disabled = texture_disabled
 	_existing_textures.focused = texture_focused
 	_existing_textures.click_mask = texture_click_mask
-		
+	
 	_update_style()
 
 func _update_style() -> void:

@@ -10,7 +10,7 @@ func _init(alias_: StringName) -> void:
 func start() -> void:
 	_set_party_inventories()
 	
-	var unit_: PartyUnitResource = _party.get_leader_unit()
+	var unit_: PartyUnitResource = _party.get_active_unit()
 	
 	assert(unit_ != null, "Leader not found.")
 	
@@ -18,7 +18,7 @@ func start() -> void:
 		return
 	
 	var entity_unit_: EntityUnitResource = Core.zone.players.get_entity_from_unit_alias(unit_.unit_alias)
-	
+
 	if entity_unit_ == null:
 		return
 		

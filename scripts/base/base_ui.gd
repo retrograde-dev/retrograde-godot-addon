@@ -32,7 +32,16 @@ func _input(event_: InputEvent) -> void:
 			accept_event()
 
 func update() -> void:
-	pass
+	var background_: Node = get_node_or_null("%ColorRect")
+	if background_ == null:
+		return
+		
+	if background_ is ColorRect:
+		background_.color = Core.UI_BACKGROUND_COLOR
+		if Core.level != null and Core.level.level_mode == Core.LevelMode.GAME:
+			background_.visible = Core.UI_GAME_BACKGROUND
+		else:
+			background_.visible = Core.UI_MENU_BACKROUND
 
 func show_ui() -> void:
 	visible = true

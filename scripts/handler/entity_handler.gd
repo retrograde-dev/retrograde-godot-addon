@@ -35,7 +35,7 @@ func get_level_entity_unit(
 	var node: Node = await Core.nodes.get_node(path, reset_method_)
 	
 	if not node is EntityUnit:
-		Core.nodes.free_node(node)
+		await Core.nodes.remove_node(node)
 		return null
 	
 	return node

@@ -118,7 +118,7 @@ func hide_ui(alias_: StringName) -> void:
 			
 func show_ui(alias_: StringName) -> void:
 	var ui_: BaseUI = get_ui(alias_)
-	
+
 	if ui_ != null and not ui_.visible:
 		ui_.show_ui()
 	
@@ -136,7 +136,10 @@ func prepare_ui_alias(alias_: StringName, from_alias_: StringName) -> StringName
 		
 	if Core.game.pause.is_paused:
 		return &"pause"
-		
+	
+	if Core.level.level_mode == Core.LevelMode.GAME:
+		return &"menu"
+	
 	if (from_alias_ == &"level_select" and 
 		Core.ENABLE_GAME_DIFFICULTY and
 		has_ui(&"difficulty")
@@ -147,6 +150,10 @@ func prepare_ui_alias(alias_: StringName, from_alias_: StringName) -> StringName
 		
 func prepare_ui(alias_: StringName, from_alias_: StringName) -> void:
 	if alias_ == &"menu":
+		if from_alias_ == &"pause":
+			Core.audio.normal_volume(Core.AudioType.MUSIC)
+			Core.audio.normal_volume(Core.AudioType.AMBIANCE)
+			
 		if Core.game.current_level != null and Core.game.current_level.level_mode != Core.LevelMode.MENU:
 			Core.game.menu()
 	if alias_ == &"settings" and from_alias_ == &"pause":

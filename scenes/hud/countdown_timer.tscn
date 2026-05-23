@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://ct0k66d8t73nd"]
+
+[ext_resource type="Script" uid="uid://cwac7sa4pm8r6" path="res://addons/retrograde/scenes/hud/countdown_timer.gd" id="1_jxvyk"]
+[ext_resource type="PackedScene" uid="uid://ck7erckqy66nt" path="res://addons/retrograde/scenes/ui/component/ui_label.tscn" id="2_blnac"]
+
+[node name="CountdownTimer" type="Node2D" unique_id=329954880]
+script = ExtResource("1_jxvyk")
+metadata/_custom_type_script = "uid://bpioqeswaabm7"
+
+[node name="UILabel" parent="." unique_id=543610236 instance=ExtResource("2_blnac")]
+unique_name_in_owner = true
+text = "fsd"
+style = &"title"
+
+[node name="Timer" type="Timer" parent="." unique_id=1406529036]
+unique_name_in_owner = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

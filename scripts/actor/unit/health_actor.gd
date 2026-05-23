@@ -21,11 +21,6 @@ signal damage_after(damage: float)
 
 func _init(unit_: BaseUnit, enabled: bool = true) -> void:
 	super._init(unit_, &"health", enabled)
-
-func ready() -> void:
-	super.ready()
-	
-	_damage_cooldown = CooldownTimer.new(damage_cooldown_delta, true)
 	
 func reset(reset_type_: Core.ResetType) -> void:
 	await super.reset(reset_type_)
@@ -39,7 +34,10 @@ func reset(reset_type_: Core.ResetType) -> void:
 		group_damage = 0.0
 		independent_damage = 0.0
 		
-		_damage_cooldown.reset()
+		if reset_type_ == Core.ResetType.START:
+			_damage_cooldown = CooldownTimer.new(damage_cooldown_delta, true)
+		else:
+			_damage_cooldown.reset()
 
 func process(delta: float) -> void:
 	super.process(delta)

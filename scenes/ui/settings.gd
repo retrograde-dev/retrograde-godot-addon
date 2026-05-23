@@ -26,6 +26,16 @@ func _ready() -> void:
 	super._ready()
 		
 	for layout_: Dictionary in _data.layout:
+		var found_: bool = false
+		
+		for item_: StringName in layout_.items:
+			if _data.enabled.has(item_):
+				found_ = true
+				break
+				
+		if not found_:
+			continue
+		
 		if layout_.alias != &"":
 			%VBoxContainer.add_child(_create_layout_title(layout_.alias))
 	
@@ -34,6 +44,9 @@ func _ready() -> void:
 				%VBoxContainer.add_child(_create_h_slider_control(item_, _data.settings[item_]))
 			elif _data.settings[item_].type == &"check_box":
 				%VBoxContainer.add_child(_create_check_box_control(item_, _data.settings[item_]))
+
+func update() -> void:
+	super.update()
 
 func _create_layout_title(alias_: StringName) -> UIMarginContainer:
 	var margin_container_control_: UIMarginContainer = _margin_container_control.instantiate()
@@ -112,6 +125,8 @@ func _on_ui_h_slider_field_value_changed(value_: float, alias_: StringName) -> v
 		Core.audio.set_volume(Core.AudioType.SFX, value_)
 	elif alias_ == &"audio_ambiance":
 		Core.audio.set_volume(Core.AudioType.AMBIANCE, value_)
+	elif alias_ == &"audio_dialogue":
+		Core.audio.set_volume(Core.AudioType.DIALOGUE, value_)
 	else:
 		Core[alias_] = _get_field_value(alias_)
 		
@@ -131,6 +146,8 @@ func _on_ui_button_reset_pressed() -> void:
 			Core.audio.set_volume(Core.AudioType.SFX, Core.settings.default_data[alias_])
 		elif alias_ == &"audio_ambiance":
 			Core.audio.set_volume(Core.AudioType.AMBIANCE, Core.settings.default_data[alias_])
+		elif alias_ == &"audio_dialogue":
+			Core.audio.set_volume(Core.AudioType.DIALOGUE, Core.settings.default_data[alias_])
 		else:
 			Core[alias_] = Core.settings.default_data[alias_]
 		

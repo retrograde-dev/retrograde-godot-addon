@@ -16,6 +16,7 @@ grow_vertical = 2
 script = ExtResource("1_lrwvo")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=906064350]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -63,7 +64,6 @@ style = &"footer"
 [node name="UIButtonParent" parent="ControlManage/MarginContainer/VBoxContainer" unique_id=471406667 instance=ExtResource("1_75pis")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 4
 focus_neighbor_left = NodePath("../../UIButtonReset")
 focus_neighbor_right = NodePath("../UIButtonIgnoreConflicts")
 focus_neighbor_bottom = NodePath("../UIButtonIgnoreConflicts")
@@ -77,7 +77,6 @@ text = "BUTTON_OK"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-size_flags_horizontal = 4
 focus_neighbor_left = NodePath("../UIButtonParent")
 focus_neighbor_top = NodePath("../UIButtonParent")
 focus_neighbor_right = NodePath("../../HBoxContainer/UIButtonAll")

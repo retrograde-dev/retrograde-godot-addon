@@ -13,14 +13,14 @@ var _current_collision_delta: float = 0.0
 var collision_delta: float = 0.125
 
 var projectile_type: Core.ProjectileType
-var lifespan_delta: float
+var lifespan_delta: float = 0.0
 var _current_lifespan: float
 
 var hide_on_complete_death: bool = false
 
 func _init(
 	projectile_type_: Core.ProjectileType,
-	lifespan_delta_: float,
+	lifespan_delta_: float = 0.0,
 ) -> void:
 	super._init(Core.UnitType.PROJECTILE)
 	
@@ -94,7 +94,7 @@ func _physics_process(delta_: float) -> void:
 func _handle_lifespan(delta_: float) -> void:
 	if not is_dead:
 		_current_lifespan += delta_
-		if _current_lifespan > lifespan_delta:
+		if lifespan_delta > 0.0 and _current_lifespan > lifespan_delta:
 			is_dead = true
 		
 func _handle_collision(delta_: float) -> void:

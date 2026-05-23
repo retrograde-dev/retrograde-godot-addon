@@ -25,7 +25,8 @@ func _init() -> void:
 		if (alias_ == &"audio_master" or
 			alias_ == &"audio_music" or
 			alias_ == &"audio_sfx" or
-			alias_ == &"audio_ambiance"
+			alias_ == &"audio_ambiance" or
+			alias_ == &"audio_dialogue"
 		):
 			default_data.set(alias_, 0.5)
 		else:
@@ -43,6 +44,8 @@ func clean_save_data(_data: Variant) -> Variant:
 			data_.set(alias_, Core.audio.get_volume(Core.AudioType.SFX))
 		elif alias_ == &"audio_ambiance":
 			data_.set(alias_, Core.audio.get_volume(Core.AudioType.AMBIANCE))
+		elif alias_ == &"audio_dialogue":
+			data_.set(alias_, Core.audio.get_volume(Core.AudioType.DIALOGUE))
 		else:
 			data_.set(alias_, Core[alias_])
 
@@ -75,6 +78,11 @@ func _load_from_data(data_: Dictionary) -> void:
 				Core.audio.set_volume(Core.AudioType.AMBIANCE, data_[alias_])
 			else:
 				Core.audio.set_volume(Core.AudioType.AMBIANCE, default_data[alias_])
+		elif alias_ == &"audio_dialogue":
+			if data_.has(alias_):
+				Core.audio.set_volume(Core.AudioType.DIALOGUE, data_[alias_])
+			else:
+				Core.audio.set_volume(Core.AudioType.DIALOGUE, default_data[alias_])
 		else:
 			if data_.has(alias_):
 				Core[alias_] = data_[alias_]

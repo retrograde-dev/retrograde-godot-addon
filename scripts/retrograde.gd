@@ -78,6 +78,12 @@ var ENABLE_LEVEL_PREVIOUS: bool = false
 var ENABLE_LEVEL_NEXT: bool = false
 var ENABLE_PLAY_AGAIN: bool = false
 
+var UI_LEVEL_SELECT_COLUMNS = 3
+
+var UI_BACKGROUND_COLOR: Color = Color(0, 0, 0, 0.75)
+var UI_MENU_BACKROUND: bool = true
+var UI_GAME_BACKGROUND: bool = true
+
 # Minimum amount of time for killables to wait after death before being hidden and disabled
 var MIN_COLLISION_WAIT_DELTA: float = 0.05
 
@@ -364,6 +370,7 @@ enum AudioType {
 	MUSIC,
 	SFX,
 	AMBIANCE,
+	DIALOGUE,
 }
 
 enum DataType {

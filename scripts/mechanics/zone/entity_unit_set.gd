@@ -37,7 +37,7 @@ func populate_entity(entity_: EntityUnitResource) -> void:
 	if Core.zone == null:
 		return
 	
-	if entity_.node != null:
+	if entity_.node != null and not entity_.node.is_queued_for_deletion():
 		return
 		
 	entity_.node = await Core.entities.get_level_entity_unit(

@@ -37,7 +37,7 @@ func populate_item(item_: ItemUnitResource) -> void:
 	if Core.zone == null:
 		return
 
-	if item_.node != null:
+	if item_.node != null and not item_.node.is_queued_for_deletion():
 		return
 	
 	item_.node = await Core.items.get_level_item_unit(

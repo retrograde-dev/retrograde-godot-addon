@@ -8,9 +8,11 @@ var lose_on_kill: bool = false
 var health_on_revive: float = 0.0
 
 var kill_cooldown_delta: float = 0.0
+var kill_hide_cooldown_delta: float = 0.0
 var _kill_cooldown: CooldownTimer
 
 var revive_cooldown_delta: float = 0.0
+var revive_show_cooldown_delta: float = 0.0
 var _revive_cooldown: CooldownTimer
 
 var kill_action_enabled: bool = true
@@ -52,10 +54,10 @@ func reset(reset_type_: Core.ResetType) -> void:
 		
 		if reset_type_ == Core.ResetType.START:
 			_kill_cooldown = CooldownTimer.new(kill_cooldown_delta)
-			_kill_cooldown.add_step(&"hide", 0.0)
+			_kill_cooldown.add_step(&"hide", kill_hide_cooldown_delta)
 			
 			_revive_cooldown = CooldownTimer.new(revive_cooldown_delta)
-			_revive_cooldown.add_step(&"show", 0.0)
+			_revive_cooldown.add_step(&"show", revive_show_cooldown_delta)
 		else:
 			_kill_cooldown.reset()
 			_revive_cooldown.reset()

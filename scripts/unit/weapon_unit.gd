@@ -21,7 +21,6 @@ var _queue_cooldown_delta: float = 0.0
 var _queue_meta: Dictionary = {}
 
 func _init(
-	alias_: StringName, 
 	weapon_type_: Core.WeaponType,
 	attacks_: Array[WeaponAttack]
 ) -> void:
@@ -92,7 +91,7 @@ func _attack_from_weapon_attack(weapon_attack_: WeaponAttack, meta_: Dictionary 
 		_queue_weapon_attack = weapon_attack_
 		_queue_meta = meta_.duplicate()
 		return
-			
+
 	clear_queue()
 	
 	meta_ = meta_.duplicate()
@@ -135,7 +134,7 @@ func _process(delta_: float) -> void:
 				_queue_weapon_attack = null
 	
 		_attack_cooldown.stop()
-	
+
 		attack_complete.emit(self, current_attack_value)
 		
 		current_attack_value = null

@@ -1,5 +1,5 @@
 extends Line2D
-class_name LineTrailEffect
+class_name LineTrailVFX
 
 @export var size: int = 10
 

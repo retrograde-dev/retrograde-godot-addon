@@ -10,11 +10,18 @@ class_name PartyResource
 	set = set_active
 
 func get_leader_unit() -> PartyUnitResource:
-	if leader > units.size():
-		assert(leader < units.size(), "Leader is out of range.")
+	if leader >= units.size():
+		assert(leader < units.size(), "Leader index is out of range.")
 		return null
 		
 	return units[leader]
+	
+func get_active_unit() -> PartyUnitResource:
+	if active >= units.size():
+		assert(active < units.size(), "Active index is out of range.")
+		return null
+		
+	return units[active]
 
 func get_leader() -> int:
 	return leader
@@ -35,6 +42,14 @@ func set_leader_from_unit_alias(unti_alias_: StringName) -> void:
 	for index_: int in units.size():
 		if units[index_].unit_alias == unti_alias_:
 			set_leader(index_)
+			return
+			
+	assert(true, "Unit not found.")
+	
+func set_active_from_unit_alias(unti_alias_: StringName) -> void:
+	for index_: int in units.size():
+		if units[index_].unit_alias == unti_alias_:
+			set_active(index_)
 			return
 			
 	assert(true, "Unit not found.")
