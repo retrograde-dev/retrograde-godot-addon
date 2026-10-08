@@ -6,7 +6,7 @@ extends BaseNode2D
 		if get_node_or_null("%UILabelSlot") != null:
 			%UILabelSlot.text = str(value)
 			
-var item: InventoryItemResource = null
+var item: InventoryValue = null
 var selected: bool = false
 var show_slot_label: bool = true
 

@@ -1,0 +1,29 @@
+{
+	"enabled": [
+		
+	],
+	"default": {
+		"weapon_use_1": [
+			{
+				"type": "key",
+				"physical_keycode": 82
+			},
+			{
+				"type": "key",
+				"physical_keycode": 75
+			},
+			{
+				"type": "mouse_button",
+				"button_index": 2
+			},
+			{
+				"type": "joypad_button",
+				"button_index": 1
+			}
+		],
+		"weapon_use_2": [
+		],
+		"weapon_use_3": [
+		]
+	}
+}

@@ -12,9 +12,9 @@ var signal_pick_up_handled: bool = false
 
 var action_pick_up: StringName = &"item_pick_up"
 
-signal pick_up_error(inventory_item_: InventoryItemResource, error_: Core.Error) 
-signal pick_up_before(inventory_item_: InventoryItemResource)
-signal pick_up_after(inventory_item_: InventoryItemResource)
+signal pick_up_error(inventory_item_: InventoryValue, error_: Core.Error) 
+signal pick_up_before(inventory_item_: InventoryValue)
+signal pick_up_after(inventory_item_: InventoryValue)
 
 func _init(items_: ItemsActor, unit_: BaseUnit, enabled_: bool = true) -> void:
 	super._init(unit_, &"drop_item", enabled_)

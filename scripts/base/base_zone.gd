@@ -13,6 +13,9 @@ class_name BaseZone
 @export var initial_ambiance: StringName = &""
 
 var data: ZoneResource = null
+var current_items: Array[ItemUnitResource] = []
+var current_entities: Array[EntityUnitResource] = []
+var current_players: Array[EntityUnitResource] = []
 
 var music: StringName:
 	get = get_music,
@@ -26,8 +29,17 @@ var items: ItemUnitSet = ItemUnitSet.new()
 var entities: EntityUnitSet = EntityUnitSet.new()
 var players: EntityUnitSet = EntityUnitSet.new()
 
+var actions: ActionHandler
+var actors: ActorHandler
+
 signal door_opened(door_: DoorObject)
 signal door_closed(door_: DoorObject)
+
+func _ready() -> void:
+	super._ready()
+	
+	if actors != null:
+		actors.ready()
 
 func reset(reset_type_: Core.ResetType) -> void:
 	await super.reset(reset_type_)
@@ -35,13 +47,19 @@ func reset(reset_type_: Core.ResetType) -> void:
 	if (reset_type_ == Core.ResetType.START or
 		reset_type_ == Core.ResetType.RESTART
 	):
-		if reset_type_ == Core.ResetType.RESTART:
+		if reset_type_ == Core.ResetType.START:
+			current_items = initial_items.duplicate(true)
+			current_entities = initial_entities.duplicate(true)
+			current_players = initial_players.duplicate(true)
+			
+		elif reset_type_ == Core.ResetType.RESTART:
 			await items.depopulate_items()
 			await entities.depopulate_entities()
 			await players.depopulate_entities()
 		
 		if Core.data.has_zone(Core.level.alias, alias):
 			data = Core.data.get_zone(Core.level.alias, alias)
+			actors.import(data.actors)
 			
 			# Remove items since handled by data
 			for child_: Node in get_children():
@@ -50,10 +68,10 @@ func reset(reset_type_: Core.ResetType) -> void:
 				elif child_ is EntityUnit:
 					child_.get_parent().remove_child(child_)
 		else:
-			data = ZoneResource.new()
-			data.items = initial_items.duplicate(true)
-			data.entities = initial_entities.duplicate(true)
-			data.players = initial_players.duplicate(true)
+			data = _init_zone_resource()
+			data.items = current_items.duplicate(true)
+			data.entities = current_entities.duplicate(true)
+			data.players = current_players.duplicate(true)
 			data.music = initial_music
 			data.ambiance = initial_ambiance
 			
@@ -72,7 +90,8 @@ func reset(reset_type_: Core.ResetType) -> void:
 		await items.depopulate_items()
 		await entities.depopulate_entities()
 		await players.depopulate_entities()
-		
+		data.actors = actors.export()
+
 func children_reset(reset_type_: Core.ResetType) -> void:
 	await super.children_reset(reset_type_)
 
@@ -83,7 +102,7 @@ func children_reset(reset_type_: Core.ResetType) -> void:
 		for child_: Node in get_children():
 			if child_ is ItemUnit:
 				var item_unit_: ItemUnitResource = child_.export()
-				initial_items.push_back(item_unit_.duplicate(true))
+				current_items.push_back(item_unit_.duplicate(true))
 				data.items.push_back(item_unit_)
 				
 				Core.game.add_level_child(child_)
@@ -91,10 +110,10 @@ func children_reset(reset_type_: Core.ResetType) -> void:
 				var entity_unit_: EntityUnitResource = child_.export()
 				
 				if Core.is_player(child_):
-					initial_players.push_back(entity_unit_.duplicate(true))
+					current_players.push_back(entity_unit_.duplicate(true))
 					data.players.push_back(entity_unit_)
 				else:
-					initial_entities.push_back(entity_unit_.duplicate(true))
+					current_entities.push_back(entity_unit_.duplicate(true))
 					data.entities.push_back(entity_unit_)
 				
 				Core.game.add_level_child(child_)
@@ -120,6 +139,62 @@ func _on_door_opened(door_: DoorObject) -> void:
 
 func _on_door_closed(door_: DoorObject) -> void:
 	door_closed.emit(door_)
+	
+func start() -> void:
+	await super.start()
+	
+	if actors != null:
+		await actors.start()
+		
+	if actions != null:
+		await actions.start()
+
+func restart() -> void:
+	await super.restart()
+	
+	if actors != null:
+		await actors.restart()
+		
+	if actions != null:
+		await actions.restart()
+		
+func refresh() -> void:
+	await super.refresh()
+	
+	if actors != null:
+		await actors.refresh()
+		
+	if actions != null:
+		await actions.refresh()
+	
+func stop() -> void:
+	if actions != null:
+		await actions.stop()
+		
+	if actors != null:
+		await actors.stop()
+	
+	await super.stop()
+	
+func _process(delta_: float) -> void:
+	super._process(delta_)
+	
+	if not is_running():
+		return
+
+	if actions != null:
+		actions.process(delta_)
+
+	if actors != null:
+		actors.process(delta_)
+	
+func _physics_process(delta_: float) -> void:
+	super._physics_process(delta_)
+	
+	if actors == null or not is_running():
+		return
+		
+	actors.physics_process(delta_)
 
 func get_alias() -> StringName:
 	return alias
@@ -135,3 +210,26 @@ func get_ambiance() -> StringName:
 	return data.ambiance
 func set_ambiance(value_: StringName) -> void:
 	data.ambiance = value_
+
+func get_actions() -> ActionHandler:
+	return actions
+
+func get_actors() -> ActorHandler:
+	return actors
+
+func get_actor_or_null(actor_alias_: StringName) -> BaseActor:
+	if actors == null:
+		return null
+		
+	if not actors.has(actor_alias_):
+		return null
+	
+	var actor: BaseActor = actors.use(actor_alias_)
+	
+	if not actor.is_enabled:
+		return null
+		
+	return actor
+
+func _init_zone_resource() -> ZoneResource:
+	return ZoneResource.new()

@@ -1,0 +1,25 @@
+{
+	"enabled": [
+
+	],
+	"default": {
+		"cursor_left": [
+
+		],
+		"cursor_right": [
+
+		],
+		"cursor_up": [
+
+		],
+		"cursor_down": [
+
+		],
+		"cursor_fast": [
+
+		],
+		"cursor_slow": [
+
+		]
+	}
+}

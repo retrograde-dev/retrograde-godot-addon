@@ -132,12 +132,11 @@ func _complete_death() -> void:
 	Core.nodes.free_node(self)
 
 func start() -> void:
-	super.start()
+	await super.start()
 	Core.clear_groups(self)
 	_current_collision_delta = 0.0
-	is_enabled = true
 	is_colliding = false
 	
 func stop() -> void:
-	super.stop()
+	await super.stop()
 	velocity = Vector2.ZERO

@@ -49,26 +49,26 @@ func _on_unit_physics_changed(unit_physics_: Core.UnitPhysics, _previous_unit_ph
 	set_unit_physics(unit_physics_)
 
 func _on_attack_error(_weapon: WeaponUnit, attack_: AttackValue, error_: Core.Error) -> void:
-	if attack_.meta.has("weapon_controller_use_index"):
-		use_error.emit(attack_.meta.weapon_controller_use_index, error_)
+	if attack_.attr.has("weapon_controller_use_index"):
+		use_error.emit(attack_.attr.weapon_controller_use_index, error_)
 	
 func _on_attack_before(weapon_: WeaponUnit, attack_: AttackValue) -> void:
-	if attack_.meta.has("weapon_controller_use_index"):
+	if attack_.attr.has("weapon_controller_use_index"):
 		signal_can_use = true
 		
-		use_before.emit(attack_.meta.weapon_controller_use_index)
+		use_before.emit(attack_.attr.weapon_controller_use_index)
 		
 		if not signal_can_use:
 			weapon_.signal_can_attack = false
 			
 	
 func _on_attack_after(_weapon: WeaponUnit, attack_: AttackValue) -> void:
-	if attack_.meta.has("weapon_controller_use_index"):
-		use_after.emit(attack_.meta.weapon_controller_use_index)
+	if attack_.attr.has("weapon_controller_use_index"):
+		use_after.emit(attack_.attr.weapon_controller_use_index)
 	
 func _on_attack_complete(_weapon: WeaponUnit, attack_: AttackValue) -> void:
-	if attack_.meta.has("weapon_controller_use_index"):
-		use_complete.emit(attack_.meta.weapon_controller_use_index)
+	if attack_.attr.has("weapon_controller_use_index"):
+		use_complete.emit(attack_.attr.weapon_controller_use_index)
 
 func play(animation_name_: StringName) -> void:
 	for child: Node in get_children():

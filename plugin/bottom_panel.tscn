@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dwue6kf2icum"]
+[gd_scene format=3 uid="uid://dwue6kf2icum"]
 
 [ext_resource type="Script" uid="uid://dq6ls8r7mq4va" path="res://addons/retrograde/plugin/bottom_panel.gd" id="1_tjyhl"]
 
-[node name="BottomPanel" type="Control"]
+[node name="BottomPanel" type="Control" unique_id=1571420865]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 3
 anchors_preset = 15
@@ -12,7 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tjyhl")
 
-[node name="TabContainer" type="TabContainer" parent="."]
+[node name="TabContainer" type="TabContainer" parent="." unique_id=939007272]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -21,3 +21,5 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 current_tab = 0
+tab_0/title = "Initialize"
+tab_1/title = "Image"

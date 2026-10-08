@@ -188,15 +188,15 @@ func export() -> Dictionary[StringName, Variant]:
 	
 	return data
 	
-func import(data: Dictionary[StringName, Variant]) -> void:
-	super.import(data)
+func import(data_: Dictionary[StringName, Variant]) -> void:
+	super.import(data_)
 	
-	jump_speed = data.get(&"jump_speed", jump_speed)
-	air_time_delay = data.get(&"air_time_delay", air_time_delay)
-	jump_crouch_behavior = data.get(&"jump_crouch_behavior", jump_crouch_behavior)
-	is_jumping = data.get(&"is_jumping", is_jumping)
-	is_jumping_start = data.get(&"is_jumping_start", is_jumping_start)
-	is_crouch_jumping = data.get(&"is_crouch_jumping", is_crouch_jumping)
-	is_climb_jumping = data.get(&"is_climb_jumping", is_climb_jumping)
-	_reason = data.get(&"_reason", _reason)
-	_is_jump_active = data.get(&"_is_jump_active", _is_jump_active)
+	jump_speed = data_.get(&"jump_speed", jump_speed)
+	air_time_delay = data_.get(&"air_time_delay", air_time_delay)
+	jump_crouch_behavior = data_.get(&"jump_crouch_behavior", jump_crouch_behavior)
+	is_jumping = data_.get(&"is_jumping", is_jumping)
+	is_jumping_start = data_.get(&"is_jumping_start", is_jumping_start)
+	is_crouch_jumping = data_.get(&"is_crouch_jumping", is_crouch_jumping)
+	is_climb_jumping = data_.get(&"is_climb_jumping", is_climb_jumping)
+	_reason = data_.get(&"_reason", _reason)
+	_is_jump_active = data_.get(&"_is_jump_active", _is_jump_active)

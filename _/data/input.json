@@ -538,38 +538,6 @@
 		],
 		"move_fast": [
 		],
-		"pause": [
-			{
-				"type": "key",
-				"physical_keycode": 80
-			},
-			{
-				"type": "key",
-				"physical_keycode": 4194305
-			},
-			{
-				"type": "key",
-				"physical_keycode": 4194341
-			},
-			{
-				"type": "joypad_button",
-				"button_index": 6
-			}
-		],
-		"back": [
-			{
-				"type": "key",
-				"physical_keycode": 80
-			},
-			{
-				"type": "key",
-				"physical_keycode": 4194308
-			},
-			{
-				"type": "joypad_button",
-				"button_index": 4
-			}
-		],
 		"weapon_use_1": [
 			{
 				"type": "key",

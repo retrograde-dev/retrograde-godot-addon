@@ -3,22 +3,22 @@ class_name ItemsActor
 
 var can_select: bool = true
 var inventory_alias: StringName = &""
-var inventory: InventoryResource:
+var inventory: InventorySet:
 	get = get_inventory
 	
-func get_inventory() -> InventoryResource:
+func get_inventory() -> InventorySet:
 	if inventory_alias != &"":
 		if not Core.inventory.has(inventory_alias):
-			Core.inventory.set(inventory_alias, InventoryResource.new())
+			Core.inventory.set(inventory_alias, InventorySet.new())
 			
 		return Core.inventory.get(inventory_alias)
 	
 	if inventory == null:
-		inventory = InventoryResource.new()
+		inventory = InventorySet.new()
 		
 	return inventory
 
-var items: Array[InventoryItemResource]:
+var items: Array[InventoryValue]:
 	get():
 		return inventory.items
 	set(value):
@@ -258,45 +258,45 @@ func select_item_of_type(type_: Core.ItemType) -> bool:
 func is_selected_item_of_type(type_: Core.ItemType) -> bool:
 	return inventory.is_selected_item_of_type(type_)
 
-func get_slot(inventory_item_: InventoryItemResource) -> int:
+func get_slot(inventory_item_: InventoryValue) -> int:
 	return inventory.get_slot(inventory_item_)
 	
-func get_item(slot_: int) -> InventoryItemResource:
+func get_item(slot_: int) -> InventoryValue:
 	return inventory.get_item(slot_)
 	
-func get_selected_item() -> InventoryItemResource:
+func get_selected_item() -> InventoryValue:
 	return inventory.get_selected_item()
 	
 func get_selected_item_type() -> Core.ItemType:
 	return inventory.get_selected_item_type()
 
-func get_items_from_alias(alias_: StringName) -> Array[InventoryItemResource]:
+func get_items_from_alias(alias_: StringName) -> Array[InventoryValue]:
 	return inventory.get_items_from_alias(alias_)
 	
-func get_items_from_meta(meta_: Dictionary) -> Array[InventoryItemResource]:
-	return inventory.get_items_from_meta(meta_)
+func get_items_from_attr(attr_: Dictionary) -> Array[InventoryValue]:
+	return inventory.get_items_from_attr(attr_)
 	
-func get_items_from_type(type_: Core.ItemType) -> Array[InventoryItemResource]:
+func get_items_from_type(type_: Core.ItemType) -> Array[InventoryValue]:
 	return inventory.get_items_from_type(type_)
 
 func can_add_item(
-	inventory_item_: InventoryItemResource, 
+	inventory_item_: InventoryValue, 
 	merge_: bool = false,
 	unselected_: bool = false
 ) -> bool:
 	return inventory.can_add_item(inventory_item_, merge_, unselected_)
 	
 func add_item(
-	inventory_item_: InventoryItemResource, 
+	inventory_item_: InventoryValue, 
 	merge_: bool = false,
 	unselected_: bool = false,
 ) -> bool:
 	return inventory.add_item(inventory_item_, merge_, unselected_)
 
-func replace_item(slot_: int, inventory_item_: InventoryItemResource) -> void:
+func replace_item(slot_: int, inventory_item_: InventoryValue) -> void:
 	inventory.replace_item(slot_, inventory_item_)
 	
-func replace_selected_item(inventory_item_: InventoryItemResource) -> void:
+func replace_selected_item(inventory_item_: InventoryValue) -> void:
 	inventory.replace_selected_item(inventory_item_)
 	
 func remove_item(slot_: int) -> void:

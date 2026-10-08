@@ -20,7 +20,7 @@ class_name Area2DAttack
 
 @export var groups: Array[StringName] = []
 
-@export var meta: Dictionary = {}
+@export var attr: Dictionary = {}
 
 func get_damage_value() -> DamageValue:
 	var damage_value_: DamageValue = DamageValue.new(
@@ -37,7 +37,7 @@ func get_damage_value() -> DamageValue:
 
 	damage_value_.groups = groups
 
-	damage_value_.meta = meta.duplicate()
+	damage_value_.attr = attr.duplicate()
 
 	damage_value_.node = self
 

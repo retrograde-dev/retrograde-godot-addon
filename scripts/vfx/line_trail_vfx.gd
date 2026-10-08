@@ -29,7 +29,7 @@ func _physics_process(_delta: float) -> void:
 	if not is_started or is_paused:
 		return
 		
-	var point = get_parent().global_position
+	var point: Vector2 = get_parent().global_position
 	if points.size() > 0 and point == points[points.size() - 1]:
 		return
 		

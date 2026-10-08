@@ -1,12 +1,14 @@
+extends Resource
 class_name AliasProviderValue
 
-var aliases: Array[StringName]
-var behavior: ProviderBehavior
+@export var aliases: Array[StringName] = []
+@export var behavior: ProviderBehavior = null
+
 var _current_aliases: Array[StringName]
 var _current_count: int
 
 func _init(
-	aliases_: Array[StringName],
+	aliases_: Array[StringName] = [],
 	behavior_: ProviderBehavior = null
 ) -> void:
 	aliases = aliases_
@@ -53,8 +55,7 @@ func is_current_empty() -> bool:
 		
 	return false
 
-func get_alias(
-) -> StringName:
+func get_alias() -> StringName:
 	_handle_repeat()
 	
 	if _current_count == 0 and behavior.count > 0:

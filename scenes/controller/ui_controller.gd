@@ -23,6 +23,9 @@ func reset(reset_type_: Core.ResetType) -> void:
 			
 			if not _data.uis.has(ui_):
 				continue
+				
+			if ui_ == &"level_select" and not Core.ENABLE_LEVEL_SELECT:
+				continue
 			
 			var ui_resource_: Resource = load(_data.uis[ui_])
 			

@@ -3,7 +3,7 @@ class_name DamageValue
 var type: Core.DamageType
 var damage: float
 var independent: bool
-var meta: Dictionary
+var attr: Dictionary
 var one_shot: bool = false
 var movement: bool = false
 var min_speed: Core.UnitSpeed = Core.UnitSpeed.SLOW
@@ -15,9 +15,9 @@ func _init(
 	type_: Core.DamageType,
 	damage_: float,
 	independent_: bool = false,
-	meta_: Dictionary = {}
+	attr_: Dictionary = {}
 ) -> void:
 	type = type_
 	damage = damage_
 	independent = independent_
-	meta = meta_
+	attr = attr_

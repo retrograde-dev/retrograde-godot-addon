@@ -2,15 +2,12 @@
 
 [ext_resource type="Script" uid="uid://byq6ci0kx14ks" path="res://addons/retrograde/scenes/ui/menu.gd" id="1_rvltp"]
 [ext_resource type="PackedScene" uid="uid://bbssswrytbmd4" path="res://addons/retrograde/scenes/ui/component/ui_button.tscn" id="2_a0qvn"]
-[ext_resource type="Texture2D" uid="uid://067r5a60qqb6" path="res://assets/title.png" id="2_k8xdd"]
 [ext_resource type="PackedScene" uid="uid://b33ohs7o6hg3l" path="res://addons/retrograde/scenes/ui/component/ui_separator.tscn" id="5_kqp2e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k8xdd"]
-atlas = ExtResource("2_k8xdd")
 region = Rect2(0, 0, 503, 640)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iip8c"]
-atlas = ExtResource("2_k8xdd")
 region = Rect2(0, 0, 503, 640)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_a2pyb"]

@@ -7,7 +7,7 @@ var style: Core.SpeechStyle = Core.SpeechStyle.TALK
 var size: Core.SpeechSize = Core.SpeechSize.MEDIUM
 var alignment: Core.Alignment = Core.Alignment.BOTTOM_CENTER
 var orientation: Core.Orientation = Core.Orientation.VERTICAL
-var meta: Dictionary
+var attr: Dictionary
 
 func _init(
 	target_: Node2D,
@@ -17,7 +17,7 @@ func _init(
 	size_: Core.SpeechSize = Core.SpeechSize.MEDIUM,
 	alignment_: Core.Alignment = Core.Alignment.BOTTOM_CENTER,
 	orientation_: Core.Orientation = Core.Orientation.VERTICAL,
-	meta_: Dictionary = {},
+	attr_: Dictionary = {},
 ) -> void:
 	target = target_
 	line = line_
@@ -26,4 +26,4 @@ func _init(
 	size = size_
 	alignment = alignment_
 	orientation = orientation_
-	meta = meta_
+	attr = attr_

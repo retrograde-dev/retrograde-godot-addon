@@ -13,9 +13,9 @@ var signal_drop_handled: bool = false
 
 var action_drop: StringName = &"item_drop"
 
-signal drop_error(inventory_item_: InventoryItemResource, error_: Core.Error) 
-signal drop_before(inventory_item_: InventoryItemResource)
-signal drop_after(inventory_item_: InventoryItemResource)
+signal drop_error(inventory_item_: InventoryValue, error_: Core.Error) 
+signal drop_before(inventory_item_: InventoryValue)
+signal drop_after(inventory_item_: InventoryValue)
 
 func _init(items_: ItemsActor, unit_: BaseUnit, enabled_: bool = true) -> void:
 	super._init(unit_, &"drop_item", enabled_)
@@ -45,7 +45,7 @@ func _action_drop_selected_item() -> void:
 
 	drop_selected_item()
 		
-func can_drop_item(inventory_item_: InventoryItemResource) -> bool:
+func can_drop_item(inventory_item_: InventoryValue) -> bool:
 	if inventory_item_ == null:
 		return false
 	
@@ -73,10 +73,10 @@ func can_drop_item(inventory_item_: InventoryItemResource) -> bool:
 	return false
 
 func can_drop_selected_item() -> bool:
-	var inventory_item_: InventoryItemResource = _items.get_selected_item()
+	var inventory_item_: InventoryValue = _items.get_selected_item()
 	return can_drop_item(inventory_item_)
 
-func drop_item(inventory_item_: InventoryItemResource) -> bool:
+func drop_item(inventory_item_: InventoryValue) -> bool:
 	var can_drop_: bool = can_drop_item(inventory_item_)
 	
 	if not can_drop_ and drop_swap:
@@ -108,10 +108,10 @@ func drop_item(inventory_item_: InventoryItemResource) -> bool:
 	return true
 	
 func drop_selected_item() -> bool:
-	var inventory_item_: InventoryItemResource = _items.get_selected_item()
+	var inventory_item_: InventoryValue = _items.get_selected_item()
 	return drop_item(inventory_item_)
 	
-func _drop_item(inventory_item_: InventoryItemResource) -> bool:
+func _drop_item(inventory_item_: InventoryValue) -> bool:
 	if Core.level == null:
 		return false
 	
@@ -139,7 +139,7 @@ func _drop_item(inventory_item_: InventoryItemResource) -> bool:
 	
 	return _drop_new_zone_item(inventory_item_)
 
-func _drop_new_zone_item(inventory_item_: InventoryItemResource) -> bool:
+func _drop_new_zone_item(inventory_item_: InventoryValue) -> bool:
 	var unit_position_: Vector2 = unit.get_align_global_position(_items.unit_alignment)
 	var item_position_: Vector2 = unit_position_ - Core.zone.global_position
 	
@@ -149,8 +149,8 @@ func _drop_new_zone_item(inventory_item_: InventoryItemResource) -> bool:
 		item_position_ += drop_offset
 		
 	var count_: int = 0
-	var meta_: Dictionary = inventory_item_.meta.duplicate(true)
-	meta_.set(&"alignment", _items.item_alignment)
+	var attr_: Dictionary = inventory_item_.attr.duplicate(true)
+	attr_.set(&"alignment", _items.item_alignment)
 	
 	var zone_stack_: ItemStackResource = inventory_item_.item.zone_stack
 	if zone_stack_ == null:
@@ -172,17 +172,17 @@ func _drop_new_zone_item(inventory_item_: InventoryItemResource) -> bool:
 	var zone_item_: ZoneItemResource = ZoneItemResource.new(
 		inventory_item_.item,
 		count_,
-		meta_
+		attr_
 	)
 	
-	var item_ = ItemUnitResource.new(zone_item_)
+	var item_: ItemUnitResource = ItemUnitResource.new(zone_item_)
 	item_.position = item_position_
 	
 	Core.zone.items.add_item(item_)
 	
 	return true
 
-func _remove_empty_inventory_item(inventory_item_: InventoryItemResource) -> bool:
+func _remove_empty_inventory_item(inventory_item_: InventoryValue) -> bool:
 	if inventory_item_.count != 0:
 		return false
 	

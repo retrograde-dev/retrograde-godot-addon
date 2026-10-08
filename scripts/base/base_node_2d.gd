@@ -8,6 +8,7 @@ var modes: StringNameSet = StringNameSet.new()
 var alignment: Core.Alignment = Core.Alignment.TOP_LEFT
 
 var scale_default: Vector2 = Vector2.ONE
+var visible_default: bool = true
 
 signal reseted(reset_type_: Core.ResetType)
 signal started()
@@ -17,13 +18,16 @@ signal restarted()
 
 func _ready() -> void:
 	scale_default = scale
+	visible_default = visible
 	
 func reset(reset_type_: Core.ResetType) -> void:
 	if (reset_type_ == Core.ResetType.START or 
 		reset_type_ == Core.ResetType.RESTART
 	):
 		scale = scale_default
+		visible = visible_default
 		
+		is_enabled = true
 		is_started = false
 		is_ready = false
 		modes.filter(func(mode: StringName) -> bool: return Core.GLOBAL_MODES.has(mode))
@@ -80,6 +84,8 @@ func stop() -> void:
 	is_started = false
 	is_ready = false
 	
+	disable_collisions()
+	
 	for child: Node in get_children():
 		if child is BaseNode2D or child is BaseCharacterBody2D:
 			await child.stop()
@@ -115,11 +121,12 @@ func _handle_ready() -> void:
 	if position == Core.DEAD_ZONE:
 		return
 
-	is_ready = true
 	ready()
+	
+	is_ready = true
 
 func ready() -> void:
-	pass
+	enable_collisions()
 
 func is_running() -> bool:
 	if not Core.game.is_enabled:
@@ -130,6 +137,12 @@ func is_running() -> bool:
 
 	return true
 
+func enable_collisions() -> void:
+	pass
+
+func disable_collisions() -> void:
+	pass
+			
 func add_mode(mode_: StringName, add_to_children: bool = false) -> void:
 	modes.add(mode_)
 	

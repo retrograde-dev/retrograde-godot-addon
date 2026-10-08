@@ -112,6 +112,7 @@ func _load_settings() -> void:
 	%OptionButtonSetupFieldSize.selected = ProjectSettings.get_setting("addons/retrograde/setup/field_size", 0)
 	%OptionButtonSetupCursorSize.selected = ProjectSettings.get_setting("addons/retrograde/setup/cursor_size", 0)
 	%CheckBoxSetupMouseCapture.button_pressed = ProjectSettings.get_setting("addons/retrograde/setup/layer_names", false)
+	%CheckBoxSetupGlobalGroups.button_pressed = ProjectSettings.get_setting("addons/retrograde/setup/global_groups", false)
 	
 	# Audio
 	%CheckBoxAudioBusLayout.button_pressed = ProjectSettings.get_setting("addons/retrograde/audio/bus_layout", false)
@@ -366,6 +367,7 @@ func _update_project_settings() -> void:
 	if %CheckBoxDebugStrictTyping.button_pressed:
 		ProjectSettings.set_setting("debug/gdscript/warnings/untyped_declaration", 2)
 		ProjectSettings.set_setting("debug/gdscript/warnings/inferred_declaration", 2)
+		ProjectSettings.set_setting("debug/gdscript/warnings/missing_await", 1)
 		
 	var viewport_size_: PackedStringArray = %OptionButtonSetupViewportSize.get_item_text(%OptionButtonSetupViewportSize.selected).split(" x ")
 	var viewport_width_: int = int(viewport_size_[0])
@@ -409,6 +411,15 @@ func _update_project_settings() -> void:
 		ProjectSettings.set_setting("layer_names/2d_physics/layer_18", "Status")
 		ProjectSettings.set_setting("layer_names/2d_physics/layer_19", "Interaction")
 		ProjectSettings.set_setting("layer_names/2d_physics/layer_20", "Field")
+
+	
+	if %CheckBoxSetupGlobalGroups.button_pressed:
+		ProjectSettings.set_setting("global_group/player", "")
+		ProjectSettings.set_setting("global_group/enemy", "")
+		ProjectSettings.set_setting("global_group/friend", "")
+		ProjectSettings.set_setting("global_group/mutual_enemy", "")
+		ProjectSettings.set_setting("global_group/mutual_friend", "")
+		ProjectSettings.set_setting("global_group/input", "")
 
 func _create_folders() -> void:
 	if not %CheckBoxFileSystemCreateFolders.button_pressed:
@@ -774,7 +785,7 @@ func _create_tile_sets() -> void:
 	_create_field_tile_set()
 
 func _create_physics_tile_set() -> void:
-	var path_: String = "res://resources/tile_sets/physics.tres"
+	var path_: String = "res://resources/tile_set/physics.tres"
 	
 	if FileAccess.file_exists(path_) and not %CheckBoxOverride.button_pressed:
 		return
@@ -793,15 +804,15 @@ func _create_physics_tile_set() -> void:
 	if tile_set_names_.size() == 0:
 		return
 		
-	DirAccess.make_dir_recursive_absolute("res://assets/tile_sets/physics")
-	DirAccess.make_dir_recursive_absolute("res://resources/tile_sets")
+	DirAccess.make_dir_recursive_absolute("res://assets/tile_set/physics")
+	DirAccess.make_dir_recursive_absolute("res://resources/tile_set")
 	
 	var size_: String = %OptionButtonSetupPhysicsSize.get_item_text(%OptionButtonSetupPhysicsSize.selected).split(" ")[0]
 	
 	for tile_set_name_: String in tile_set_names_:
 		DirAccess.copy_absolute(
-			"res://addons/retrograde/_/assets/tile_sets/physics/" + tile_set_name_ + "_" + size_ + ".png", 
-			"res://assets/tile_sets/physics/" + tile_set_name_ + ".png"
+			"res://addons/retrograde/_/assets/tile_set/physics/" + tile_set_name_ + "_" + size_ + ".png", 
+			"res://assets/tile_set/physics/" + tile_set_name_ + ".png"
 		)
 	
 	await get_tree().process_frame
@@ -814,7 +825,7 @@ func _create_physics_tile_set() -> void:
 		var wait_: bool = false
 		
 		for tile_set_name_: String in tile_set_names_:
-			if not ResourceLoader.exists("res://assets/tile_sets/physics/" + tile_set_name_ + ".png"):
+			if not ResourceLoader.exists("res://assets/tile_set/physics/" + tile_set_name_ + ".png"):
 				wait_ = true
 				break
 
@@ -839,19 +850,19 @@ func _create_physics_tile_set() -> void:
 	ResourceSaver.save(tile_set_, path_)
 
 func _create_single_tile_set(name_: String, layer_: int, data_layers_: Dictionary = {}) -> void:
-	var path_: String = "res://resources/tile_sets/" + name_ + ".tres"
+	var path_: String = "res://resources/tile_set/" + name_ + ".tres"
 	
 	if FileAccess.file_exists(path_) and not %CheckBoxOverride.button_pressed:
 		return
 		
-	DirAccess.make_dir_recursive_absolute("res://assets/tile_sets")
-	DirAccess.make_dir_recursive_absolute("res://resources/tile_sets")
+	DirAccess.make_dir_recursive_absolute("res://assets/tile_set")
+	DirAccess.make_dir_recursive_absolute("res://resources/tile_set")
 	
 	var size_: String = %OptionButtonSetupPhysicsSize.get_item_text(%OptionButtonSetupPhysicsSize.selected).split(" ")[0]
 	
 	DirAccess.copy_absolute(
-		"res://addons/retrograde/_/assets/tile_sets/" + name_ + "/" + name_ + "_" + size_ + ".png", 
-		"res://assets/tile_sets/" + name_ + ".png"
+		"res://addons/retrograde/_/assets/tile_set/" + name_ + "/" + name_ + "_" + size_ + ".png", 
+		"res://assets/tile_set/" + name_ + ".png"
 	)
 
 	await get_tree().process_frame
@@ -861,7 +872,7 @@ func _create_single_tile_set(name_: String, layer_: int, data_layers_: Dictionar
 		await get_tree().process_frame
 		
 	# Wait for the physics images to be imported
-	while not ResourceLoader.exists("res://assets/tile_sets/" + name_ + ".png"):
+	while not ResourceLoader.exists("res://assets/tile_set/" + name_ + ".png"):
 		await get_tree().process_frame
 
 	var tile_set_: TileSet = TileSet.new()
@@ -896,11 +907,11 @@ func _add_tile_set_atlas(
 	size_: int
 ) -> void:
 	var atlas_: TileSetAtlasSource = TileSetAtlasSource.new()
-	atlas_.texture = load("res://assets/tile_sets" + path_ + "/" + name_ + ".png")
+	atlas_.texture = load("res://assets/tile_set" + path_ + "/" + name_ + ".png")
 	atlas_.texture_region_size = Vector2i(size_, size_)
 	tile_set_.add_source(atlas_)
 	
-	var data_: Dictionary = _load_json("res://addons/retrograde/_/data/tile_sets" + path_ + "/" + name_ + ".json")
+	var data_: Dictionary = _load_json("res://addons/retrograde/_/data/tile_set" + path_ + "/" + name_ + ".json")
 	
 	# Since some types can share the same physics layer, track which has already 
 	# been set so as to not overwrite (JSON file should be set up in such a way 
@@ -1294,11 +1305,8 @@ func _create_controls_data() -> void:
 func _create_input_data() -> void:
 	if not %CheckBoxDataInput.button_pressed:
 		return
-	
-	if FileAccess.file_exists("res://data/input.json") and not %CheckBoxOverride.button_pressed:
-		return
 		
-	var error_: Error = DirAccess.make_dir_recursive_absolute("res://data")
+	var error_: Error = DirAccess.make_dir_recursive_absolute("res://data/input")
 	if error_ != OK:
 		return
 		
@@ -1309,54 +1317,72 @@ func _create_input_data() -> void:
 		)
 		if error_ != OK:
 			return
-		
-	var data_: Dictionary = _load_json("res://addons/retrograde/_/data/input.json")
-	data_.enabled = [
-		"pause",
-		"back",
-	]
+			
+	var input_files_: PackedStringArray = DirAccess.get_files_at("res://addons/retrograde/_/data/input")
 	
-	if %CheckBoxInputClimb.button_pressed:
-		data_.enabled.push_back("climb_on")
-		data_.enabled.push_back("climb_off")
-		data_.enabled.push_back("climb_up")
-		data_.enabled.push_back("climb_down")
-		data_.enabled.push_back("climb_right")
-		data_.enabled.push_back("climb_left")
+	for input_file_: String in input_files_:
+		if input_file_.get_extension().to_lower() != "json":
+			continue
+			
+		if FileAccess.file_exists("res://data/input/" + input_file_) and not %CheckBoxOverride.button_pressed:
+			return
+			
+		var data_: Dictionary = _load_json("res://addons/retrograde/_/data/input/" + input_file_)
 		
-	if %CheckBoxInputCrouch.button_pressed:
-		data_.enabled.push_back("crouch")
+		if input_file_.get_basename() == "game":
+			data_.enabled = [
+				"pause",
+				"back",
+			]
+		elif input_file_.get_basename() == "climb":
+			data_.enabled = []
+			if %CheckBoxInputClimb.button_pressed:
+				data_.enabled.push_back("climb_on")
+				data_.enabled.push_back("climb_off")
+				data_.enabled.push_back("climb_up")
+				data_.enabled.push_back("climb_down")
+				data_.enabled.push_back("climb_right")
+				data_.enabled.push_back("climb_left")
+		elif input_file_.get_basename() == "climb":
+			data_.enabled = []
+			if %CheckBoxInputCrouch.button_pressed:
+				data_.enabled.push_back("crouch")
+		elif input_file_.get_basename() == "interact":
+			data_.enabled = []
+			if %CheckBoxInputInteract.button_pressed:
+				data_.enabled.push_back("interact")
+		elif input_file_.get_basename() == "item":
+			data_.enabled = []
+			
+			if %CheckBoxInputItemDrop.button_pressed:
+				data_.enabled.push_back("item_drop")
+				
+			if %CheckBoxInputItemPickUp.button_pressed:
+				data_.enabled.push_back("item_pick_up")
+				
+			if %SpinBoxInputItemSelect.value > 0:
+				for i_: int in range(1, %SpinBoxInputItemSelect.value + 1):
+					data_.enabled.push_back("item_select_" + str(i_))
+				
+			if %CheckBoxInputItemUse.button_pressed:
+				data_.enabled.push_back("item_use")
+		elif input_file_.get_basename() == "jump":
+			data_.enabled = []
+			if %CheckBoxInputJump.button_pressed:
+				data_.enabled.push_back("jump")
+		elif input_file_.get_basename() == "jump":
+			data_.enabled = []
+			if %CheckBoxInputMove.button_pressed:
+				data_.enabled.push_back("move_up")
+				data_.enabled.push_back("move_down")
+				data_.enabled.push_back("move_right")
+				data_.enabled.push_back("move_left")
 		
-	if %CheckBoxInputInteract.button_pressed:
-		data_.enabled.push_back("interact")
-	
-	if %CheckBoxInputItemDrop.button_pressed:
-		data_.enabled.push_back("item_drop")
+		var json_: String = JSON.stringify(data_, "\t", false)
 		
-	if %CheckBoxInputItemPickUp.button_pressed:
-		data_.enabled.push_back("item_pick_up")
-		
-	if %SpinBoxInputItemSelect.value > 0:
-		for i_: int in range(1, %SpinBoxInputItemSelect.value + 1):
-			data_.enabled.push_back("item_select_" + str(i_))
-		
-	if %CheckBoxInputItemUse.button_pressed:
-		data_.enabled.push_back("item_use")
-		
-	if %CheckBoxInputJump.button_pressed:
-		data_.enabled.push_back("jump")
-	
-	if %CheckBoxInputMove.button_pressed:
-		data_.enabled.push_back("move_up")
-		data_.enabled.push_back("move_down")
-		data_.enabled.push_back("move_right")
-		data_.enabled.push_back("move_left")
-	
-	var json_: String = JSON.stringify(data_, "\t", false)
-	
-	var file_: FileAccess = FileAccess.open("res://data/input.json", FileAccess.WRITE)
-	file_.store_string(json_)
-	file_.close()
+		var file_: FileAccess = FileAccess.open("res://data/input/" + input_file_, FileAccess.WRITE)
+		file_.store_string(json_)
+		file_.close()
 
 func _setup_localization() -> void:
 	if not %CheckBoxLocalizationTranslations.button_pressed:

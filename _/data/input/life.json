@@ -1,0 +1,11 @@
+{
+	"enabled": [
+
+	],
+	"default": {
+		"life_kill": [
+		],
+		"life_revive": [
+		]
+	}
+}

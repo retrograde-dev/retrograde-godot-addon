@@ -1,9 +1,10 @@
+extends Resource
 class_name ProviderBehavior
 
-var random: bool
-var remove: bool
-var repeat: bool
-var count: int
+@export var random: bool = false
+@export var remove: bool = false
+@export var repeat: bool = false
+@export var count: int = 0
 	
 func _init(
 	random_: bool = false,

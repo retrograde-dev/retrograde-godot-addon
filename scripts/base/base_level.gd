@@ -20,11 +20,11 @@ var level_mode: Core.LevelMode = Core.LevelMode.GAME:
 @export_subgroup("Parties")
 @export var override_parties: bool = false
 @export var initial_party_alias: StringName = &""
-@export var initial_parties: Dictionary[StringName, PartyResource] = {}
+@export var initial_parties: Dictionary[StringName, PartySet] = {}
 
 @export_subgroup("Inventory")
 @export var override_inventory: bool = false
-@export var initial_inventory: Dictionary[StringName, InventoryResource] = {}
+@export var initial_inventory: Dictionary[StringName, InventorySet] = {}
 
 var data: LevelResource = null
 var playtime: PlaytimeTimer = PlaytimeTimer.new()

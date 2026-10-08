@@ -1,0 +1,30 @@
+{
+	"enabled": [
+		"crouch"
+	],
+	"default": {
+		"crouch": [
+			{
+				"type": "key",
+				"physical_keycode": 67
+			},
+			{
+				"type": "key",
+				"physical_keycode": 88
+			},
+			{
+				"type": "key",
+				"physical_keycode": 90
+			},
+			{
+				"type": "key",
+				"physical_keycode": 4194326
+			},
+			{
+				"type": "joypad_motion",
+				"axis": 4,
+				"axis_value": 1.0
+			}
+		]
+	}
+}

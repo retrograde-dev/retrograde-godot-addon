@@ -65,8 +65,6 @@ var actions: ActionHandler
 var actors: ActorHandler
 var areas: AreaController
 
-var _timeout_cooldown: CooldownTimer = CooldownTimer.new()
-
 signal unit_mode_changed(unit_mode_: Core.UnitMode, previous_unit_mode_: Core.UnitMode)
 signal unit_speed_changed(unit_speed_: Core.UnitSpeed, previous_unit_speed_: Core.UnitSpeed)
 signal unit_stance_changed(unit_stance_: Core.UnitStance, previous_unit_stance_: Core.UnitStance)
@@ -78,6 +76,18 @@ signal unit_physics_changed(unit_physics_: Core.UnitPhysics, previous_unit_physi
 
 func _init(unit_type_: Core.UnitType) -> void:
 	unit_type = unit_type_
+	
+	self.visibility_changed.connect(_on_visibility_changed)
+
+func _on_visibility_changed() -> void:
+	if is_ready:
+		_update_visibility()
+			
+func _update_visibility() -> void:
+	if visible:
+		enable_collisions()
+	else:
+		disable_collisions()
 
 func _ready() -> void:
 	super._ready()
@@ -134,17 +144,25 @@ func stop() -> void:
 	if actors != null:
 		await actors.stop()
 	
+	await super.stop()
+	
+func enable_collisions() -> void:
+	# Collisions are normally enabled on ready() call,
+	# we don't want to enable them if not visible
+	if !is_ready and !visible:
+		return
+		
+	super.enable_collisions()
+
+	if areas != null:
+		areas.enable()
+			
+func disable_collisions() -> void:
+	super.disable_collisions()
+	
 	if areas != null:
 		areas.disable()
 	
-	await super.stop()
-	
-func ready() -> void:
-	super.ready()
-	
-	if areas != null:
-		areas.enable()
-
 func _process(delta_: float) -> void:
 	super._process(delta_)
 	
@@ -160,13 +178,6 @@ func _process(delta_: float) -> void:
 func _physics_process(delta_: float) -> void:
 	super._physics_process(delta_)
 	
-	if not _timeout_cooldown.is_stopped:
-		_timeout_cooldown.process(delta_)
-		
-		if _timeout_cooldown.is_complete:
-			_timeout_cooldown.stop()
-			is_enabled = true
-	
 	if actors == null or not is_running():
 		return
 		
@@ -176,17 +187,6 @@ func get_alias() -> StringName:
 	return alias
 func set_alias(value_: StringName) -> void:
 	alias = value_
-
-func timeout(delta_: float) -> void:
-	if not is_enabled:
-		return
-
-	if not _timeout_cooldown.is_stopped:
-		_timeout_cooldown.stop()
-	
-	is_enabled = false
-	_timeout_cooldown.delta = delta_
-	_timeout_cooldown.start()
 
 func is_moving() -> bool:
 	return is_moving_x() or is_moving_y()

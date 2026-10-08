@@ -45,7 +45,7 @@ func stop() -> void:
 
 func process(_delta: float) -> void:
 	if _release_queue.size() > 0:
-		_press = _press.filter(func(action_): not _release_queue.has(action_))
+		_press = _press.filter(func(action_: StringName) -> bool: return not _release_queue.has(action_))
 	_press.append_array(_press_queue)
 	_pressed = _pressed_queue.duplicate()
 	_pressed.append_array(_press_queue)

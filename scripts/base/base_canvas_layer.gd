@@ -23,6 +23,7 @@ func reset(reset_type_: Core.ResetType) -> void:
 	):
 		scale = scale_default
 		
+		is_enabled = true
 		is_started = false
 		is_ready = false
 		modes.filter(func(mode: StringName) -> bool: return Core.GLOBAL_MODES.has(mode))
@@ -91,8 +92,9 @@ func _handle_ready() -> void:
 	if not is_started:
 		return
 
-	is_ready = true
 	ready()
+	
+	is_ready = true
 
 func ready() -> void:
 	pass

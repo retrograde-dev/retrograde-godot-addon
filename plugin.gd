@@ -42,6 +42,10 @@ var _settings: Dictionary = {
 			"value": false,
 			"type": TYPE_BOOL
 		},
+		"global_groups": {
+			"value": false,
+			"type": TYPE_BOOL
+		},
 	},
 	"audio": {
 		"bus_layout": {

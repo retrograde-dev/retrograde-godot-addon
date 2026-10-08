@@ -11,9 +11,9 @@ var signal_swap_handled: bool = false
 
 var action_swap: StringName = &"item_swap"
 
-signal swap_error(inventory_item_: InventoryItemResource, zone_item_: ZoneItemResource, error_: Core.Error) 
-signal swap_before(inventory_item_: InventoryItemResource, zone_item_: ZoneItemResource)
-signal swap_after(inventory_item_: InventoryItemResource, zone_item_: ZoneItemResource)
+signal swap_error(inventory_item_: InventoryValue, zone_item_: ZoneItemResource, error_: Core.Error) 
+signal swap_before(inventory_item_: InventoryValue, zone_item_: ZoneItemResource)
+signal swap_after(inventory_item_: InventoryValue, zone_item_: ZoneItemResource)
 
 func _init(items_: ItemsActor, unit_: BaseUnit, enabled_: bool = true) -> void:
 	super._init(unit_, &"drop_item", enabled_)
@@ -48,7 +48,7 @@ func _action_swap_selected_item() -> void:
 	
 	swap_selected_item()
 
-func can_swap_item(inventory_item_: InventoryItemResource) -> bool:
+func can_swap_item(inventory_item_: InventoryValue) -> bool:
 	if inventory_item_ == null:
 		return false
 	
@@ -76,14 +76,14 @@ func can_swap_item(inventory_item_: InventoryItemResource) -> bool:
 	return false
 
 func can_swap_selected_item() -> bool:
-	var inventory_item_: InventoryItemResource = _items.get_selected_item()
+	var inventory_item_: InventoryValue = _items.get_selected_item()
 	return can_swap_item(inventory_item_)
 
 # Returns true the item is a single item
 func _can_swap_zone_item(
 	items_: Array[ItemUnitResource],
 	item_: ItemUnitResource,
-	inventory_item_: InventoryItemResource,
+	inventory_item_: InventoryValue,
 ) -> bool:
 	if inventory_item_ == null:
 		return false
@@ -130,7 +130,7 @@ func _can_swap_zone_item(
 	
 	return false
 	
-func swap_item(inventory_item_: InventoryItemResource) -> bool:
+func swap_item(inventory_item_: InventoryValue) -> bool:
 	var items_: Array[ItemUnitResource] = _items.get_item_area_items()
 	
 	_current_item = null
@@ -160,10 +160,10 @@ func swap_item(inventory_item_: InventoryItemResource) -> bool:
 	return true
 
 func swap_selected_item() -> bool:
-	var inventory_item_: InventoryItemResource = _items.get_selected_item()
+	var inventory_item_: InventoryValue = _items.get_selected_item()
 	return swap_item(inventory_item_)
 		
-func _swap_item(inventory_item_: InventoryItemResource, item_: ItemUnitResource) -> bool:
+func _swap_item(inventory_item_: InventoryValue, item_: ItemUnitResource) -> bool:
 	if Core.zone == null:
 		return false
 	

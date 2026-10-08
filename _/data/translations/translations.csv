@@ -14,16 +14,18 @@ LABEL:action_interact_start,Start Interaction,
 LABEL:action_interact_stop,Stop Interaction,
 LABEL:action_item_use,Use Item,
 LABEL:action_item_drop,Drop Item,
-TITLE:credits_programming,Programming,
-TITLE:credits_graphics,Graphics,
-TITLE:credits_music,Music,
-TITLE:settings_audio,Audio,
+TITLE:credits_programming,Programming,プログラム
+TITLE:credits_graphics,Graphics,グラフィック
+TITLE:credits_music,Music,音楽
+TITLE:credits_voices,Voices,ボイス
+TITLE:settings_audio,Audio,オーディオ
 TITLE:settings_mouse,Mouse,マウス
 TITLE:settings_joypad,Controller,コントローラー
 LABEL:settings_audio_master,Master,マスター
 LABEL:settings_audio_music,Music,音楽
 LABEL:settings_audio_sfx,SFX,効果音
 LABEL:settings_audio_ambiance,Ambiance,環境音
+LABEL:settings_audio_dialogue,Dialogue,ボイス
 LABEL:settings_normal_mouse_speed,Normal Cursor Speed,
 LABEL:settings_slow_mouse_speed,Slow Cursor Speed,
 LABEL:settings_fast_mouse_speed,Fast Cursor Speed,

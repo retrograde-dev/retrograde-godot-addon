@@ -189,10 +189,10 @@ func export() -> Dictionary[StringName, Variant]:
 	
 	return data
 	
-func import(data: Dictionary[StringName, Variant]) -> void:
-	super.import(data)
+func import(data_: Dictionary[StringName, Variant]) -> void:
+	super.import(data_)
 	
-	is_crouch_toggle = data.get(&"is_crouch_toggle", is_crouch_toggle)
-	is_crouching = data.get(&"is_crouching", is_crouching)
-	_reason = data.get(&"_reason", _reason)
-	_is_crouch_active = data.get(&"_is_crouch_active", _is_crouch_active)
+	is_crouch_toggle = data_.get(&"is_crouch_toggle", is_crouch_toggle)
+	is_crouching = data_.get(&"is_crouching", is_crouching)
+	_reason = data_.get(&"_reason", _reason)
+	_is_crouch_active = data_.get(&"_is_crouch_active", _is_crouch_active)

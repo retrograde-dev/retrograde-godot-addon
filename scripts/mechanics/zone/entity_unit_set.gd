@@ -67,19 +67,26 @@ func get_entities() -> Array[EntityUnitResource]:
 func set_entities(value_: Array[EntityUnitResource]) -> void:
 	entities = value_
 
-func get_entities_from_meta(meta: Dictionary) -> Array[EntityUnitResource]:
+func get_entities_from_attr(attr: Dictionary) -> Array[EntityUnitResource]:
 	var entities_: Array[EntityUnitResource] = []
 
 	for entity_: EntityUnitResource in entities:
-		if Core.dictionary_contains(entity_.meta, meta):
+		if Core.dictionary_contains(entity_.zone_entity.attr, attr):
 			entities_.push_back(entity_)
 
 	return entities_
+
+func get_entity_from_id(id_: StringName) -> EntityUnitResource:
+	for entity_: EntityUnitResource in entities:
+		if entity_.id == id_:
+			return entity_
+	
+	return null
 	
 func get_entity_from_zone_entity(zone_entity_: ZoneEntityResource) -> EntityUnitResource:
-	for index_: int in entities.size():
-		if entities[index_].zone_entity == zone_entity_:
-			return entities[index_]
+	for entity_: EntityUnitResource in entities:
+		if entity_.zone_entity == zone_entity_:
+			return entity_
 	
 	return null
 	

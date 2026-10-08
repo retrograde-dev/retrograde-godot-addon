@@ -241,16 +241,16 @@ func export() -> Dictionary[StringName, Variant]:
 	
 	return data
 	
-func import(data: Dictionary[StringName, Variant]) -> void:
-	super.import(data)
+func import(data_: Dictionary[StringName, Variant]) -> void:
+	super.import(data_)
 	
-	is_killed = data.get(&"is_killed", is_killed)
-	_reason = data.get(&"_reason", _reason)
-	lose_on_kill = data.get(&"lose_on_kill", lose_on_kill)
-	health_on_revive = data.get(&"health_on_revive", health_on_revive)
-	kill_cooldown_delta = data.get(&"kill_cooldown_delta", kill_cooldown_delta)
-	revive_cooldown_delta = data.get(&"revive_cooldown_delta", revive_cooldown_delta)
-	kill_action_enabled = data.get(&"kill_action_enabled", kill_action_enabled)
-	kill_action_enabled_default = data.get(&"kill_action_enabled_default", kill_action_enabled_default)
-	revive_action_enabled = data.get(&"revive_action_enabled", revive_action_enabled)
-	revive_action_enabled_default = data.get(&"revive_action_enabled_default", revive_action_enabled_default)
+	is_killed = data_.get(&"is_killed", is_killed)
+	_reason = data_.get(&"_reason", _reason)
+	lose_on_kill = data_.get(&"lose_on_kill", lose_on_kill)
+	health_on_revive = data_.get(&"health_on_revive", health_on_revive)
+	kill_cooldown_delta = data_.get(&"kill_cooldown_delta", kill_cooldown_delta)
+	revive_cooldown_delta = data_.get(&"revive_cooldown_delta", revive_cooldown_delta)
+	kill_action_enabled = data_.get(&"kill_action_enabled", kill_action_enabled)
+	kill_action_enabled_default = data_.get(&"kill_action_enabled_default", kill_action_enabled_default)
+	revive_action_enabled = data_.get(&"revive_action_enabled", revive_action_enabled)
+	revive_action_enabled_default = data_.get(&"revive_action_enabled_default", revive_action_enabled_default)

@@ -3,7 +3,7 @@ KEY,[key] Key,
 MOUSE_BUTTON_1,Left Button,
 MOUSE_BUTTON_2,Right Button,
 MOUSE_BUTTON_3,Middle Button,
-MOUSE_BUTTON_4,Wheel Up,
+MOUSE_BUTTON_4,Wheel Up,ホイール上
 MOUSE_BUTTON_5,Wheel Down,
 MOUSE_BUTTON_6,Wheel Left,
 MOUSE_BUTTON_7,Wheel Right,

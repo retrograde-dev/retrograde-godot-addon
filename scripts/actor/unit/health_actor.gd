@@ -136,11 +136,11 @@ func export() -> Dictionary[StringName, Variant]:
 	
 	return data
 	
-func import(data: Dictionary[StringName, Variant]) -> void:
-	super.import(data)
+func import(data_: Dictionary[StringName, Variant]) -> void:
+	super.import(data_)
 	
-	health = data.get(&"health", health)
-	max_health = data.get(&"max_health", max_health)
-	armor = data.get(&"armor", armor)
-	max_armor = data.get(&"max_armor", max_armor)
-	durability = data.get(&"durability", durability)
+	health = data_.get(&"health", health)
+	max_health = data_.get(&"max_health", max_health)
+	armor = data_.get(&"armor", armor)
+	max_armor = data_.get(&"max_armor", max_armor)
+	durability = data_.get(&"durability", durability)

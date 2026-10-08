@@ -1,8 +1,9 @@
+extends Resource
 class_name AliasProviderSet
 
-var providers: Array[AliasProviderValue]
+@export var providers: Array[AliasProviderValue] = []
 
-func _init(providers_: Array[AliasProviderValue]) -> void:
+func _init(providers_: Array[AliasProviderValue] = []) -> void:
 	providers = providers_
 	
 func reset() -> void:
@@ -24,7 +25,7 @@ func get_alias() -> StringName:
 		if providers[index_].is_empty():
 			continue
 			
-		return providers[index_].get_alias()
+		return providers[index_].get_Alias()
 	
 	return &""
 
@@ -36,7 +37,7 @@ func get_aliases(count_: int) -> Array[StringName]:
 	while current_count_ > 0:
 		var alias_: StringName = get_alias()
 		
-		# No more aliases to get
+		# No more Aliases to get
 		if alias_ == &"":
 			break
 			

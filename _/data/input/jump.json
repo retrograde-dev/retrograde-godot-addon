@@ -1,0 +1,21 @@
+{
+	"enabled": [
+		"jump"
+	],
+	"default": {
+		"jump": [
+			{
+				"type": "key",
+				"physical_keycode": 32
+			},
+			{
+				"type": "key",
+				"physical_keycode": 4194308
+			},
+			{
+				"type": "joypad_button",
+				"button_index": 2
+			}
+		]
+	}
+}

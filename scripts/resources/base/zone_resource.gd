@@ -6,3 +6,4 @@ class_name ZoneResource
 @export var players: Array[EntityUnitResource] = []
 @export var music: StringName = &""
 @export var ambiance: StringName = &""
+@export var actors: Dictionary[StringName, Dictionary] = {}

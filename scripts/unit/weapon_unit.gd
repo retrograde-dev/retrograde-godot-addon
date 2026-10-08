@@ -18,7 +18,7 @@ var current_attack_value: AttackValue = null
 var queue_delta: float = 0.25
 var _queue_weapon_attack: WeaponAttack = null
 var _queue_cooldown_delta: float = 0.0
-var _queue_meta: Dictionary = {}
+var _queue_attr: Dictionary = {}
 
 func _init(
 	weapon_type_: Core.WeaponType,
@@ -44,7 +44,7 @@ func get_current_attack_delta() -> float:
 func clear_queue() -> void:
 	_queue_weapon_attack = null
 	_queue_cooldown_delta = 0.0
-	_queue_meta = {}
+	_queue_attr = {}
 
 func get_weapon_attack_from_alias(attack_alias_: StringName) -> WeaponAttack:
 	for attack_: WeaponAttack in attacks:
@@ -53,55 +53,55 @@ func get_weapon_attack_from_alias(attack_alias_: StringName) -> WeaponAttack:
 			
 	return null
 	
-func attack(meta_: Dictionary = {}) -> void:
-	_attack_from_weapon_attack(attacks[0], meta_)
+func attack(attr_: Dictionary = {}) -> void:
+	_attack_from_weapon_attack(attacks[0], attr_)
 	
-func attack_from_alias(attack_alias_: StringName, meta_: Dictionary = {}) -> void:
+func attack_from_alias(attack_alias_: StringName, attr_: Dictionary = {}) -> void:
 	var attack_: WeaponAttack = get_weapon_attack_from_alias(attack_alias_)
 	
 	if attack_ != null:
-		_attack_from_weapon_attack(attack_, meta_)
+		_attack_from_weapon_attack(attack_, attr_)
 		return
 			
 	assert(false, "Attack not found. (" + attack_alias_ + ")")
 	
-func attack_from_index(attack_index_: int, meta_: Dictionary = {}) -> void:
+func attack_from_index(attack_index_: int, attr_: Dictionary = {}) -> void:
 	assert(attack_index_ > 0 and attack_index_ <= attacks.size(), "Invalid attack index. (" + alias + ", " + str(attack_index_) + ")")
 	
 	if attack_index_ <= 0 or attack_index_ > attacks.size():
 		return
 	
-	_attack_from_weapon_attack(attacks[attack_index_ -1], meta_)
+	_attack_from_weapon_attack(attacks[attack_index_ -1], attr_)
 	
-func attack_from_attack_value(attack_value_: AttackValue, meta_: Dictionary = {}) -> void:
+func attack_from_attack_value(attack_value_: AttackValue, attr_: Dictionary = {}) -> void:
 	assert(attack_value_.type == Core.AttackType.WEAPON, "Attack is not a weapon attack.")
 	
 	if attack_value_.type != Core.AttackType.WEAPON:
 		return
 	
-	if attack_value_.meta.has("weapon_attack_alias"):
-		attack_from_alias(attack_value_.meta.weapon_attack_alias, meta_)
+	if attack_value_.attr.has("weapon_attack_alias"):
+		attack_from_alias(attack_value_.attr.weapon_attack_alias, attr_)
 	else:
-		attack(meta_)
+		attack(attr_)
 
-func _attack_from_weapon_attack(weapon_attack_: WeaponAttack, meta_: Dictionary = {}) -> void:
+func _attack_from_weapon_attack(weapon_attack_: WeaponAttack, attr_: Dictionary = {}) -> void:
 	if not _attack_cooldown.is_stopped:
 		# Queue an attack if already attacking
 		_queue_cooldown_delta = _attack_cooldown.current_delta
 		_queue_weapon_attack = weapon_attack_
-		_queue_meta = meta_.duplicate()
+		_queue_attr = attr_.duplicate()
 		return
 
 	clear_queue()
 	
-	meta_ = meta_.duplicate()
-	meta_.weapon_attack_alias = weapon_attack_.alias
-	meta_.weapon_attack_delta = weapon_attack_.delta
+	attr_ = attr_.duplicate()
+	attr_.weapon_attack_alias = weapon_attack_.alias
+	attr_.weapon_attack_delta = weapon_attack_.delta
 		
 	var attack_value_: AttackValue = AttackValue.new(
 		Core.AttackType.WEAPON, 
 		alias, 
-		meta_
+		attr_
 	)
 	attack_value_.node = self
 	
@@ -140,4 +140,4 @@ func _process(delta_: float) -> void:
 		current_attack_value = null
 	
 		if _queue_weapon_attack != null:
-			_attack_from_weapon_attack(_queue_weapon_attack, _queue_meta)
+			_attack_from_weapon_attack(_queue_weapon_attack, _queue_attr)

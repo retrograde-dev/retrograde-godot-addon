@@ -25,8 +25,8 @@ var save: SaveHandler
 var ui: UIController
 var data: GameResource
 
-var parties: Dictionary[StringName, PartyResource] = {}
-var inventory: Dictionary[StringName, InventoryResource] = {}
+var parties: Dictionary[StringName, PartySet] = {}
+var inventory: Dictionary[StringName, InventorySet] = {}
 
 var locale: String = "en"
 var LOCALES: Array[String] = ["en", "jp"]
@@ -78,7 +78,7 @@ var ENABLE_LEVEL_PREVIOUS: bool = false
 var ENABLE_LEVEL_NEXT: bool = false
 var ENABLE_PLAY_AGAIN: bool = false
 
-var UI_LEVEL_SELECT_COLUMNS = 3
+var UI_LEVEL_SELECT_COLUMNS: int = 3
 
 var UI_BACKGROUND_COLOR: Color = Color(0, 0, 0, 0.75)
 var UI_MENU_BACKROUND: bool = true
@@ -116,6 +116,18 @@ var PHYSICS_MODIFIER_LAYER_NUMBER: int = 17
 var PHYSICS_STATUS_LAYER_NUMBER: int = 18
 var PHYSICS_INTERACTION_LAYER_NUMBER: int = 19
 var PHYSICS_FIELD_LAYER_NUMBER: int = 20
+var PHYSICS_CUSTOM_1_LAYER_NUMBER: int = 21
+var PHYSICS_CUSTOM_2_LAYER_NUMBER: int = 22
+var PHYSICS_CUSTOM_3_LAYER_NUMBER: int = 23
+var PHYSICS_CUSTOM_4_LAYER_NUMBER: int = 24
+var PHYSICS_CUSTOM_5_LAYER_NUMBER: int = 25
+var PHYSICS_CUSTOM_6_LAYER_NUMBER: int = 26
+var PHYSICS_CUSTOM_7_LAYER_NUMBER: int = 27
+var PHYSICS_CUSTOM_8_LAYER_NUMBER: int = 28
+var PHYSICS_CUSTOM_9_LAYER_NUMBER: int = 29
+var PHYSICS_CUSTOM_10_LAYER_NUMBER: int = 30
+var PHYSICS_CUSTOM_11_LAYER_NUMBER: int = 31
+var PHYSICS_CUSTOM_12_LAYER_NUMBER: int = 32
 
 var PHYSICS_SOLID_LAYER_ID: int = 0
 var PHYSICS_LIQUID_LAYER_ID: int = 1
@@ -170,6 +182,18 @@ enum Layer {
 	STATUS,
 	INTERACTION,
 	FIELD,
+	CUSTOM_1,
+	CUSTOM_2,
+	CUSTOM_3,
+	CUSTOM_4,
+	CUSTOM_5,
+	CUSTOM_6,
+	CUSTOM_7,
+	CUSTOM_8,
+	CUSTOM_9,
+	CUSTOM_10,
+	CUSTOM_11,
+	CUSTOM_12,
 }
 
 func get_layer_number(layer_: Core.Layer) -> int:
@@ -691,6 +715,49 @@ enum AttackType {
 	WEAPON,
 }
 
+func game_init(game_: BaseGame) -> void:
+	Core.game = game_
+	
+	if Core.nodes == null:
+		Core.nodes = NodeHandler.new()
+
+	if Core.inputs == null:
+		Core.inputs = InputHandler.new()
+		Core.inputs.load()
+
+	if Core.items == null:
+		Core.items = ItemHandler.new()
+		
+	if Core.entities == null:
+		Core.entities = EntityHandler.new()
+
+	if Core.ENABLE_LEVEL_SELECT:
+		Core.level_select = LevelSelectHandler.new()
+
+	if Core.help == null:
+		Core.help = HelpHandler.new()
+		
+	if Core.audio == null:
+		Core.audio = AudioHandler.new()
+		
+	if Core.speech == null:
+		Core.speech = SpeechHandler.new()
+
+	if Core.settings == null:
+		Core.settings = SettingsFile.new()
+		Core.settings.load()
+
+	if Core.save == null:
+		Core.save = SaveHandler.new()
+	
+func game_ready(game_: BaseGame) -> void:
+	Core.ui = game_.get_node_or_null("%UI")
+	Core.hud = game_.get_node_or_null("%HUD")
+	Core.camera = game_.get_node_or_null("%Camera")
+	
+	var viewport_: Viewport = game_.get_game_viewport()
+	viewport_.physics_object_picking = true
+
 func apply_difficulty_modifier(value: int, inverse: bool = false, safe: int = 0) -> int:
 	if inverse:
 		if Core.data.difficulty == Core.GameDifficulty.EASY:
@@ -842,6 +909,11 @@ func format_time(time_usec_: int) -> String:
 	var minutes: int = floori((total_seconds % 3600) / 60.0)
 	var seconds: int = total_seconds % 60
 	return "%d:%02d:%02d" % [hours, minutes, seconds]
+
+func create_id(prefix_: StringName = &"") -> StringName:
+	var timestamp: String = str(int(Time.get_unix_time_from_system()))
+	var random: String = str(randi() % 1000000).pad_zeros(6)
+	return prefix_ + "%s_%s" % [timestamp, random]
 
 func get_align_offset(rect_: Rect2, alignment_: Core.Alignment) -> Vector2:
 	match alignment_:

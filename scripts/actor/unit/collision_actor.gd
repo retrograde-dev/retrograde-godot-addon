@@ -50,8 +50,8 @@ func export() -> Dictionary[StringName, Variant]:
 	
 	return data
 	
-func import(data: Dictionary[StringName, Variant]) -> void:
-	super.import(data)
+func import(data_: Dictionary[StringName, Variant]) -> void:
+	super.import(data_)
 	
-	collision_mode = data.get(&"collision_mode", collision_mode)
-	collision_damage_amount = data.get(&"collision_damage_amount", collision_damage_amount)
+	collision_mode = data_.get(&"collision_mode", collision_mode)
+	collision_damage_amount = data_.get(&"collision_damage_amount", collision_damage_amount)

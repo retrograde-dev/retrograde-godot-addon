@@ -16,16 +16,17 @@ class_name GameResource
 @export var sexuality: Core.ContentLevel = Core.ContentLevel.FULL
 
 @export_group("Game")
-@export var inventory: Dictionary[StringName, InventoryResource] = {}
+@export var inventory: Dictionary[StringName, InventorySet] = {}
 @export var state: Dictionary = {}
+@export var actors: Dictionary[StringName, Dictionary] = {}
 
 @export_group("Levels")
-@export var level_alias = &""
+@export var level_alias: StringName = &""
 @export var levels: Dictionary[StringName, LevelResource] = {}
 
 @export_group("Parties")
 @export var party_alias: StringName = &""
-@export var parties: Dictionary[StringName, PartyResource] = {}
+@export var parties: Dictionary[StringName, PartySet] = {}
 
 func _init() -> void:
 	created = Time.get_unix_time_from_system()

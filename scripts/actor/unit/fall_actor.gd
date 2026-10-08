@@ -153,17 +153,17 @@ func export() -> Dictionary[StringName, Variant]:
 	
 	return data
 	
-func import(data: Dictionary[StringName, Variant]) -> void:
-	super.import(data)
+func import(data_: Dictionary[StringName, Variant]) -> void:
+	super.import(data_)
 	
-	fall_acceleration = data.get(&"fall_acceleration", fall_acceleration)
-	max_fall_speed = data.get(&"max_fall_speed", max_fall_speed)
-	is_in_air = data.get(&"is_in_air", is_in_air)
-	is_rising = data.get(&"is_rising", is_rising)
-	is_falling = data.get(&"is_falling", is_falling)
-	is_crouch_falling = data.get(&"is_crouch_falling", is_crouch_falling)
-	is_crouch_falling_start = data.get(&"is_crouch_falling_start", is_crouch_falling_start)
-	air_time = data.get(&"air_time", air_time)
-	rise_time = data.get(&"rise_time", rise_time)
-	fall_time = data.get(&"fall_time", fall_time)
-	_previous_y = data.get(&"_previous_y", _previous_y)
+	fall_acceleration = data_.get(&"fall_acceleration", fall_acceleration)
+	max_fall_speed = data_.get(&"max_fall_speed", max_fall_speed)
+	is_in_air = data_.get(&"is_in_air", is_in_air)
+	is_rising = data_.get(&"is_rising", is_rising)
+	is_falling = data_.get(&"is_falling", is_falling)
+	is_crouch_falling = data_.get(&"is_crouch_falling", is_crouch_falling)
+	is_crouch_falling_start = data_.get(&"is_crouch_falling_start", is_crouch_falling_start)
+	air_time = data_.get(&"air_time", air_time)
+	rise_time = data_.get(&"rise_time", rise_time)
+	fall_time = data_.get(&"fall_time", fall_time)
+	_previous_y = data_.get(&"_previous_y", _previous_y)

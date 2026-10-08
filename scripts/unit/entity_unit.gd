@@ -2,17 +2,21 @@ extends BaseUnit
 class_name EntityUnit
 
 @export var zone_entity: ZoneEntityResource = null
-@export var meta: Dictionary = {}
 
 var entity: EntityResource:
-	get = get_entity,
-	set = set_entity
+	get = get_entity
 
 func get_entity() -> EntityResource:
 	return zone_entity.entity
 	
-func set_entity(value: EntityResource) -> void:
-	zone_entity.entity = value
+var attr: Dictionary = {}:
+	get = get_attr,
+	set = set_attr
+
+func get_attr() -> Dictionary:
+	return zone_entity.attr
+func set_attr(value_: Dictionary) -> void:
+	zone_entity.attr = value_
 	
 var collision: BaseActor:
 	get:
@@ -113,34 +117,34 @@ func use_item(item_: ItemResource) -> bool:
 	var used_: bool = false
 	
 	if item_.type == Core.ItemType.FOOD:
-		if item_.meta.has("hunger"):
-			_increase_unit_hunger(item_.meta.hunger)
+		if item_.attr.has("hunger"):
+			_increase_unit_hunger(item_.attr.hunger)
 		
 		used_ = true
 	elif item_.type == Core.ItemType.HEALTH_FOOD:
-		if item_.meta.has("hunger"):
-			_increase_unit_hunger(item_.meta.hunger)
+		if item_.attr.has("hunger"):
+			_increase_unit_hunger(item_.attr.hunger)
 			
-		if item_.meta.has("health"):
-			_increase_unit_health(item_.meta.health)
+		if item_.attr.has("health"):
+			_increase_unit_health(item_.attr.health)
 			
 		used_ = true
 	elif item_.type == Core.ItemType.ARMOR:
-		if item_.meta.has("armor"):
-			_increase_unit_armor(item_.meta.armor)
+		if item_.attr.has("armor"):
+			_increase_unit_armor(item_.attr.armor)
 			
 		used_ = true
 	elif item_.type == Core.ItemType.ARMOR_HEALTH:
-		if item_.meta.has("armor"):
-			_increase_unit_armor(item_.meta.armor)
+		if item_.attr.has("armor"):
+			_increase_unit_armor(item_.attr.armor)
 			
-		if item_.meta.has("health"):
-			_increase_unit_health(item_.meta.health)
+		if item_.attr.has("health"):
+			_increase_unit_health(item_.attr.health)
 			
 		used_ = true
 	elif item_.type == Core.ItemType.HEALTH or item_.type == Core.ItemType.REPAIR:
-		if item_.meta.has("health"):
-			_increase_unit_health(item_.meta.health)
+		if item_.attr.has("health"):
+			_increase_unit_health(item_.attr.health)
 			
 		used_ = true
 	

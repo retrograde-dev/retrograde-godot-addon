@@ -11,11 +11,11 @@ class_name LevelResource
 @export_subgroup("Parties")
 @export var override_parties: bool = false
 @export var party_alias: StringName = &""
-@export var parties: Dictionary[StringName, PartyResource] = {}
+@export var parties: Dictionary[StringName, PartySet] = {}
 
 @export_subgroup("Inventory")
 @export var override_inventory: bool = false
-@export var inventory: Dictionary[StringName, InventoryResource] = {}
+@export var inventory: Dictionary[StringName, InventorySet] = {}
 
 @export_group("Zones")
 @export var zones: Dictionary[StringName, ZoneResource] = {}

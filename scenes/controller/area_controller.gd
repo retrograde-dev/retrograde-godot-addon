@@ -52,7 +52,7 @@ func _add_area_internal(
 		
 		add_child(area_)
 	
-		var collisionShape2d_ = CollisionShape2D.new()
+		var collisionShape2d_: CollisionShape2D = CollisionShape2D.new()
 		collisionShape2d_.position = %Bounds.get_collision_shape_2d(edge_).position
 		collisionShape2d_.shape = %Bounds.get_collision_shape_2d(edge_).shape
 		area_.add_child(collisionShape2d_)
@@ -66,6 +66,7 @@ func _add_area_internal(
 		&"edge": edge_,
 		&"area": area_
 	}
+	get_viewport()
 
 func remove_area(area_name_: StringName) -> void:
 	if _areas.has(area_name_):

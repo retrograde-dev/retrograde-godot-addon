@@ -27,16 +27,21 @@ func _init() -> void:
 		resources = InputResourceHandler.new()
 		
 	_file = InputFile.new()
-	
-	if FileAccess.file_exists("res://data/input.json"):
-		var file_: InputDataFile = InputDataFile.new("res://data/input.json")
+
+	_data = {
+		&"enabled": [],
+		&"default": {}
+	}
+
+	var input_files_: PackedStringArray = DirAccess.get_files_at("res://data/input")
+	for input_file_: String in input_files_:
+		if input_file_.get_extension().to_lower() != "json":
+			continue
+			
+		var file_: InputDataFile = InputDataFile.new("res://data/input/" + input_file_)
 		file_.load()
-		_data = file_.data
-	else:
-		_data = {
-			&"enabled": [],
-			&"default": []
-		}
+		_data.enabled.append_array(file_.data.enabled)
+		_data.default.merge(file_.data.default)
 
 func load() -> void:
 	_file.load()

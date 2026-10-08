@@ -16,14 +16,20 @@ var _current_volume: Dictionary = {
 }
 
 func _init() -> void:
-	var sfx_file: AudioDataFile = AudioDataFile.new("res://data/audio/sfx.json")
-	sfx_file.load()
+	if FileAccess.file_exists("res://data/audio/music.json"):
+		var music_file: AudioDataFile = AudioDataFile.new("res://data/audio/music.json")
+		music_file.load()
+		_data[Core.AudioType.MUSIC] = music_file.data
+	else:
+		_data[Core.AudioType.MUSIC] = {}
+		
+	if FileAccess.file_exists("res://data/audio/sfx.json"):
+		var sfx_file: AudioDataFile = AudioDataFile.new("res://data/audio/sfx.json")
+		sfx_file.load()
+		_data[Core.AudioType.SFX] = sfx_file.data
+	else:
+		_data[Core.AudioType.SFX] = {}
 	
-	var music_file: AudioDataFile = AudioDataFile.new("res://data/audio/music.json")
-	music_file.load()
-
-	_data[Core.AudioType.MUSIC] = music_file.data
-	_data[Core.AudioType.SFX] = sfx_file.data
 	_data[Core.AudioType.AMBIANCE] = {}
 	_data[Core.AudioType.DIALOGUE] = {}
 

@@ -1,0 +1,99 @@
+{
+	"enabled": [
+		"move_up",
+		"move_down",
+		"move_right",
+		"move_left",
+	],
+	"default": {
+		"move_up": [
+			{
+				"type": "key",
+				"physical_keycode": 87
+			},
+			{
+				"type": "key",
+				"physical_keycode": 4194320
+			},
+			{
+				"type": "joypad_button",
+				"button_index": 11
+			},
+			{
+				"type": "joypad_motion",
+				"axis": 1,
+				"axis_value": -1.0
+			}
+		],
+		"move_down": [
+			{
+				"type": "key",
+				"physical_keycode": 83
+			},
+			{
+				"type": "key",
+				"physical_keycode": 4194322
+			},
+			{
+				"type": "joypad_button",
+				"button_index": 12
+			},
+			{
+				"type": "joypad_motion",
+				"axis": 1,
+				"axis_value": 1.0
+			}
+		],
+		"move_left": [
+			{
+				"type": "key",
+				"physical_keycode": 65
+			},
+			{
+				"type": "key",
+				"physical_keycode": 4194319
+			},
+			{
+				"type": "joypad_button",
+				"button_index": 13
+			},
+			{
+				"type": "joypad_motion",
+				"axis": 0,
+				"axis_value": -1.0
+			}
+		],
+		"move_right": [
+			{
+				"type": "key",
+				"physical_keycode": 68
+			},
+			{
+				"type": "key",
+				"physical_keycode": 4194321
+			},
+			{
+				"type": "joypad_button",
+				"button_index": 14
+			},
+			{
+				"type": "joypad_motion",
+				"axis": 0,
+				"axis_value": 1.0
+			}
+		],
+		"move_slow": [
+			{
+				"type": "key",
+				"physical_keycode": 4194325
+			},
+			{
+				"type": "joypad_motion",
+				"axis": 5,
+				"axis_value": 1.0
+			}
+		],
+		"move_fast": [
+		]
+	}
+}

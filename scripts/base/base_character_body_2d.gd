@@ -9,6 +9,7 @@ var alignment: Core.Alignment = Core.Alignment.TOP_LEFT
 
 var scale_default: Vector2 = Vector2.ONE
 var velocity_default: Vector2 = Vector2.ZERO
+var visible_default: bool = true
 
 signal reseted(reset_type_: Core.ResetType)
 signal started()
@@ -19,6 +20,7 @@ signal restarted()
 func _ready() -> void:
 	scale_default = scale
 	velocity_default = velocity
+	visible_default = visible
 
 func reset(reset_type_: Core.ResetType) -> void:
 	if (reset_type_ == Core.ResetType.START or
@@ -26,7 +28,9 @@ func reset(reset_type_: Core.ResetType) -> void:
 	):
 		scale = scale_default
 		velocity = velocity_default
-
+		visible = visible_default
+		
+		is_enabled = true
 		is_started = false
 		is_ready = false
 		modes.filter(func(mode: StringName) -> bool: return Core.GLOBAL_MODES.has(mode))
@@ -73,11 +77,11 @@ func stop() -> void:
 
 	is_started = false
 	is_ready = false
+	
+	disable_collisions()
 
 	for child: Node in get_children():
-		if child is CollisionShape2D or child is CollisionPolygon2D:
-			child.disabled = true
-		elif child is BaseNode2D or child is BaseCharacterBody2D:
+		if child is BaseNode2D or child is BaseCharacterBody2D:
 			await child.stop()
 
 	# Clear any existing collision data
@@ -113,13 +117,12 @@ func _handle_ready() -> void:
 	if position == Core.DEAD_ZONE:
 		return
 
-	is_ready = true
 	ready()
+	
+	is_ready = true
 
 func ready() -> void:
-	for child: Node in get_children():
-		if child is CollisionShape2D or child is CollisionPolygon2D:
-			child.disabled = false
+	enable_collisions()
 
 func is_running() -> bool:
 	if Engine.is_editor_hint():
@@ -132,7 +135,17 @@ func is_running() -> bool:
 		return false
 
 	return true
+	
+func enable_collisions() -> void:
+	for child: Node in get_children():
+		if child is CollisionShape2D or child is CollisionPolygon2D:
+			child.disabled = false
 
+func disable_collisions() -> void:
+	for child: Node in get_children():
+		if child is CollisionShape2D or child is CollisionPolygon2D:
+			child.disabled = true
+			
 func add_mode(mode_: StringName, add_to_children: bool = false) -> void:
 	modes.add(mode_)
 

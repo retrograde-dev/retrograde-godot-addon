@@ -1,0 +1,46 @@
+{
+	"enabled": [
+		"pause"
+	],
+	"default": {
+		"pause": [
+			{
+				"_": "P",
+				"type": "key",
+				"physical_keycode": 80
+			},
+			{
+				"_": "Escape",
+				"type": "key",
+				"physical_keycode": 4194305
+			},
+			{
+				"_": "Pause/Break",
+				"type": "key",
+				"physical_keycode": 4194341
+			},
+			{
+				"_": "Start Button",
+				"type": "joypad_button",
+				"button_index": 6
+			}
+		],
+		"back": [
+			{
+				"_": "Escape",
+				"type": "key",
+				"physical_keycode": 4194305
+			},
+			{
+				"_": "Backspace",
+				"type": "key",
+				"physical_keycode": 4194308
+			},
+			{
+				"_": "Back Button",
+				"type": "joypad_button",
+				"button_index": 4
+			}
+		],
+	}
+}

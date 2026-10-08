@@ -67,7 +67,7 @@ func get_node(path_: String, reset_method_: Callable = Callable()) -> Node:
 		
 		if node_ is BaseNode2D or node_ is BaseCharacterBody2D:
 			if not reset_method_.is_null():
-				reset_method_.call(node_, Core.ResetType.START)
+				await reset_method_.call(node_, Core.ResetType.START)
 			await node_.start()
 		
 		return node_
@@ -93,7 +93,7 @@ func get_node(path_: String, reset_method_: Callable = Callable()) -> Node:
 	
 	if node_instance_ is BaseNode2D or node_instance_ is BaseCharacterBody2D:
 		if not reset_method_.is_null():
-			reset_method_.call(node_instance_, Core.ResetType.START)
+			await reset_method_.call(node_instance_, Core.ResetType.START)
 		await node_instance_.start()
 	
 	return node_instance_
@@ -130,7 +130,7 @@ func free_node(node_: Node, reset_method_: Callable = Callable()) -> void:
 	if _in_use.has(node_.get_instance_id()):
 		if node_ is BaseNode2D or node_ is BaseCharacterBody2D:
 			if not reset_method_.is_null():
-				reset_method_.call(node_, Core.ResetType.STOP)
+				await reset_method_.call(node_, Core.ResetType.STOP)
 			await node_.stop()
 		
 		node_.position = Core.DEAD_ZONE
@@ -139,7 +139,7 @@ func free_node(node_: Node, reset_method_: Callable = Callable()) -> void:
 	elif not has_node(node_):
 		if node_ is BaseNode2D or node_ is BaseCharacterBody2D:
 			if not reset_method_.is_null():
-				reset_method_.call(node_, Core.ResetType.STOP)
+				await reset_method_.call(node_, Core.ResetType.STOP)
 			await node_.stop()
 			
 		node_.get_parent().remove_child(node_)
@@ -154,7 +154,7 @@ func free_all(reset_method_: Callable = Callable()) -> void:
 		for node: Node in nodes[path]:
 			if node is BaseNode2D or node is BaseCharacterBody2D:
 				if not reset_method_.is_null():
-					reset_method_.call(node, Core.ResetType.STOP)
+					await reset_method_.call(node, Core.ResetType.STOP)
 				await node.stop()
 				
 			node.position = Core.DEAD_ZONE

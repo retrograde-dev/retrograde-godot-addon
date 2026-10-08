@@ -74,7 +74,7 @@ func _update() -> void:
 		hud_items[i].position.y = -item_size.y
 		hud_items[i].position.x = i * item_size.x
 			
-		var item_: InventoryItemResource = items_actor.get_item(i)
+		var item_: InventoryValue = items_actor.get_item(i)
 		
 		if item_ != null:
 			if i == items_actor.selected_slot:

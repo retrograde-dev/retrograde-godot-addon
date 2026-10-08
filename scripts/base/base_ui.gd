@@ -16,20 +16,29 @@ func _ready() -> void:
 	else:
 		process_mode = Node.PROCESS_MODE_INHERIT
 
-func _input(event_: InputEvent) -> void:
-	# TODO: Change this to an action with a function call
-	if not visible:
+func _process(delta: float) -> void:
+	if not visible or alias == &"pause":
 		return
-
-	if event_ is InputEventKey and event_.pressed and event_.keycode == KEY_ESCAPE:
-		if alias == &"pause":
-			accept_event()
-			return
-
+		
+	if Core.game.actions.is_just_pressed(&"back"):
 		var button_: UIButton = _get_escape_button(self)
 		if button_ != null:
 			button_.emit_signal(&"pressed")
-			accept_event()
+		
+#func _input(event_: InputEvent) -> void:
+	## TODO: Change this to an action with a function call
+	#if not visible:
+		#return
+#
+	#if event_ is InputEventKey and event_.pressed and event_.keycode == KEY_ESCAPE:
+		#if alias == &"pause":
+			#accept_event()
+			#return
+#
+		#var button_: UIButton = _get_escape_button(self)
+		#if button_ != null:
+			#button_.emit_signal(&"pressed")
+			#accept_event()
 
 func update() -> void:
 	var background_: Node = get_node_or_null("%ColorRect")

@@ -25,7 +25,9 @@ func _init() -> void:
 	
 	super._init(&"controls")
 
-func _process(_delta: float) -> void:
+func _process(delta_: float) -> void:
+	super._process(delta_)
+	
 	# We do this here instead of the pressed event becuase otherwise the 
 	# scroll container state hasn't been updated yet.
 	if _scroll:
@@ -35,7 +37,7 @@ func _process(_delta: float) -> void:
 
 func _input(input_event_: InputEvent) -> void:
 	if not _capture_input:
-		super._input(input_event_)
+		#super._input(input_event_)
 		return
 
 	if not input_event_.is_pressed():

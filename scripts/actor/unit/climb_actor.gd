@@ -602,20 +602,20 @@ func export() -> Dictionary[StringName, Variant]:
 	
 	return data
 	
-func import(data: Dictionary[StringName, Variant]) -> void:
-	super.import(data)
+func import(data_: Dictionary[StringName, Variant]) -> void:
+	super.import(data_)
 	
-	slow_climbing_speed = data.get(&"slow_climbing_speed", slow_climbing_speed)
-	normal_climbing_speed = data.get(&"normal_climbing_speed", normal_climbing_speed)
-	fast_climbing_speed = data.get(&"fast_climbing_speed", fast_climbing_speed)
-	climb_jump_behavior = data.get(&"climb_jump_behavior", climb_jump_behavior)
-	climb_crouch_behavior = data.get(&"climb_crouch_behavior", climb_crouch_behavior)
-	climb_off_behavior = data.get(&"climb_off_behavior", climb_off_behavior)
-	climb_on_behavior = data.get(&"climb_on_behavior", climb_on_behavior)
-	is_climbing = data.get(&"is_climbing", is_climbing)
-	is_climbing_start = data.get(&"is_climbing_start", is_climbing_start)
-	_reason = data.get(&"_reason", _reason)
-	_is_climb_active = data.get(&"_is_climb_active", _is_climb_active)
+	slow_climbing_speed = data_.get(&"slow_climbing_speed", slow_climbing_speed)
+	normal_climbing_speed = data_.get(&"normal_climbing_speed", normal_climbing_speed)
+	fast_climbing_speed = data_.get(&"fast_climbing_speed", fast_climbing_speed)
+	climb_jump_behavior = data_.get(&"climb_jump_behavior", climb_jump_behavior)
+	climb_crouch_behavior = data_.get(&"climb_crouch_behavior", climb_crouch_behavior)
+	climb_off_behavior = data_.get(&"climb_off_behavior", climb_off_behavior)
+	climb_on_behavior = data_.get(&"climb_on_behavior", climb_on_behavior)
+	is_climbing = data_.get(&"is_climbing", is_climbing)
+	is_climbing_start = data_.get(&"is_climbing_start", is_climbing_start)
+	_reason = data_.get(&"_reason", _reason)
+	_is_climb_active = data_.get(&"_is_climb_active", _is_climb_active)
 	
 	
 	

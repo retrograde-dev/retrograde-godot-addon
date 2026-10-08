@@ -81,11 +81,11 @@ func get_items() -> Array[ItemUnitResource]:
 func set_items(value_: Array[ItemUnitResource]) -> void:
 	items = value_
 
-func get_items_from_meta(meta: Dictionary) -> Array[ItemUnitResource]:
+func get_items_from_attr(attr: Dictionary) -> Array[ItemUnitResource]:
 	var items_: Array[ItemUnitResource] = []
 
 	for item_: ItemUnitResource in items:
-		if Core.dictionary_contains(item_.meta, meta):
+		if Core.dictionary_contains(item_.zone_item.attr, attr):
 			items_.push_back(item_)
 
 	return items_
@@ -98,11 +98,18 @@ func get_items_from_type(item_type_: Core.ItemType) -> Array[ItemUnitResource]:
 			items_.push_back(item_)
 
 	return items_
+
+func get_item_from_id(id_: StringName) -> ItemUnitResource:
+	for item_: ItemUnitResource in items:
+		if item_.id == id_:
+			return item_
+	
+	return null
 	
 func get_item_from_zone_item(zone_item_: ZoneItemResource) -> ItemUnitResource:
-	for index_: int in items.size():
-		if items[index_].zone_item == zone_item_:
-			return items[index_]
+	for item_: ItemUnitResource in items:
+		if item_.zone_item == zone_item_:
+			return item_
 	
 	return null
 	

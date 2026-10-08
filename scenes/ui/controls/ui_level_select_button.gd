@@ -6,7 +6,7 @@ func _update_style() -> void:
 
 	var button_: Dictionary = Core.ui.get_button(style)
 	
-	if button_.texture.completed:
+	if button_.texture.get(&"completed", null):
 		%TextureRectCompleted.texture = ResourceLoader.load(button_.texture.completed)
 
 func update() -> void:

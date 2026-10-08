@@ -84,7 +84,8 @@
 				"normal": "res://assets/ui/button/menu_level_select/normal.png",
 				"pressed": "res://assets/ui/button/menu_level_select/pressed.png",
 				"hover": "res://assets/ui/button/menu_level_select/hover.png",
-				"focused": "res://assets/ui/button/menu_level_select/focused.png"
+				"focused": "res://assets/ui/button/menu_level_select/focused.png",
+				"completed": "res://assets/ui/button/menu_level_select/completed.png"
 			},
 			"sfx": {
 				"entered": "ui/button_entered",

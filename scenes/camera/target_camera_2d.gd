@@ -44,7 +44,7 @@ func get_target_offset() -> Vector2:
 func set_target_offset(offset_: Vector2) -> void:
 	target_offset = offset_
 
-func shake(max_shake_offset_ = 10.0, shake_fade_delta_: float = 10.0) -> void:
+func shake(max_shake_offset_: float = 10.0, shake_fade_delta_: float = 10.0) -> void:
 	if not _is_shaking:
 		_current_shake_offset = max_shake_offset_
 		_shake_fade_delta = shake_fade_delta_

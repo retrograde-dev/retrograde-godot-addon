@@ -232,7 +232,7 @@ func export() -> Dictionary[StringName, Variant]:
 	
 	return data
 	
-func import(data: Dictionary[StringName, Variant]) -> void:
-	super.import(data)
+func import(data_: Dictionary[StringName, Variant]) -> void:
+	super.import(data_)
 	
-	area_damage_amount = data.get(&"area_damage_amount", area_damage_amount)
+	area_damage_amount = data_.get(&"area_damage_amount", area_damage_amount)

@@ -8,9 +8,9 @@ var signal_use_handled: bool = false
 
 var action_use: StringName = &"item_use"
 
-signal use_error(inventory_item_: InventoryItemResource, error_: Core.Error) 
-signal use_before(inventory_item_: InventoryItemResource)
-signal use_after(inventory_item_: InventoryItemResource)
+signal use_error(inventory_item_: InventoryValue, error_: Core.Error) 
+signal use_before(inventory_item_: InventoryValue)
+signal use_after(inventory_item_: InventoryValue)
 
 func _init(items_: ItemsActor, unit_: BaseUnit, enabled_: bool = true) -> void:
 	super._init(unit_, &"drop_item", enabled_)
@@ -40,7 +40,7 @@ func _action_use_selected_item() -> void:
 		
 	use_selected_item()
 	
-func can_use_item(inventory_item_: InventoryItemResource) -> bool:
+func can_use_item(inventory_item_: InventoryValue) -> bool:
 	if inventory_item_ == null:
 		return false
 		
@@ -52,7 +52,7 @@ func can_use_item(inventory_item_: InventoryItemResource) -> bool:
 func can_use_selected_item() -> bool:
 	return can_use_item(_items.get_selected_item())
 	
-func use_item(inventory_item_: InventoryItemResource) -> bool:
+func use_item(inventory_item_: InventoryValue) -> bool:
 	if not can_use_item(inventory_item_):
 		use_error.emit(inventory_item_, Core.Error.ACTOR_RESTRICTION)
 		return false
@@ -75,30 +75,43 @@ func use_item(inventory_item_: InventoryItemResource) -> bool:
 	return true
 		
 func use_selected_item() -> bool:
-	var inventory_item_: InventoryItemResource = _items.get_selected_item()
+	var inventory_item_: InventoryValue = _items.get_selected_item()
 	
 	return use_item(inventory_item_)
 
-func _use_item(inventory_item_: InventoryItemResource) -> bool:
+func _use_item(inventory_item_: InventoryValue) -> bool:
 	if not unit.has_method(&"use_item"):
 		return false
 
 	if not unit.use_item(inventory_item_.item):
 		return false
-	
-	#TODO: Change to itterate over all slots if match
-	var selected_item_value_: InventoryItemResource = _items.get_selected_item()
-	
-	if inventory_item_.meta.can_stack:
-		if inventory_item_.meta.count > 0:
-			inventory_item_.meta.count -= 1
-		
-		if inventory_item_.meta.count == 0 and inventory_item_ == selected_item_value_:
-			_items.remove_selected_item()
-	elif inventory_item_ == selected_item_value_:
-		_items.remove_selected_item()
+
+	if inventory_item_.count >= 1:
+		inventory_item_.count -= 1
+
+	if inventory_item_.count == 0:
+		_remove_empty_inventory_item(inventory_item_)
 	
 	return true
+
+func _remove_empty_inventory_item(inventory_item_: InventoryValue) -> bool:
+	if inventory_item_.count != 0:
+		return false
+	
+	if (inventory_item_.inventory_stack != null and
+		not inventory_item_.inventory_stack.remove_empty
+	):
+		return false
+		
+	var slot_: int = _items.get_slot(inventory_item_)
+	
+	if slot_ == -1:
+		return false
+	
+	_items.remove_item(slot_)
+	
+	return true
+
 
 func get_actions() -> Array[StringName]:
 	var actions_: Array[StringName] = [

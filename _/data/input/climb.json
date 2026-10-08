@@ -1,0 +1,125 @@
+{
+	"enabled": [
+		"climb_on",
+		"climb_off",
+		"climb_up",
+		"climb_down",
+		"climb_right",
+		"climb_left",
+	],
+	"default": {
+		"climb_on": [
+			{
+				"type": "key",
+				"physical_keycode": 73
+			},
+			{
+				"type": "key",
+				"physical_keycode": 70
+			},
+			{
+				"type": "key",
+				"physical_keycode": 4194312
+			},
+			{
+				"type": "mouse_button",
+				"button_index": 1
+			},
+			{
+				"type": "joypad_button",
+				"button_index": 0
+			}
+		],
+		"climb_off": [
+		],
+		"climb_up": [
+			{
+				"type": "key",
+				"physical_keycode": 87
+			},
+			{
+				"type": "key",
+				"physical_keycode": 4194320
+			},
+			{
+				"type": "joypad_button",
+				"button_index": 11
+			},
+			{
+				"type": "joypad_motion",
+				"axis": 1,
+				"axis_value": -1.0
+			}
+		],
+		"climb_down": [
+			{
+				"type": "key",
+				"physical_keycode": 83
+			},
+			{
+				"type": "key",
+				"physical_keycode": 4194322
+			},
+			{
+				"type": "joypad_button",
+				"button_index": 12
+			},
+			{
+				"type": "joypad_motion",
+				"axis": 1,
+				"axis_value": 1.0
+			}
+		],
+		"climb_left": [
+			{
+				"type": "key",
+				"physical_keycode": 65
+			},
+			{
+				"type": "key",
+				"physical_keycode": 4194319
+			},
+			{
+				"type": "joypad_button",
+				"button_index": 13
+			},
+			{
+				"type": "joypad_motion",
+				"axis": 0,
+				"axis_value": -1.0
+			}
+		],
+		"climb_right": [
+			{
+				"type": "key",
+				"physical_keycode": 68
+			},
+			{
+				"type": "key",
+				"physical_keycode": 4194321
+			},
+			{
+				"type": "joypad_button",
+				"button_index": 14
+			},
+			{
+				"type": "joypad_motion",
+				"axis": 0,
+				"axis_value": 1.0
+			}
+		],
+		"climb_slow": [
+			{
+				"type": "key",
+				"physical_keycode": 4194325
+			},
+			{
+				"type": "joypad_motion",
+				"axis": 5,
+				"axis_value": 1.0
+			}
+		],
+		"climb_fast": [
+		],
+	}
+}

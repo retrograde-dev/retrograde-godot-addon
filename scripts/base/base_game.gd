@@ -6,8 +6,8 @@ class_name BaseGame
 
 @export_group("New Game")
 @export var initial_party_alias: StringName = &""
-@export var initial_parties: Dictionary[StringName, PartyResource] = {}
-@export var initial_inventory: Dictionary[StringName, InventoryResource] = {}
+@export var initial_parties: Dictionary[StringName, PartySet] = {}
+@export var initial_inventory: Dictionary[StringName, InventorySet] = {}
 
 var data: GameResource = null:
 	get():
@@ -41,26 +41,7 @@ var pause: BaseActor:
 		return actors.use(&"pause")
 
 func _init() -> void:
-	Core.nodes = NodeHandler.new()
-	Core.game = self
-
-	Core.inputs = InputHandler.new()
-	Core.inputs.load()
-
-	Core.items = ItemHandler.new()
-	Core.entities = EntityHandler.new()
-
-	if Core.ENABLE_LEVEL_SELECT:
-		Core.level_select = LevelSelectHandler.new()
-
-	Core.help = HelpHandler.new()
-	Core.audio = AudioHandler.new()
-	Core.speech = SpeechHandler.new()
-
-	Core.settings = SettingsFile.new()
-	Core.settings.load()
-
-	Core.save = SaveHandler.new()
+	Core.game_init(self)
 	
 	actors = ActorHandler.new()
 	actors.add_all({
@@ -72,9 +53,8 @@ func _init() -> void:
 	add_to_group(&"input")
 
 func _ready() -> void:
-	Core.ui = get_node_or_null("%UI")
-	Core.hud = get_node_or_null("%HUD")
-	Core.camera = get_node_or_null("%Camera")
+	Core.game_ready(self)
+	
 	
 	Core.save.save_before.connect(_on_save_before)
 	
@@ -109,6 +89,10 @@ func load_last() -> void:
 	await actors.start()
 	await actions.start()
 	
+	
+	if data_ != null:
+		actors.import(data.actors)
+	
 	end_load()
 	
 func load(
@@ -124,6 +108,8 @@ func load(
 	await actors.start()
 	await actions.start()
 	
+	actors.import(data.actors)
+	
 	end_load()
 	
 func _on_save_before(save_id_: int, data_: GameResource, save_type_: Core.SaveType) -> void:
@@ -134,6 +120,7 @@ func save(
 	save_type_: Core.SaveType = Core.SaveType.NORMAL,
 ) -> Error:
 	#TODO: Save indicator?
+	data.actors = actors.export()
 	return Core.save.save_game(save_id_, data, save_type_)
 
 func restart() -> void:
@@ -211,6 +198,7 @@ func reset(reset_type_: Core.ResetType) -> void:
 		
 		if data_ != null:
 			data = data_
+			actors.import(data.actors)
 			
 		playtime.reset()
 		playtime.start(data.playtime)
@@ -311,6 +299,9 @@ func reset_win_lose() -> void:
 	is_win = false
 	_is_win_handeld = false
 
+func get_game_viewport() -> Viewport:
+	return get_viewport()
+
 func add_mode(mode_: StringName) -> void:
 	if Core.level != null:
 		Core.level.add_mode(mode_, true)
@@ -403,7 +394,7 @@ func change_level(
 	#end_load() is handled by level started signal
 
 func change_party(party_alias_: StringName) -> void:
-	if current_party and current_party.alias != party_alias_:
+	if current_party and current_party.alias == party_alias_:
 		await current_party.restart()
 		return
 	
@@ -433,6 +424,7 @@ func change_cursor(cursor_alias: StringName) -> void:
 	await cursor.start()
 
 func _level_started() -> void:
+	data.actors = actors.export()
 	Core.save.save_game(data.save_id, data, Core.SaveType.RESTART)
 	end_load()
 	
@@ -505,6 +497,12 @@ func show_mouse() -> void:
 
 		if Core.cursor:
 			Core.cursor.visible = false
+
+func get_actions() -> ActionHandler:
+	return actions
+
+func get_actors() -> ActorHandler:
+	return actors
 
 func get_actor_or_null(actor_alias_: StringName) -> BaseActor:
 	if not actors.has(actor_alias_):

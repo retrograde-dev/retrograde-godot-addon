@@ -6,7 +6,7 @@ class_name LockResource
 @export var lock_access: Core.LockAccess = Core.LockAccess.NONE
 @export var unlocked: bool = false
 @export var bypassable: bool = false
-@export var meta: Dictionary = {}
+@export var attr: Dictionary = {}
 
 var locked: int:
 	get:
@@ -16,15 +16,15 @@ var locked: int:
 		
 var keys: Array[StringName]:
 	get:
-		return meta.keys if meta.has(&"keys") else []
+		return attr.keys if attr.has(&"keys") else []
 	set(value):
-		meta.keys = value
+		attr.keys = value
 		
 var passcode: StringName:
 	get:
-		return meta.passcode if meta.has(&"passcode") else &""
+		return attr.passcode if attr.has(&"passcode") else &""
 	set(value):
-		meta.passcode = value
+		attr.passcode = value
 
 
 func try_unlock() -> Core.LockState:
@@ -61,10 +61,10 @@ func lock() -> bool:
 		return false
 
 	if lock_type == Core.LockType.KEY:
-		if not meta.has(&"keys"):
+		if not attr.has(&"keys"):
 			return false
 			
-		var player_keys_: Array[InventoryItemResource]
+		var player_keys_: Array[InventoryValue]
 
 		var items_actor: BaseActor = Core.player.get_actor_or_null(&"items")
 		
@@ -73,8 +73,8 @@ func lock() -> bool:
 		else:
 			player_keys_ = items_actor.get_items_from_type(Core.ItemType.KEY)
 
-		for player_key_: InventoryItemResource in player_keys_:
-			if meta.keys.has(player_key_.alias):
+		for player_key_: InventoryValue in player_keys_:
+			if attr.keys.has(player_key_.alias):
 				locked = true
 				break
 
@@ -97,10 +97,10 @@ func unlock() -> bool:
 		return false
 		
 	if lock_type == Core.LockType.KEY:
-		if not meta.has(&"keys"):
+		if not attr.has(&"keys"):
 			return false
 
-		var player_keys_: Array[InventoryItemResource]
+		var player_keys_: Array[InventoryValue]
 
 		var items_actor: BaseActor = Core.player.get_actor_or_null(&"items")
 		
@@ -109,8 +109,8 @@ func unlock() -> bool:
 		else:
 			player_keys_ = items_actor.get_items_from_type(Core.ItemType.KEY)
 
-		for player_key_: InventoryItemResource in player_keys_:
-			if meta.keys.has(player_key_.alias):
+		for player_key_: InventoryValue in player_keys_:
+			if attr.keys.has(player_key_.alias):
 				unlocked = true
 				break
 
@@ -127,7 +127,7 @@ func bypass() -> bool:
 		return false
 
 	if lock_type == Core.LockType.KEY:
-		var picks_: Array[InventoryItemResource]
+		var picks_: Array[InventoryValue]
 
 		var items_actor: BaseActor = Core.player.get_actor_or_null(&"items")
 		
